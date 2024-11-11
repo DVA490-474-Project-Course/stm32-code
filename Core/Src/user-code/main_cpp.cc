@@ -30,7 +30,7 @@ void MainCpp(I2C_HandleTypeDef hi2c1,
 {
   /* Example program to read sensor data via i2c and print it from the PC */
   stm32_code::sensor_drivers::NineAxisIMU imu;
-  stm32_code::sensor_drivers::MeasurementData data;
+  stm32_code::sensor_drivers::NineAxisIMUData data;
 
   while(1)
   {

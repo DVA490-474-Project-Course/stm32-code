@@ -13,32 +13,14 @@
 
 /* Project .h files */
 #include "../stm32h7xx_hal.h"
+#include "../common_types.h"
 
 namespace stm32_code
 {
 namespace sensor_drivers
 {
 
-struct Vector_3d
-{
-  uint16_t x;
-  uint16_t y;
-  uint16_t z;
-};
-
-struct Rotation
-{
-  uint16_t heading;
-  uint16_t roll;
-  uint16_t pitch;
-};
-
-struct Quarternion : Vector_3d
-{
-  uint16_t w;
-};
-
-struct MeasurementData
+struct NineAxisIMUData
 {
   Vector_3d acc_data;		/* m/s² */
   Vector_3d mag_data;		/* uT */
@@ -55,12 +37,12 @@ class NineAxisIMU
 public:
   NineAxisIMU();
   virtual ~NineAxisIMU();
-  static void PrintData(UART_HandleTypeDef* huart, MeasurementData measurement_data);
-  MeasurementData ReadData(I2C_HandleTypeDef* hi2c);
+  static void PrintData(UART_HandleTypeDef* huart, NineAxisIMUData measurement_data);
+  NineAxisIMUData ReadData(I2C_HandleTypeDef* hi2c);
 
 private:
   int ReadData(I2C_HandleTypeDef* hi2c, uint8_t* buffer);
-  MeasurementData JoinData(uint8_t* raw_data);
+  NineAxisIMUData JoinData(uint8_t* raw_data);
   uint16_t JoinData(uint8_t* raw_data, const uint8_t lsb_location, const uint8_t msb_location);
 
   /* IMU address */

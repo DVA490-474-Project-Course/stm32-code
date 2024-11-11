@@ -33,10 +33,10 @@ NineAxisIMU::~NineAxisIMU()
 
 }
 
-MeasurementData NineAxisIMU::ReadData(I2C_HandleTypeDef* hi2c)
+NineAxisIMUData NineAxisIMU::ReadData(I2C_HandleTypeDef* hi2c)
 {
   uint8_t buffer[data_size];
-  MeasurementData measurement_data;
+  NineAxisIMUData measurement_data;
   int status;
 
   status = ReadData(hi2c, buffer);
@@ -89,9 +89,9 @@ uint16_t NineAxisIMU::JoinData(uint8_t* raw_data, const uint8_t lsb_location, co
   return lsb + (msb << 8);
 }
 
-MeasurementData NineAxisIMU::JoinData(uint8_t* raw_data)
+NineAxisIMUData NineAxisIMU::JoinData(uint8_t* raw_data)
 {
-  MeasurementData measurement_data;
+  NineAxisIMUData measurement_data;
 
   measurement_data.acc_data.x = JoinData(raw_data, acc_data_x_lsb, acc_data_x_msb);
   measurement_data.acc_data.y = JoinData(raw_data, acc_data_y_lsb, acc_data_y_msb);
@@ -120,7 +120,7 @@ MeasurementData NineAxisIMU::JoinData(uint8_t* raw_data)
   return measurement_data;
 }
 
-void NineAxisIMU::PrintData(UART_HandleTypeDef* huart, MeasurementData measurement_data)
+void NineAxisIMU::PrintData(UART_HandleTypeDef* huart, NineAxisIMUData measurement_data)
 {
   uint8_t buffer[128];
   sprintf((char*)buffer, "Acceleration: (%i, %i, %i)\r\n",
