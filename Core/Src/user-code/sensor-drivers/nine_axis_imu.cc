@@ -18,6 +18,8 @@
 /* Project .h files */
 #include "../stm32h7xx_hal.h"
 
+namespace stm32_code
+{
 namespace sensor_drivers
 {
 
@@ -162,6 +164,7 @@ void NineAxisIMU::PrintData(UART_HandleTypeDef* huart, MeasurementData measureme
 }
 
 } /* namespace sensor_drivers */
+} /* namespace stm32_code */
 
 
 

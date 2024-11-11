@@ -8,12 +8,14 @@
  *==============================================================================
  */
 
-#ifndef SENSORDRIVERS_NINEAXISIMU_H
-#define SENSORDRIVERS_NINEAXISIMU_H
+#ifndef STM32CODE_SENSORDRIVERS_NINEAXISIMU_H
+#define STM32CODE_SENSORDRIVERS_NINEAXISIMU_H
 
 /* Project .h files */
 #include "../stm32h7xx_hal.h"
 
+namespace stm32_code
+{
 namespace sensor_drivers
 {
 
@@ -120,5 +122,6 @@ private:
 };
 
 } /* namespace sensor_drivers */
+} /* namespace stm32_code */
 
-#endif /* SENSORDRIVERS_NINEAXISIMU_H */
+#endif /* STM32CODE_SENSORDRIVERS_NINEAXISIMU_H */
