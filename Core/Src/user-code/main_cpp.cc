@@ -29,12 +29,13 @@ void MainCpp(I2C_HandleTypeDef hi2c1,
 			 UART_HandleTypeDef huart5)
 {
   /* Example program to read sensor data via i2c and print it from the PC */
-  NineAxisIMU imu;
+  stm32_code::sensor_drivers::NineAxisIMU imu;
+  stm32_code::sensor_drivers::MeasurementData data;
 
   while(1)
   {
-	MeasurementData data = imu.ReadData(hi2c2);
-	imu.PrintData(huart3);
+	data = imu.ReadData(&hi2c2);
+	imu.PrintData(&huart3, data);
   }
 }
 
