@@ -25,23 +25,26 @@
 namespace stm32_code
 {
 
-struct Vector_3d
+template<typename T> struct Vector_3d
 {
-  uint16_t x;
-  uint16_t y;
-  uint16_t z;
+  T x;
+  T y;
+  T z;
 };
 
-struct Rotation
+template<typename T> struct Quarternion
 {
-  uint16_t heading;
-  uint16_t roll;
-  uint16_t pitch;
+  T w;
+  T x;
+  T y;
+  T z;
 };
 
-struct Quarternion : Vector_3d
+template<typename T> struct Rotation
 {
-  uint16_t w;
+  T heading;
+  T roll;
+  T pitch;
 };
 
 } /* namespace stm32_code */

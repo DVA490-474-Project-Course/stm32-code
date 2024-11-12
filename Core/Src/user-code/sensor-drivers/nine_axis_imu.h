@@ -22,13 +22,13 @@ namespace sensor_drivers
 
 struct NineAxisIMUData
 {
-  Vector_3d acc_data;		/* m/s² */
-  Vector_3d mag_data;		/* uT */
-  Vector_3d gyr_data;		/* Dps */
-  Rotation eul_data;		/* degrees */
-  Quarternion qua_data;		/* quarternion units */
-  Vector_3d lia_data;		/* m/s² */
-  Vector_3d grv_data;		/* m/s² */
+  Vector_3d<uint16_t> acc_data;		/* m/s² */
+  Vector_3d<uint16_t> mag_data;		/* uT */
+  Vector_3d<uint16_t> gyr_data;		/* Dps */
+  Rotation<uint16_t> eul_data;		/* degrees */
+  Quarternion<uint16_t> qua_data;		/* quarternion units */
+  Vector_3d<uint16_t> lia_data;		/* m/s² */
+  Vector_3d<uint16_t> grv_data;		/* m/s² */
   uint8_t temp;				/* C */
 };
 
