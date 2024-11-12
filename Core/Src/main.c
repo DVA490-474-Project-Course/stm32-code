@@ -133,14 +133,8 @@ int main(void)
   MX_UART5_Init();
   MX_I2C5_Init();
   /* USER CODE BEGIN 2 */
-  /* Main entry point for the user defined c++ code. All necessary peripheral
-   * handles should be added as arguments. */
-  MainCpp(hi2c1,
-		  hi2c2,
-		  hi2c4,
-		  hi2c5,
-		  huart3,
-		  huart5);
+  /* Main entry point for the user defined c++ code. */
+  MainCpp();
 
   /* USER CODE END 2 */
 

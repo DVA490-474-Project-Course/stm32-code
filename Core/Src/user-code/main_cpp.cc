@@ -16,17 +16,19 @@
 #include "sensor-drivers/nine_axis_imu.h"
 #include "../stm32h7xx_hal.h"
 
+/* Declare all necessary peripheral handles as extern */
+extern I2C_HandleTypeDef hi2c1;
+extern I2C_HandleTypeDef hi2c2;
+extern I2C_HandleTypeDef hi2c4;
+extern I2C_HandleTypeDef hi2c5;
+extern UART_HandleTypeDef huart3;
+extern UART_HandleTypeDef huart5;
+
 extern "C"
 {
 
-/* This function serves as the main entry point for the user defined c++ code.
- * All necessary peripheral handles should be added as arguments. */
-void MainCpp(I2C_HandleTypeDef hi2c1,
-			 I2C_HandleTypeDef hi2c2,
-			 I2C_HandleTypeDef hi2c4,
-			 I2C_HandleTypeDef hi2c5,
-			 UART_HandleTypeDef huart3,
-			 UART_HandleTypeDef huart5)
+/* This function serves as the main entry point for the user defined c++ code */
+void MainCpp()
 {
   /* Example program to read sensor data via i2c and print it from the PC */
   stm32_code::sensor_drivers::NineAxisIMU imu;

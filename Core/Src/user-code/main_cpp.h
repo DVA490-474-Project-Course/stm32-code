@@ -21,14 +21,8 @@ extern "C"
 {
 #endif
 
-/* This function serves as the main entry point for the user defined c++ code.
- * All necessary peripheral handles should be added as arguments. */
-void MainCpp(I2C_HandleTypeDef hi2c1,
-		   I2C_HandleTypeDef hi2c2,
-		   I2C_HandleTypeDef hi2c4,
-		   I2C_HandleTypeDef hi2c5,
-		   UART_HandleTypeDef huart3,
-		   UART_HandleTypeDef huart5);
+/* This function serves as the main entry point for the user defined c++ code */
+void MainCpp();
 
 #ifdef __cplusplus
 }
