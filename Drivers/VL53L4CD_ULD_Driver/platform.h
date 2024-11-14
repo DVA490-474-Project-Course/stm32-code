@@ -15,6 +15,7 @@
 #define _PLATFORM_H_
 #pragma once
 
+#include "../stm32h7xx_hal.h"
 #include <stdint.h>
 #include <string.h>
 
@@ -41,36 +42,36 @@ typedef uint8_t VL53L4CD_Error;
  * @brief Read 32 bits through I2C.
  */
 
-uint8_t VL53L4CD_RdDWord(Dev_t dev, uint16_t registerAddr, uint32_t *value);
+uint8_t VL53L4CD_RdDWord(I2C_HandleTypeDef* hi2c, Dev_t dev, uint16_t registerAddr, uint32_t *value);
 /**
  * @brief Read 16 bits through I2C.
  */
 
-uint8_t VL53L4CD_RdWord(Dev_t dev, uint16_t registerAddr, uint16_t *value);
+uint8_t VL53L4CD_RdWord(I2C_HandleTypeDef* hi2c, Dev_t dev, uint16_t registerAddr, uint16_t *value);
 
 /**
  * @brief Read 8 bits through I2C.
  */
 
-uint8_t VL53L4CD_RdByte(Dev_t dev, uint16_t registerAddr, uint8_t *value);
+uint8_t VL53L4CD_RdByte(I2C_HandleTypeDef* hi2c, Dev_t dev, uint16_t registerAddr, uint8_t *value);
 
 /**
  * @brief Write 8 bits through I2C.
  */
 
-uint8_t VL53L4CD_WrByte(Dev_t dev, uint16_t registerAddr, uint8_t value);
+uint8_t VL53L4CD_WrByte(I2C_HandleTypeDef* hi2c, Dev_t dev, uint16_t registerAddr, uint8_t value);
 
 /**
  * @brief Write 16 bits through I2C.
  */
 
-uint8_t VL53L4CD_WrWord(Dev_t dev, uint16_t RegisterAdress, uint16_t value);
+uint8_t VL53L4CD_WrWord(I2C_HandleTypeDef* hi2c, Dev_t dev, uint16_t RegisterAdress, uint16_t value);
 
 /**
  * @brief Write 32 bits through I2C.
  */
 
-uint8_t VL53L4CD_WrDWord(Dev_t dev, uint16_t RegisterAdress, uint32_t value);
+uint8_t VL53L4CD_WrDWord(I2C_HandleTypeDef* hi2c, Dev_t dev, uint16_t RegisterAdress, uint32_t value);
 
 /**
  * @brief Wait during N milliseconds.

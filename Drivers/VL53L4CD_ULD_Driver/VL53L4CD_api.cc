@@ -145,27 +145,30 @@ VL53L4CD_Error VL53L4CD_GetSWVersion(
 }
 
 VL53L4CD_Error VL53L4CD_SetI2CAddress(
+		I2C_HandleTypeDef* hi2c,
 		Dev_t dev,
 		uint8_t new_address)
 {
 	VL53L4CD_Error status = VL53L4CD_ERROR_NONE;
 
-	status |= VL53L4CD_WrByte(dev, VL53L4CD_I2C_SLAVE__DEVICE_ADDRESS,
+	status |= VL53L4CD_WrByte(hi2c, dev, VL53L4CD_I2C_SLAVE__DEVICE_ADDRESS,
 			(uint8_t)(new_address >> (uint8_t)1));
 	return status;
 }
 
 VL53L4CD_Error VL53L4CD_GetSensorId(
+		I2C_HandleTypeDef* hi2c,
 		Dev_t dev,
 		uint16_t *p_id)
 {
 	VL53L4CD_Error status = VL53L4CD_ERROR_NONE;
 
-	status |= VL53L4CD_RdWord(dev, VL53L4CD_IDENTIFICATION__MODEL_ID, p_id);
+	status |= VL53L4CD_RdWord(hi2c, dev, VL53L4CD_IDENTIFICATION__MODEL_ID, p_id);
 	return status;
 }
 
 VL53L4CD_Error VL53L4CD_SensorInit(
+		I2C_HandleTypeDef* hi2c,
 		Dev_t dev)
 {
 	VL53L4CD_Error status = VL53L4CD_ERROR_NONE;
@@ -174,7 +177,7 @@ VL53L4CD_Error VL53L4CD_SensorInit(
 	uint16_t i = 0;
 
 	do{
-		status |= VL53L4CD_RdByte(dev,
+		status |= VL53L4CD_RdByte(hi2c, dev,
 				VL53L4CD_FIRMWARE__SYSTEM_STATUS, &tmp);
 
 		if(tmp == (uint8_t)0x3) /* Sensor booted */
@@ -196,17 +199,17 @@ VL53L4CD_Error VL53L4CD_SensorInit(
 	/* Load default configuration */
 	for (Addr = (uint8_t)0x2D; Addr <= (uint8_t)0x87; Addr++)
 	{
-		status |= VL53L4CD_WrByte(dev, Addr,
+		status |= VL53L4CD_WrByte(hi2c, dev, Addr,
 				VL53L4CD_DEFAULT_CONFIGURATION[
                                   Addr - (uint8_t)0x2D]);
 	}
 
 	/* Start VHV */
-	status |= VL53L4CD_WrByte(dev, VL53L4CD_SYSTEM_START, (uint8_t)0x40);
+	status |= VL53L4CD_WrByte(hi2c, dev, VL53L4CD_SYSTEM_START, (uint8_t)0x40);
 	i  = (uint8_t)0;
 	continue_loop = (uint8_t)1;
 	do{
-		status |= VL53L4CD_CheckForDataReady(dev, &tmp);
+		status |= VL53L4CD_CheckForDataReady(hi2c, dev, &tmp);
 		if(tmp == (uint8_t)1) /* Data ready */
 		{
 			continue_loop = (uint8_t)0;
@@ -223,60 +226,64 @@ VL53L4CD_Error VL53L4CD_SensorInit(
 		VL53L4CD_WaitMs(dev, 1);
 	}while(continue_loop == (uint8_t)1);
 
-	status |= VL53L4CD_ClearInterrupt(dev);
-	status |= VL53L4CD_StopRanging(dev);
-	status |= VL53L4CD_WrByte(dev,
+	status |= VL53L4CD_ClearInterrupt(hi2c, dev);
+	status |= VL53L4CD_StopRanging(hi2c, dev);
+	status |= VL53L4CD_WrByte(hi2c, dev,
 			VL53L4CD_VHV_CONFIG__TIMEOUT_MACROP_LOOP_BOUND,
                         (uint8_t)0x09);
-	status |= VL53L4CD_WrByte(dev, 0x0B, (uint8_t)0);
-	status |= VL53L4CD_WrWord(dev, 0x0024, 0x500);
+	status |= VL53L4CD_WrByte(hi2c, dev, 0x0B, (uint8_t)0);
+	status |= VL53L4CD_WrWord(hi2c, dev, 0x0024, 0x500);
 
-	status |= VL53L4CD_SetRangeTiming(dev, 50, 0);
+	status |= VL53L4CD_SetRangeTiming(hi2c, dev, 50, 0);
 
 	return status;
 }
 
 VL53L4CD_Error VL53L4CD_ClearInterrupt(
+		I2C_HandleTypeDef* hi2c,
 		Dev_t dev)
 {
 	VL53L4CD_Error status = VL53L4CD_ERROR_NONE;
 
-	status |= VL53L4CD_WrByte(dev, VL53L4CD_SYSTEM__INTERRUPT_CLEAR, 0x01);
+	status |= VL53L4CD_WrByte(hi2c, dev, VL53L4CD_SYSTEM__INTERRUPT_CLEAR, 0x01);
 	return status;
 }
 
 VL53L4CD_Error VL53L4CD_StartRanging(
+		I2C_HandleTypeDef* hi2c,
 		Dev_t dev)
 {
 	VL53L4CD_Error status = VL53L4CD_ERROR_NONE;
 	uint32_t tmp;
 
-	status |= VL53L4CD_RdDWord(dev, VL53L4CD_INTERMEASUREMENT_MS, &tmp);
+	status |= VL53L4CD_RdDWord(hi2c, dev, VL53L4CD_INTERMEASUREMENT_MS, &tmp);
 
 	/* Sensor runs in continuous mode */
 	if(tmp == (uint32_t)0)
 	{
-		status |= VL53L4CD_WrByte(dev, VL53L4CD_SYSTEM_START, 0x21);
+		status |= VL53L4CD_WrByte(hi2c, dev, VL53L4CD_SYSTEM_START, 0x21);
 	}
 	/* Sensor runs in autonomous mode */
 	else
 	{
-		status |= VL53L4CD_WrByte(dev, VL53L4CD_SYSTEM_START, 0x40);
+		status |= VL53L4CD_WrByte(hi2c, dev, VL53L4CD_SYSTEM_START, 0x40);
 	}
 
 	return status;
 }
 
 VL53L4CD_Error VL53L4CD_StopRanging(
+		I2C_HandleTypeDef* hi2c,
 		Dev_t dev)
 {
 	VL53L4CD_Error status = VL53L4CD_ERROR_NONE;
 
-	status |= VL53L4CD_WrByte(dev, VL53L4CD_SYSTEM_START, 0x80);
+	status |= VL53L4CD_WrByte(hi2c, dev, VL53L4CD_SYSTEM_START, 0x80);
 	return status;
 }
 
 VL53L4CD_Error VL53L4CD_CheckForDataReady(
+		I2C_HandleTypeDef* hi2c,
 		Dev_t dev,
 		uint8_t *p_is_data_ready)
 {
@@ -284,7 +291,7 @@ VL53L4CD_Error VL53L4CD_CheckForDataReady(
 	uint8_t temp;
 	uint8_t int_pol;
 
-	status |= VL53L4CD_RdByte(dev, VL53L4CD_GPIO_HV_MUX__CTRL, &temp);
+	status |= VL53L4CD_RdByte(hi2c, dev, VL53L4CD_GPIO_HV_MUX__CTRL, &temp);
 	temp = temp & (uint8_t)0x10;
 	temp = temp >> 4;
 
@@ -297,7 +304,7 @@ VL53L4CD_Error VL53L4CD_CheckForDataReady(
 		int_pol = (uint8_t)1;
 	}
 
-	status |= VL53L4CD_RdByte(dev, VL53L4CD_GPIO__TIO_HV_STATUS, &temp);
+	status |= VL53L4CD_RdByte(hi2c, dev, VL53L4CD_GPIO__TIO_HV_STATUS, &temp);
 
 	if ((temp & (uint8_t)1) == int_pol)
 	{
@@ -312,6 +319,7 @@ VL53L4CD_Error VL53L4CD_CheckForDataReady(
 }
 
 VL53L4CD_Error VL53L4CD_SetRangeTiming(
+		I2C_HandleTypeDef* hi2c,
 		Dev_t dev,
 		uint32_t timing_budget_ms,
 		uint32_t inter_measurement_ms)
@@ -321,7 +329,7 @@ VL53L4CD_Error VL53L4CD_SetRangeTiming(
 	uint32_t macro_period_us = 0, timing_budget_us = 0, ls_byte, tmp;
 	float_t inter_measurement_factor = (float_t)1.055;
 
-	status |= VL53L4CD_RdWord(dev, 0x0006, &osc_frequency);
+	status |= VL53L4CD_RdWord(hi2c, dev, 0x0006, &osc_frequency);
 	if(osc_frequency != (uint16_t)0)
 	{
 		timing_budget_us = timing_budget_ms*(uint32_t)1000;
@@ -342,19 +350,19 @@ VL53L4CD_Error VL53L4CD_SetRangeTiming(
 	/* Sensor runs in continuous mode */
 	else if(inter_measurement_ms == (uint32_t)0)
 	{
-		status |= VL53L4CD_WrDWord(dev,VL53L4CD_INTERMEASUREMENT_MS, 0);
+		status |= VL53L4CD_WrDWord(hi2c, dev, VL53L4CD_INTERMEASUREMENT_MS, 0);
 		timing_budget_us -= (uint32_t)2500;
 	}
 	/* Sensor runs in autonomous low power mode */
 	else if(inter_measurement_ms > timing_budget_ms)
 	{
-		status |= VL53L4CD_RdWord(dev,
+		status |= VL53L4CD_RdWord(hi2c, dev,
 				VL53L4CD_RESULT__OSC_CALIBRATE_VAL, &clock_pll);
 		clock_pll = clock_pll & (uint16_t)0x3FF;
 				inter_measurement_factor = inter_measurement_factor
 				  * (float_t)inter_measurement_ms
 				  * (float_t)clock_pll;
-		status |= VL53L4CD_WrDWord(dev, VL53L4CD_INTERMEASUREMENT_MS,
+		status |= VL53L4CD_WrDWord(hi2c, dev, VL53L4CD_INTERMEASUREMENT_MS,
 				(uint32_t)inter_measurement_factor);
 
 		timing_budget_us -= (uint32_t)4300;
@@ -381,7 +389,7 @@ VL53L4CD_Error VL53L4CD_SetRangeTiming(
 				}
 				ms_byte = (uint16_t)(ms_byte << 8)
 			+ (uint16_t) (ls_byte & (uint32_t)0xFF);
-				status |= VL53L4CD_WrWord(dev, VL53L4CD_RANGE_CONFIG_A,ms_byte);
+				status |= VL53L4CD_WrWord(hi2c, dev, VL53L4CD_RANGE_CONFIG_A,ms_byte);
 
 				ms_byte = 0;
 				tmp = macro_period_us*(uint32_t)12;
@@ -394,13 +402,14 @@ VL53L4CD_Error VL53L4CD_SetRangeTiming(
 				}
 				ms_byte = (uint16_t)(ms_byte << 8)
 			+ (uint16_t) (ls_byte & (uint32_t)0xFF);
-				status |= VL53L4CD_WrWord(dev, VL53L4CD_RANGE_CONFIG_B,ms_byte);
+				status |= VL53L4CD_WrWord(hi2c, dev, VL53L4CD_RANGE_CONFIG_B,ms_byte);
 	}
 
 	return status;
 }
 
 VL53L4CD_Error VL53L4CD_GetRangeTiming(
+		I2C_HandleTypeDef* hi2c,
 		Dev_t dev,
 		uint32_t *p_timing_budget_ms,
 		uint32_t *p_inter_measurement_ms)
@@ -411,8 +420,8 @@ VL53L4CD_Error VL53L4CD_GetRangeTiming(
 	float_t clock_pll_factor = (float_t)1.065;
 
 	/* Get InterMeasurement */
-	status |= VL53L4CD_RdDWord(dev, VL53L4CD_INTERMEASUREMENT_MS, &tmp);
-	status |= VL53L4CD_RdWord(dev,
+	status |= VL53L4CD_RdDWord(hi2c, dev, VL53L4CD_INTERMEASUREMENT_MS, &tmp);
+	status |= VL53L4CD_RdWord(hi2c, dev,
 			VL53L4CD_RESULT__OSC_CALIBRATE_VAL, &clock_pll);
 	clock_pll = clock_pll & (uint16_t)0x3FF;
 	clock_pll_factor = clock_pll_factor * (float_t)clock_pll;
@@ -420,8 +429,8 @@ VL53L4CD_Error VL53L4CD_GetRangeTiming(
 	*p_inter_measurement_ms = (uint16_t)(tmp/(uint32_t)clock_pll);
 
 	/* Get TimingBudget */
-	status |= VL53L4CD_RdWord(dev, 0x0006, &osc_frequency);
-	status |= VL53L4CD_RdWord(dev, VL53L4CD_RANGE_CONFIG_A,
+	status |= VL53L4CD_RdWord(hi2c, dev, 0x0006, &osc_frequency);
+	status |= VL53L4CD_RdWord(hi2c, dev, VL53L4CD_RANGE_CONFIG_A,
 		&range_config_macrop_high);
 
 	macro_period_us = (uint32_t)((uint32_t)2304 * ((uint32_t)0x40000000
@@ -458,6 +467,7 @@ VL53L4CD_Error VL53L4CD_GetRangeTiming(
 }
 
 VL53L4CD_Error VL53L4CD_GetResult(
+		I2C_HandleTypeDef* hi2c,
 		Dev_t dev,
 		VL53L4CD_ResultsData_t *p_result)
 {
@@ -468,7 +478,7 @@ VL53L4CD_Error VL53L4CD_GetResult(
 			0, 255, 255, 9, 13, 255, 255, 255, 255, 10, 6,
 			255, 255, 11, 12 };
 
-	status |= VL53L4CD_RdByte(dev, VL53L4CD_RESULT__RANGE_STATUS,
+	status |= VL53L4CD_RdByte(hi2c, dev, VL53L4CD_RESULT__RANGE_STATUS,
 		&temp_8);
 	temp_8 = temp_8 & (uint8_t)0x1F;
 	if (temp_8 < (uint8_t)24)
@@ -477,23 +487,23 @@ VL53L4CD_Error VL53L4CD_GetResult(
 	}
 	p_result->range_status = temp_8;
 
-	status |= VL53L4CD_RdWord(dev, VL53L4CD_RESULT__SPAD_NB,
+	status |= VL53L4CD_RdWord(hi2c, dev, VL53L4CD_RESULT__SPAD_NB,
 		&temp_16);
 	p_result->number_of_spad = temp_16 / (uint16_t) 256;
 
-	status |= VL53L4CD_RdWord(dev, VL53L4CD_RESULT__SIGNAL_RATE,
+	status |= VL53L4CD_RdWord(hi2c, dev, VL53L4CD_RESULT__SIGNAL_RATE,
 		&temp_16);
 	p_result->signal_rate_kcps = temp_16 * (uint16_t) 8;
 
-	status |= VL53L4CD_RdWord(dev, VL53L4CD_RESULT__AMBIENT_RATE,
+	status |= VL53L4CD_RdWord(hi2c, dev, VL53L4CD_RESULT__AMBIENT_RATE,
 		&temp_16);
 	p_result->ambient_rate_kcps = temp_16 * (uint16_t) 8;
 
-	status |= VL53L4CD_RdWord(dev, VL53L4CD_RESULT__SIGMA,
+	status |= VL53L4CD_RdWord(hi2c, dev, VL53L4CD_RESULT__SIGMA,
 		&temp_16);
 	p_result->sigma_mm = temp_16 / (uint16_t) 4;
 
-	status |= VL53L4CD_RdWord(dev, VL53L4CD_RESULT__DISTANCE,
+	status |= VL53L4CD_RdWord(hi2c, dev, VL53L4CD_RESULT__DISTANCE,
 		&temp_16);
 	p_result->distance_mm = temp_16;
 
@@ -506,6 +516,7 @@ VL53L4CD_Error VL53L4CD_GetResult(
 }
 
 VL53L4CD_Error VL53L4CD_SetOffset(
+		I2C_HandleTypeDef* hi2c,
 		Dev_t dev,
 		int16_t OffsetValueInMm)
 {
@@ -514,20 +525,21 @@ VL53L4CD_Error VL53L4CD_SetOffset(
 
 	temp = (uint16_t)((uint16_t)OffsetValueInMm*(uint16_t)4);
 
-	status |= VL53L4CD_WrWord(dev, VL53L4CD_RANGE_OFFSET_MM, temp);
-	status |= VL53L4CD_WrWord(dev, VL53L4CD_INNER_OFFSET_MM, (uint8_t)0x0);
-	status |= VL53L4CD_WrWord(dev, VL53L4CD_OUTER_OFFSET_MM, (uint8_t)0x0);
+	status |= VL53L4CD_WrWord(hi2c, dev, VL53L4CD_RANGE_OFFSET_MM, temp);
+	status |= VL53L4CD_WrWord(hi2c, dev, VL53L4CD_INNER_OFFSET_MM, (uint8_t)0x0);
+	status |= VL53L4CD_WrWord(hi2c, dev, VL53L4CD_OUTER_OFFSET_MM, (uint8_t)0x0);
 	return status;
 }
 
 VL53L4CD_Error  VL53L4CD_GetOffset(
+		I2C_HandleTypeDef* hi2c,
 		Dev_t dev,
 		int16_t *p_offset)
 {
 	VL53L4CD_Error status = VL53L4CD_ERROR_NONE;
 	uint16_t temp;
 
-	status |= VL53L4CD_RdWord(dev,VL53L4CD_RANGE_OFFSET_MM, &temp);
+	status |= VL53L4CD_RdWord(hi2c, dev,VL53L4CD_RANGE_OFFSET_MM, &temp);
 
 	temp = temp<<3;
 	temp = temp>>5;
@@ -542,16 +554,17 @@ VL53L4CD_Error  VL53L4CD_GetOffset(
 }
 
 VL53L4CD_Error VL53L4CD_SetXtalk(
+		I2C_HandleTypeDef* hi2c,
 		Dev_t dev,
 		uint16_t XtalkValueKcps)
 {
 	VL53L4CD_Error status = VL53L4CD_ERROR_NONE;
 
-	status |= VL53L4CD_WrWord(dev,
+	status |= VL53L4CD_WrWord(hi2c, dev,
 		VL53L4CD_XTALK_X_PLANE_GRADIENT_KCPS, 0x0000);
-	status |= VL53L4CD_WrWord(dev,
+	status |= VL53L4CD_WrWord(hi2c, dev,
 		VL53L4CD_XTALK_Y_PLANE_GRADIENT_KCPS, 0x0000);
-	status |= VL53L4CD_WrWord(dev,
+	status |= VL53L4CD_WrWord(hi2c, dev,
 		VL53L4CD_XTALK_PLANE_OFFSET_KCPS,
 		(XtalkValueKcps<<9));
 
@@ -559,13 +572,14 @@ VL53L4CD_Error VL53L4CD_SetXtalk(
 }
 
 VL53L4CD_Error VL53L4CD_GetXtalk(
+		I2C_HandleTypeDef* hi2c,
 		Dev_t dev,
 		uint16_t *p_xtalk_kcps)
 {
 	VL53L4CD_Error status = VL53L4CD_ERROR_NONE;
 	float_t tmp_xtalk;
 
-	status |= VL53L4CD_RdWord(dev,
+	status |= VL53L4CD_RdWord(hi2c, dev,
 		VL53L4CD_XTALK_PLANE_OFFSET_KCPS, p_xtalk_kcps);
 
 	tmp_xtalk = (float_t)*p_xtalk_kcps / (float_t)512.0;
@@ -575,6 +589,7 @@ VL53L4CD_Error VL53L4CD_GetXtalk(
 }
 
 VL53L4CD_Error VL53L4CD_SetDetectionThresholds(
+		I2C_HandleTypeDef* hi2c,
 		Dev_t dev,
 		uint16_t distance_low_mm,
 		uint16_t distance_high_mm,
@@ -582,46 +597,50 @@ VL53L4CD_Error VL53L4CD_SetDetectionThresholds(
 {
 	VL53L4CD_Error status = VL53L4CD_ERROR_NONE;
 
-	status |= VL53L4CD_WrByte(dev, VL53L4CD_SYSTEM__INTERRUPT, window);
-	status |= VL53L4CD_WrWord(dev, VL53L4CD_THRESH_HIGH, distance_high_mm);
-	status |= VL53L4CD_WrWord(dev, VL53L4CD_THRESH_LOW, distance_low_mm);
+	status |= VL53L4CD_WrByte(hi2c, dev, VL53L4CD_SYSTEM__INTERRUPT, window);
+	status |= VL53L4CD_WrWord(hi2c, dev, VL53L4CD_THRESH_HIGH, distance_high_mm);
+	status |= VL53L4CD_WrWord(hi2c, dev, VL53L4CD_THRESH_LOW, distance_low_mm);
 	return status;
 }
 
-VL53L4CD_Error VL53L4CD_GetDetectionThresholds(Dev_t dev,
+VL53L4CD_Error VL53L4CD_GetDetectionThresholds(
+		I2C_HandleTypeDef* hi2c,
+		Dev_t dev,
 		uint16_t *p_distance_low_mm,
 		uint16_t *p_distance_high_mm,
 		uint8_t *p_window)
 {
 	VL53L4CD_Error status = VL53L4CD_ERROR_NONE;
 
-	status |= VL53L4CD_RdWord(dev, VL53L4CD_THRESH_HIGH,p_distance_high_mm);
-	status |= VL53L4CD_RdWord(dev, VL53L4CD_THRESH_LOW, p_distance_low_mm);
-	status |= VL53L4CD_RdByte(dev, VL53L4CD_SYSTEM__INTERRUPT, p_window);
+	status |= VL53L4CD_RdWord(hi2c, dev, VL53L4CD_THRESH_HIGH,p_distance_high_mm);
+	status |= VL53L4CD_RdWord(hi2c, dev, VL53L4CD_THRESH_LOW, p_distance_low_mm);
+	status |= VL53L4CD_RdByte(hi2c, dev, VL53L4CD_SYSTEM__INTERRUPT, p_window);
 	*p_window = (*p_window & (uint8_t)0x7);
 
 	return status;
 }
 
 VL53L4CD_Error VL53L4CD_SetSignalThreshold(
+		I2C_HandleTypeDef* hi2c,
 		Dev_t dev,
 		uint16_t signal_kcps)
 {
 	VL53L4CD_Error status = VL53L4CD_ERROR_NONE;
 
-	status |= VL53L4CD_WrWord(dev,
+	status |= VL53L4CD_WrWord(hi2c, dev,
 			VL53L4CD_MIN_COUNT_RATE_RTN_LIMIT_MCPS,signal_kcps>>3);
 	return status;
 }
 
 VL53L4CD_Error VL53L4CD_GetSignalThreshold(
+		I2C_HandleTypeDef* hi2c,
 		Dev_t dev,
 		uint16_t 	*p_signal_kcps)
 {
 	VL53L4CD_Error status = VL53L4CD_ERROR_NONE;
 	uint16_t tmp = 0;
 
-	status |= VL53L4CD_RdWord(dev,
+	status |= VL53L4CD_RdWord(hi2c, dev,
 			VL53L4CD_MIN_COUNT_RATE_RTN_LIMIT_MCPS, &tmp);
 	*p_signal_kcps = tmp <<3;
 
@@ -629,6 +648,7 @@ VL53L4CD_Error VL53L4CD_GetSignalThreshold(
 }
 
 VL53L4CD_Error VL53L4CD_SetSigmaThreshold(
+		I2C_HandleTypeDef* hi2c,
 		Dev_t dev,
 		uint16_t 	sigma_mm)
 {
@@ -640,7 +660,7 @@ VL53L4CD_Error VL53L4CD_SetSigmaThreshold(
 	}
 	else
 	{
-		status |= VL53L4CD_WrWord(dev,
+		status |= VL53L4CD_WrWord(hi2c, dev,
 			VL53L4CD_RANGE_CONFIG__SIGMA_THRESH, sigma_mm<<2);
 	}
 
@@ -648,12 +668,13 @@ VL53L4CD_Error VL53L4CD_SetSigmaThreshold(
 }
 
 VL53L4CD_Error VL53L4CD_GetSigmaThreshold(
+		I2C_HandleTypeDef* hi2c,
 		Dev_t dev,
 		uint16_t 	*p_sigma_mm)
 {
 	VL53L4CD_Error status = VL53L4CD_ERROR_NONE;
 
-	status += VL53L4CD_RdWord(dev,
+	status += VL53L4CD_RdWord(hi2c, dev,
 			VL53L4CD_RANGE_CONFIG__SIGMA_THRESH, p_sigma_mm);
 	*p_sigma_mm = *p_sigma_mm >> 2;
 
@@ -661,19 +682,20 @@ VL53L4CD_Error VL53L4CD_GetSigmaThreshold(
 }
 
 VL53L4CD_Error VL53L4CD_StartTemperatureUpdate(
+		I2C_HandleTypeDef* hi2c,
 		Dev_t dev)
 {
 	VL53L4CD_Error status = VL53L4CD_ERROR_NONE;
 	uint8_t tmp = 0, continue_loop = 1;
 	uint16_t i = 0;
 
-	status |= VL53L4CD_WrByte(dev,
+	status |= VL53L4CD_WrByte(hi2c, dev,
 		VL53L4CD_VHV_CONFIG__TIMEOUT_MACROP_LOOP_BOUND, (uint8_t)0x81);
-	status |= VL53L4CD_WrByte(dev, 0x0B, (uint8_t)0x92);
-	status |= VL53L4CD_WrByte(dev, VL53L4CD_SYSTEM_START, (uint8_t)0x40);
+	status |= VL53L4CD_WrByte(hi2c, dev, 0x0B, (uint8_t)0x92);
+	status |= VL53L4CD_WrByte(hi2c, dev, VL53L4CD_SYSTEM_START, (uint8_t)0x40);
 
 	do{
-			status |= VL53L4CD_CheckForDataReady(dev, &tmp);
+			status |= VL53L4CD_CheckForDataReady(hi2c, dev, &tmp);
 			if(tmp == (uint8_t)1) /* Data ready */
 			{
 					continue_loop = (uint8_t)0;
@@ -690,11 +712,11 @@ VL53L4CD_Error VL53L4CD_StartTemperatureUpdate(
 			VL53L4CD_WaitMs(dev, 1);
 	}while(continue_loop == (uint8_t)1);
 
-	status |= VL53L4CD_ClearInterrupt(dev);
-	status |= VL53L4CD_StopRanging(dev);
+	status |= VL53L4CD_ClearInterrupt(hi2c, dev);
+	status |= VL53L4CD_StopRanging(hi2c, dev);
 
-	status += VL53L4CD_WrByte(dev,
+	status += VL53L4CD_WrByte(hi2c, dev,
 		VL53L4CD_VHV_CONFIG__TIMEOUT_MACROP_LOOP_BOUND, 0x09);
-	status += VL53L4CD_WrByte(dev, 0x0B, 0);
+	status += VL53L4CD_WrByte(hi2c, dev, 0x0B, 0);
 	return status;
 }

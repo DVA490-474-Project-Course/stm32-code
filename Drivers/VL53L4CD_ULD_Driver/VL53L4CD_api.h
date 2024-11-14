@@ -130,6 +130,7 @@ VL53L4CD_Error VL53L4CD_GetSWVersion(
  */
 
 VL53L4CD_Error VL53L4CD_SetI2CAddress(
+		I2C_HandleTypeDef* hi2c,
 		Dev_t dev,
 		uint8_t new_address);
 
@@ -142,6 +143,7 @@ VL53L4CD_Error VL53L4CD_SetI2CAddress(
  */
 
 VL53L4CD_Error VL53L4CD_GetSensorId(
+		I2C_HandleTypeDef* hi2c,
 		Dev_t dev,
 		uint16_t *p_id);
 
@@ -152,6 +154,7 @@ VL53L4CD_Error VL53L4CD_GetSensorId(
  */
 
 VL53L4CD_Error VL53L4CD_SensorInit(
+		I2C_HandleTypeDef* hi2c,
 		Dev_t dev);
 
 /**
@@ -162,6 +165,7 @@ VL53L4CD_Error VL53L4CD_SensorInit(
  */
 
 VL53L4CD_Error VL53L4CD_ClearInterrupt(
+		I2C_HandleTypeDef* hi2c,
 		Dev_t dev);
 
 /**
@@ -173,6 +177,7 @@ VL53L4CD_Error VL53L4CD_ClearInterrupt(
  */
 
 VL53L4CD_Error VL53L4CD_StartRanging(
+		I2C_HandleTypeDef* hi2c,
 		Dev_t dev);
 
 /**
@@ -182,6 +187,7 @@ VL53L4CD_Error VL53L4CD_StartRanging(
  */
 
 VL53L4CD_Error VL53L4CD_StopRanging(
+		I2C_HandleTypeDef* hi2c,
 		Dev_t dev);
 
 /**
@@ -194,6 +200,7 @@ VL53L4CD_Error VL53L4CD_StopRanging(
  */
 
 VL53L4CD_Error VL53L4CD_CheckForDataReady(
+		I2C_HandleTypeDef* hi2c,
 		Dev_t dev,
 		uint8_t *p_is_data_ready);
 
@@ -215,6 +222,7 @@ VL53L4CD_Error VL53L4CD_CheckForDataReady(
  */
 
 VL53L4CD_Error VL53L4CD_SetRangeTiming(
+		I2C_HandleTypeDef* hi2c,
 		Dev_t dev,
 		uint32_t timing_budget_ms,
 		uint32_t inter_measurement_ms);
@@ -234,6 +242,7 @@ VL53L4CD_Error VL53L4CD_SetRangeTiming(
  */
 
 VL53L4CD_Error VL53L4CD_GetRangeTiming(
+		I2C_HandleTypeDef* hi2c,
 		Dev_t dev,
 		uint32_t *p_timing_budget_ms,
 		uint32_t *p_inter_measurement_ms);
@@ -246,7 +255,7 @@ VL53L4CD_Error VL53L4CD_GetRangeTiming(
  * @return (uint8_t) status : 0 if OK.
  */
 
-VL53L4CD_Error VL53L4CD_GetResult(Dev_t dev, VL53L4CD_ResultsData_t *pResult);
+VL53L4CD_Error VL53L4CD_GetResult(I2C_HandleTypeDef* hi2c, Dev_t dev, VL53L4CD_ResultsData_t *pResult);
 
 /**
  * @brief This function sets a new offset correction in mm. Offset corresponds
@@ -257,7 +266,7 @@ VL53L4CD_Error VL53L4CD_GetResult(Dev_t dev, VL53L4CD_ResultsData_t *pResult);
  * @return (uint8_t) status : 0 if OK.
  */
 
-VL53L4CD_Error VL53L4CD_SetOffset(Dev_t dev, int16_t OffsetValueInMm);
+VL53L4CD_Error VL53L4CD_SetOffset(I2C_HandleTypeDef* hi2c, Dev_t dev, int16_t OffsetValueInMm);
 
 /**
  * @brief This function gets the current offset correction in mm. Offset
@@ -269,7 +278,7 @@ VL53L4CD_Error VL53L4CD_SetOffset(Dev_t dev, int16_t OffsetValueInMm);
  * @return (uint8_t) status : 0 if OK.
  */
 
-VL53L4CD_Error VL53L4CD_GetOffset(Dev_t dev, int16_t *Offset);
+VL53L4CD_Error VL53L4CD_GetOffset(I2C_HandleTypeDef* hi2c, Dev_t dev, int16_t *Offset);
 
 /**
  * @brief This function sets a new Xtalk value in kcps. Xtalk represents the
@@ -282,7 +291,7 @@ VL53L4CD_Error VL53L4CD_GetOffset(Dev_t dev, int16_t *Offset);
  * @return (VL53L4CD_ERROR) status : 0 if OK.
  */
 
-VL53L4CD_Error VL53L4CD_SetXtalk(Dev_t dev, uint16_t XtalkValueKcps);
+VL53L4CD_Error VL53L4CD_SetXtalk(I2C_HandleTypeDef* hi2c, Dev_t dev, uint16_t XtalkValueKcps);
 
 /**
  * @brief This function gets the current Xtalk value in kcps. Xtalk represents
@@ -293,7 +302,7 @@ VL53L4CD_Error VL53L4CD_SetXtalk(Dev_t dev, uint16_t XtalkValueKcps);
  * @return (VL53L4CD_ERROR) status : 0 if OK.
  */
 
-VL53L4CD_Error VL53L4CD_GetXtalk(Dev_t dev, uint16_t *p_xtalk_kcps);
+VL53L4CD_Error VL53L4CD_GetXtalk(I2C_HandleTypeDef* hi2c, Dev_t dev, uint16_t *p_xtalk_kcps);
 
 /**
  * @brief This function sets new detection thresholds. The detection
@@ -311,7 +320,9 @@ VL53L4CD_Error VL53L4CD_GetXtalk(Dev_t dev, uint16_t *p_xtalk_kcps);
  * @return (VL53L4CD_ERROR) status : 0 if OK.
  */
 
-VL53L4CD_Error VL53L4CD_SetDetectionThresholds(Dev_t dev,
+VL53L4CD_Error VL53L4CD_SetDetectionThresholds(
+		I2C_HandleTypeDef* hi2c,
+		Dev_t dev,
 		uint16_t distance_low_mm,
 		uint16_t distance_high_mm,
 		uint8_t window);
@@ -331,7 +342,9 @@ VL53L4CD_Error VL53L4CD_SetDetectionThresholds(Dev_t dev,
  * @return (VL53L4CD_ERROR) status : 0 if OK.
  */
 
-VL53L4CD_Error VL53L4CD_GetDetectionThresholds(Dev_t dev,
+VL53L4CD_Error VL53L4CD_GetDetectionThresholds(
+		I2C_HandleTypeDef* hi2c,
+		Dev_t dev,
 		uint16_t *p_distance_low_mm,
 		uint16_t *p_distance_high_mm,
 		uint8_t *p_window);
@@ -347,7 +360,9 @@ VL53L4CD_Error VL53L4CD_GetDetectionThresholds(Dev_t dev,
  * @return (VL53L4CD_ERROR) status : 0 if OK.
  */
 
-VL53L4CD_Error VL53L4CD_SetSignalThreshold(Dev_t dev, uint16_t signal_kcps);
+VL53L4CD_Error VL53L4CD_SetSignalThreshold(
+		I2C_HandleTypeDef* hi2c,
+		Dev_t dev, uint16_t signal_kcps);
 
 /**
  * @brief This function returns the current signal threshold in kcps. If a
@@ -358,7 +373,9 @@ VL53L4CD_Error VL53L4CD_SetSignalThreshold(Dev_t dev, uint16_t signal_kcps);
  * @return (VL53L4CD_ERROR) status : 0 if OK.
  */
 
-VL53L4CD_Error VL53L4CD_GetSignalThreshold(Dev_t dev,
+VL53L4CD_Error VL53L4CD_GetSignalThreshold(
+		I2C_HandleTypeDef* hi2c,
+		Dev_t dev,
 		uint16_t *p_signal_kcps);
 
 /**
@@ -374,6 +391,7 @@ VL53L4CD_Error VL53L4CD_GetSignalThreshold(Dev_t dev,
  */
 
 VL53L4CD_Error VL53L4CD_SetSigmaThreshold(
+		I2C_HandleTypeDef* hi2c,
 		Dev_t dev,
 		uint16_t 	sigma_mm);
 
@@ -388,6 +406,7 @@ VL53L4CD_Error VL53L4CD_SetSigmaThreshold(
  */
 
 VL53L4CD_Error VL53L4CD_GetSigmaThreshold(
+		I2C_HandleTypeDef* hi2c,
 		Dev_t dev,
 		uint16_t 	*p_sigma_mm);
 
@@ -401,6 +420,8 @@ VL53L4CD_Error VL53L4CD_GetSigmaThreshold(
  * @return (VL53L4CD_ERROR) status : 0 if update is OK.
  */
 
-VL53L4CD_Error VL53L4CD_StartTemperatureUpdate(Dev_t dev);
+VL53L4CD_Error VL53L4CD_StartTemperatureUpdate(
+		I2C_HandleTypeDef* hi2c,
+		Dev_t dev);
 
 #endif  //VL53L4CD_API_H_

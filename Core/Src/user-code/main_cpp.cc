@@ -34,11 +34,11 @@ void MainCpp()
   /* Example program to read sensor data via i2c and print it from the PC */
   stm32_code::sensor_drivers::ProximitySensor120cm proximity_sensor;
   uint8_t buffer[128];
-  proximity_sensor.Init();
+  proximity_sensor.Init(&hi2c1);
 
   while(1)
   {
-	proximity_sensor.ReadData();
+	proximity_sensor.ReadData(&hi2c1);
 	if (proximity_sensor.IsDataValid())
 	{
 	  sprintf((char*)buffer, "Distance: %imm\r\n", proximity_sensor.GetDistance());
