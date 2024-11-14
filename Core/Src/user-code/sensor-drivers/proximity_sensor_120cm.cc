@@ -19,7 +19,7 @@ ProximitySensor120cm::~ProximitySensor120cm()
 
 }
 
-int ProximitySensor120cm::Init(I2C_HandleTypeDef* hi2c)
+Status ProximitySensor120cm::Init(I2C_HandleTypeDef* hi2c)
 {
   VL53L4CD_Error status;
   this->hi2c = hi2c;
@@ -32,18 +32,17 @@ int ProximitySensor120cm::Init(I2C_HandleTypeDef* hi2c)
 
   if (status == 0)
   {
-    return 0;
+    return Status::kOk;
   }
   else
   {
-    return -1;
+	return Status::kNotOk;
   }
 }
 
 Scalar<uint16_t> ProximitySensor120cm::GetDistance()
 {
   uint8_t data_ready;
-  VL53L4CD_Error status;
   VL53L4CD_ResultsData_t result;
   Scalar<uint16_t> distance;
 

@@ -23,7 +23,7 @@ class ProximitySensor120cm
 public:
   ProximitySensor120cm();
   ~ProximitySensor120cm();
-  int Init(I2C_HandleTypeDef* hi2c);
+  Status Init(I2C_HandleTypeDef* hi2c);
   Scalar<uint16_t> GetDistance();
 
 private:

@@ -35,7 +35,7 @@ SixAxisIMU::~SixAxisIMU()
 
 }
 
-int SixAxisIMU::Init(I2C_HandleTypeDef* hi2c)
+Status SixAxisIMU::Init(I2C_HandleTypeDef* hi2c)
 {
   uint8_t deviceIdValue = 0;
 
@@ -52,7 +52,7 @@ int SixAxisIMU::Init(I2C_HandleTypeDef* hi2c)
   if (WE_SUCCESS != ISDS_getDeviceID(&isds, &deviceIdValue) ||
 		  (deviceIdValue != ISDS_DEVICE_ID_VALUE))
   {
-    return -1;
+	  return Status::kNotOk;
   }
 
   /* Perform soft reset of the sensor */
@@ -81,7 +81,7 @@ int SixAxisIMU::Init(I2C_HandleTypeDef* hi2c)
   /* Gyroscope 2000 dps range */
   ISDS_setGyroFullScale(&isds, ISDS_gyroFullScale2000dps);
 
-  return 0;
+  return Status::kOk;
 }
 
 Vector3d<float> SixAxisIMU::GetLinearAcceleration()
