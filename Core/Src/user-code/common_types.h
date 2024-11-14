@@ -25,11 +25,18 @@
 namespace stm32_code
 {
 
-template<typename T> struct Vector_3d
+enum class Status
+{
+  kOk = 0,
+  kNotOk = -1
+};
+
+template<typename T> struct Vector3d
 {
   T x;
   T y;
   T z;
+  Status status;
 };
 
 template<typename T> struct Quarternion
@@ -38,6 +45,7 @@ template<typename T> struct Quarternion
   T x;
   T y;
   T z;
+  Status status;
 };
 
 template<typename T> struct Rotation
@@ -45,6 +53,13 @@ template<typename T> struct Rotation
   T heading;
   T roll;
   T pitch;
+  Status status;
+};
+
+template<typename T> struct Scalar
+{
+  T value;
+  Status status;
 };
 
 } /* namespace stm32_code */

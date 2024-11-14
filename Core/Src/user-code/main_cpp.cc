@@ -13,7 +13,7 @@
 #include "main_cpp.h"
 
 /* Project .h files */
-#include "sensor-drivers/nine_axis_imu.h"
+#include "sensor-drivers/six_axis_imu.h"
 #include "sensor-drivers/proximity_sensor_120cm.h"
 #include "../stm32h7xx_hal.h"
 
@@ -32,16 +32,17 @@ extern "C"
 void MainCpp()
 {
   /* Example program to read sensor data via i2c and print it from the PC */
-  stm32_code::sensor_drivers::ProximitySensor120cm proximity_sensor;
+  stm32_code::sensor_drivers::SixAxisIMU imu;
+  stm32_code::Vector3d<float> lin_acc;
   uint8_t buffer[128];
-  proximity_sensor.Init(&hi2c1);
+  imu.Init(&hi2c1);
 
   while(1)
   {
-	proximity_sensor.ReadData(&hi2c1);
-	if (proximity_sensor.IsDataValid())
+	lin_acc = imu.GetLinearAcceleration();
+	if (lin_acc.status == stm32_code::Status::kOk)
 	{
-	  sprintf((char*)buffer, "Distance: %imm\r\n", proximity_sensor.GetDistance());
+	  sprintf((char*)buffer, "Linear Acceleration: %f %f %f\r\n", lin_acc.x, lin_acc.y, lin_acc.z);
 	  HAL_UART_Transmit(&huart3, buffer, strlen((char*)buffer), HAL_MAX_DELAY);
 	}
   }

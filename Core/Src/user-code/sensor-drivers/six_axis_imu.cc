@@ -17,6 +17,8 @@
 
 /* Project .h files */
 #include "../stm32h7xx_hal.h"
+#include "../../../Drivers/WSEN_ISDS_2536030320001/WSEN_ISDS_2536030320001.h"
+#include "../common_types.h"
 
 namespace stm32_code
 {
@@ -33,107 +35,132 @@ SixAxisIMU::~SixAxisIMU()
 
 }
 
-SixAxisIMUData SixAxisIMU::ReadData(I2C_HandleTypeDef* hi2c)
+int SixAxisIMU::Init(I2C_HandleTypeDef* hi2c)
 {
-  uint8_t buffer[data_size];
-  SixAxisIMUData measurement_data;
-  int status;
+  uint8_t deviceIdValue = 0;
 
-  status = ReadData(hi2c, buffer);
+  ISDS_getDefaultInterface(&isds);
+  isds.interfaceType = WE_i2c;
+  isds.options.i2c.burstMode = 1;
+  isds.options.i2c.address = address;
+  isds.handle = hi2c;
 
-  if (status != 0)
+  /* Wait for boot */
+  HAL_Delay(50);
+
+  /* Communication test */
+  if (WE_SUCCESS != ISDS_getDeviceID(&isds, &deviceIdValue) ||
+		  (deviceIdValue != ISDS_DEVICE_ID_VALUE))
   {
-	/* Error handling */
+    return -1;
+  }
+
+  /* Perform soft reset of the sensor */
+  ISDS_softReset(&isds, ISDS_enable);
+  ISDS_state_t swReset;
+  do
+  {
+    ISDS_getSoftResetState(&isds, &swReset);
+  }
+  while (swReset);
+
+  /* Perform reboot (retrieve trimming parameters from nonvolatile memory) */
+  ISDS_reboot(&isds, ISDS_enable);
+  HAL_Delay(15);
+
+  /* Enable block data update */
+  ISDS_enableBlockDataUpdate(&isds, ISDS_enable);
+
+  /* Sampling rate (104 Hz) */
+  ISDS_setAccOutputDataRate(&isds, ISDS_accOdr104Hz);
+  ISDS_setGyroOutputDataRate(&isds, ISDS_gyroOdr104Hz);
+
+  /* Accelerometer 2g range */
+  ISDS_setAccFullScale(&isds, ISDS_accFullScaleTwoG);
+
+  /* Gyroscope 2000 dps range */
+  ISDS_setGyroFullScale(&isds, ISDS_gyroFullScale2000dps);
+
+  return 0;
+}
+
+Vector3d<float> SixAxisIMU::GetLinearAcceleration()
+{
+  ISDS_state_t dataReady;
+  Vector3d<float> acceleration;
+
+  /* Wait until the acceleration values are ready to read */
+  do
+  {
+    ISDS_isAccelerationDataReady(&isds, &dataReady);
+  }
+  while (dataReady == ISDS_disable);
+
+  /* Read acceleration values */
+  if (ISDS_getAccelerations_float(&isds, &acceleration.x, &acceleration.y,
+		  &acceleration.z) != WE_SUCCESS)
+  {
+    acceleration.status = Status::kNotOk;
   }
   else
   {
-	measurement_data = JoinData(buffer);
+	acceleration.status = Status::kOk;
   }
 
-  return measurement_data;
+  return acceleration;
 }
 
-int SixAxisIMU::ReadData(I2C_HandleTypeDef* hi2c, uint8_t* buffer)
+Vector3d<float> SixAxisIMU::GetAngularAcceleration()
 {
-  HAL_StatusTypeDef ret;
+  ISDS_state_t dataReady;
+  Vector3d<float> acceleration;
 
-  buffer[0] = data_reg_first;
-  ret = HAL_I2C_Master_Transmit(hi2c, imu_addr, buffer, 1, HAL_MAX_DELAY);
-
-  if (ret != HAL_OK)
+  /* Wait until the acceleration values are ready to read */
+  do
   {
-    /* Error handling */
+    ISDS_isGyroscopeDataReady(&isds, &dataReady);
+  }
+  while (dataReady == ISDS_disable);
+
+  /* Read acceleration values */
+  if (ISDS_getAngularRates_float(&isds, &acceleration.x, &acceleration.y,
+		  &acceleration.z) != WE_SUCCESS)
+  {
+    acceleration.status = Status::kNotOk;
   }
   else
   {
-    ret = HAL_I2C_Master_Receive(hi2c, imu_addr, buffer, data_size, HAL_MAX_DELAY);
-
-    if (ret != HAL_OK)
-    {
-      /* Error handling */
-    }
-    else
-    {
-      return 0;
-    }
+	acceleration.status = Status::kOk;
   }
 
-  return -1;
+  return acceleration;
 }
 
-uint16_t SixAxisIMU::JoinData(uint8_t* raw_data, const uint8_t lsb_location, const uint8_t msb_location)
+Scalar<float> SixAxisIMU::GetTemperature()
 {
-  uint16_t lsb = raw_data[lsb_location];
-  uint16_t msb = raw_data[msb_location];
+  ISDS_state_t dataReady;
+  Scalar<float> temperature;
 
-  return lsb + (msb << 8);
-}
-
-SixAxisIMUData SixAxisIMU::JoinData(uint8_t* raw_data)
-{
-  SixAxisIMUData measurement_data;
-  uint16_t t_out;
-
-  t_out = JoinData(raw_data, t_out_l, t_out_h);
-
-  /* Convert from 2s complement */
-  if (t_out > 0x7FF)
+  /* Wait until the acceleration values are ready to read */
+  do
   {
-    t_out |= 0xF000;
+    ISDS_isTemperatureDataReady(&isds, &dataReady);
+  }
+  while (dataReady == ISDS_disable);
+
+  /* Read temperature value */
+  if (ISDS_getTemperature_float(&isds, &temperature.value) != WE_SUCCESS)
+  {
+    temperature.status = Status::kNotOk;
+  }
+  else
+  {
+    temperature.status = Status::kOk;
   }
 
-  /* Convert to float Celsius */
-  measurement_data.temperature = t_out * temperature_factor + temperature_zero;
-
-  /* Convert raw acceleration data to mg */
-  measurement_data.acceleration.x = JoinData(raw_data, xl_x_out_l, xl_x_out_h) * accelerometer_factor;
-  measurement_data.acceleration.y = JoinData(raw_data, xl_y_out_l, xl_y_out_h) * accelerometer_factor;
-  measurement_data.acceleration.z = JoinData(raw_data, xl_z_out_l, xl_z_out_h) * accelerometer_factor;
-
-  /* Convert raw gyroscope data to mdps */
-  measurement_data.angular_accelarion.x = JoinData(raw_data, xl_x_out_l, xl_x_out_h) * gyroscope_factor;
-  measurement_data.angular_accelarion.y = JoinData(raw_data, xl_y_out_l, xl_y_out_h) * gyroscope_factor;
-  measurement_data.angular_accelarion.z = JoinData(raw_data, xl_z_out_l, xl_z_out_h) * gyroscope_factor;
-
-  return measurement_data;
+  return temperature;
 }
 
-void SixAxisIMU::PrintData(UART_HandleTypeDef* huart, SixAxisIMUData measurement_data)
-{
-  uint8_t buffer[128];
-  sprintf((char*)buffer, "Acceleration: (%f, %f, %f)\r\n",
-		  measurement_data.acceleration.x,
-		  measurement_data.acceleration.y,
-		  measurement_data.acceleration.z);
-  HAL_UART_Transmit(huart, buffer, strlen((char*)buffer), HAL_MAX_DELAY);
-  sprintf((char*)buffer, "Magnetic field: (%i, %i, %i)\r\n",
-		  measurement_data.angular_accelarion.x,
-		  measurement_data.angular_accelarion.y,
-		  measurement_data.angular_accelarion.z);
-  HAL_UART_Transmit(huart, buffer, strlen((char*)buffer), HAL_MAX_DELAY);
-  sprintf((char*)buffer, "Temperature: %f\r\n", measurement_data.temperature);
-  HAL_UART_Transmit(huart, buffer, strlen((char*)buffer), HAL_MAX_DELAY);
-}
 
 } /* namespace sensor_drivers */
 } /* namespace stm32_code */
