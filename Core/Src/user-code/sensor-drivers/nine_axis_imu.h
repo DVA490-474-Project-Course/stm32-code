@@ -36,21 +36,26 @@ class NineAxisIMU
 {
 public:
   NineAxisIMU();
-  virtual ~NineAxisIMU();
-  static void PrintData(UART_HandleTypeDef* huart, NineAxisIMUData measurement_data);
+  ~NineAxisIMU();
+  Status Init(I2C_HandleTypeDef* hi2c);
   NineAxisIMUData ReadData(I2C_HandleTypeDef* hi2c);
+  Scalar<uint8_t> GetTemperature();
+  Vector3d<float> GetLinearAcceleration();
+  Quarternion<float> GetQuarternion();
 
 private:
   int ReadData(I2C_HandleTypeDef* hi2c, uint8_t* buffer);
-  NineAxisIMUData JoinData(uint8_t* raw_data);
-  uint16_t JoinData(uint8_t* raw_data, const uint8_t lsb_location, const uint8_t msb_location);
+  uint16_t Join(uint8_t lsb, uint8_t msb);
+  int16_t ConvertToSigned(uint16_t value);
+  int8_t ConvertToSigned(uint8_t value);
+  I2C_HandleTypeDef* hi2c;
+
+  static const uint8_t opr_mode = 0x3d;
+  static const uint8_t ndof = 0b00001100;
 
   /* IMU address */
   static const uint8_t imu_9axis_addr = 0x28;
-
-  /* Data register addresses */
-  static const uint8_t data_reg_first = 0x08;		/* Address of first data register to read */
-  static const uint8_t data_reg_last = 0x34;		/* Address of last data register to read */
+  static const uint8_t address = 0x28;
 
   /* Data register offsets, relative to data_reg_first */
   static const uint8_t acc_data_x_lsb = 0x00;
@@ -98,9 +103,6 @@ private:
   static const uint8_t grv_data_z_lsb = 0x2a;
   static const uint8_t grv_data_z_msb = 0x2b;
   static const uint8_t temp = 0x2c;
-
-  /* Size of all measurement data on sensor, in bytes */
-  static const int data_size = data_reg_last - data_reg_first + 1;
 };
 
 } /* namespace sensor_drivers */

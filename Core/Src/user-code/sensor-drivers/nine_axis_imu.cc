@@ -17,6 +17,7 @@
 
 /* Project .h files */
 #include "../stm32h7xx_hal.h"
+#include "read_write_functions.h"
 
 namespace stm32_code
 {
@@ -33,134 +34,84 @@ NineAxisIMU::~NineAxisIMU()
 
 }
 
-NineAxisIMUData NineAxisIMU::ReadData(I2C_HandleTypeDef* hi2c)
+Status NineAxisIMU::Init(I2C_HandleTypeDef* hi2c)
 {
-  uint8_t buffer[data_size];
-  NineAxisIMUData measurement_data;
-  int status;
+  Status status;
 
-  status = ReadData(hi2c, buffer);
-
-  if (status != 0)
-  {
-	/* Error handling */
-  }
-  else
-  {
-	measurement_data = JoinData(buffer);
-  }
-
-  return measurement_data;
+  this->hi2c = hi2c;
+  status = WriteByte(hi2c, address, opr_mode, ndof);
+  HAL_Delay(50);
+  return status;
 }
 
-int NineAxisIMU::ReadData(I2C_HandleTypeDef* hi2c, uint8_t* buffer)
+Scalar<uint8_t> NineAxisIMU::GetTemperature()
 {
-  HAL_StatusTypeDef ret;
+  Scalar<uint8_t> temperature;
 
-  buffer[0] = data_reg_first;
-  ret = HAL_I2C_Master_Transmit(hi2c, imu_9axis_addr, buffer, 1, HAL_MAX_DELAY);
-
-  if (ret != HAL_OK)
-  {
-    /* Error handling */
-  }
-  else
-  {
-    ret = HAL_I2C_Master_Receive(hi2c, imu_9axis_addr, buffer, data_size, HAL_MAX_DELAY);
-
-    if (ret != HAL_OK)
-    {
-      /* Error handling */
-    }
-    else
-    {
-      return 0;
-    }
-  }
-
-  return -1;
+  temperature.status = ReadByte(hi2c, address, temp, &temperature.value);
+  temperature.value = temperature.value + 25;
+  return temperature;
 }
 
-uint16_t NineAxisIMU::JoinData(uint8_t* raw_data, const uint8_t lsb_location, const uint8_t msb_location)
+Vector3d<float> NineAxisIMU::GetLinearAcceleration()
 {
-  uint16_t lsb = raw_data[lsb_location];
-  uint16_t msb = raw_data[msb_location];
+  Vector3d<float> acceleration;
 
+  uint8_t buffer[6];
+  acceleration.status = ReadBytes(hi2c, address, lia_data_x_lsb, buffer, 6);
+  acceleration.x = ((float)ConvertToSigned(Join(buffer[0], buffer[1]))) / 100.0F;
+  acceleration.y = ((float)ConvertToSigned(Join(buffer[2], buffer[3]))) / 100.0F;
+  acceleration.z = ((float)ConvertToSigned(Join(buffer[4], buffer[5]))) / 100.0F;
+
+  return acceleration;
+}
+
+Quarternion<float> NineAxisIMU::GetQuarternion()
+{
+  Quarternion<float> quarternion;
+
+  uint8_t buffer[8];
+  quarternion.status = ReadBytes(hi2c, address, qua_data_w_lsb, buffer, 8);
+  quarternion.w = ((float)ConvertToSigned(Join(buffer[0], buffer[1]))) / (float)(2^24);
+  quarternion.x = ((float)ConvertToSigned(Join(buffer[2], buffer[3]))) / (float)(2^24);
+  quarternion.y = ((float)ConvertToSigned(Join(buffer[4], buffer[5]))) / (float)(2^24);
+  quarternion.z = ((float)ConvertToSigned(Join(buffer[6], buffer[7]))) / (float)(2^24);
+
+  return quarternion;
+}
+
+uint16_t NineAxisIMU::Join(uint8_t lsb, uint8_t msb)
+{
   return lsb + (msb << 8);
 }
 
-NineAxisIMUData NineAxisIMU::JoinData(uint8_t* raw_data)
+
+int16_t NineAxisIMU::ConvertToSigned(uint16_t value)
 {
-  NineAxisIMUData measurement_data;
+  int16_t sign_mask = 0x8000;
 
-  measurement_data.acc_data.x = JoinData(raw_data, acc_data_x_lsb, acc_data_x_msb);
-  measurement_data.acc_data.y = JoinData(raw_data, acc_data_y_lsb, acc_data_y_msb);
-  measurement_data.acc_data.z = JoinData(raw_data, acc_data_z_lsb, acc_data_z_msb);
-  measurement_data.mag_data.x = JoinData(raw_data, mag_data_x_lsb, mag_data_x_msb);
-  measurement_data.mag_data.y = JoinData(raw_data, mag_data_y_lsb, mag_data_y_msb);
-  measurement_data.mag_data.z = JoinData(raw_data, mag_data_z_lsb, mag_data_z_msb);
-  measurement_data.gyr_data.x = JoinData(raw_data, gyr_data_x_lsb, gyr_data_x_msb);
-  measurement_data.gyr_data.y = JoinData(raw_data, gyr_data_y_lsb, gyr_data_y_msb);
-  measurement_data.gyr_data.z = JoinData(raw_data, gyr_data_z_lsb, gyr_data_z_msb);
-  measurement_data.eul_data.heading = JoinData(raw_data, eul_heading_lsb, eul_heading_msb);
-  measurement_data.eul_data.roll = JoinData(raw_data, eul_roll_lsb, eul_roll_msb);
-  measurement_data.eul_data.pitch = JoinData(raw_data, eul_pitch_lsb, eul_pitch_msb);
-  measurement_data.qua_data.w = JoinData(raw_data, qua_data_w_lsb, qua_data_w_msb);
-  measurement_data.qua_data.x = JoinData(raw_data, qua_data_x_lsb, qua_data_x_msb);
-  measurement_data.qua_data.y = JoinData(raw_data, qua_data_y_lsb, qua_data_y_msb);
-  measurement_data.qua_data.z = JoinData(raw_data, qua_data_z_lsb, qua_data_z_msb);
-  measurement_data.lia_data.x = JoinData(raw_data, lia_data_x_lsb, lia_data_x_msb);
-  measurement_data.lia_data.y = JoinData(raw_data, lia_data_y_lsb, lia_data_y_msb);
-  measurement_data.lia_data.z = JoinData(raw_data, lia_data_z_lsb, lia_data_z_msb);
-  measurement_data.grv_data.x = JoinData(raw_data, grv_data_x_lsb, grv_data_x_msb);
-  measurement_data.grv_data.y = JoinData(raw_data, grv_data_y_lsb, grv_data_y_msb);
-  measurement_data.grv_data.z = JoinData(raw_data, grv_data_z_lsb, grv_data_z_msb);
-  measurement_data.temp = raw_data[temp];
-
-  return measurement_data;
+  if (value & sign_mask)
+  {
+    return value;
+  }
+  else
+  {
+    return -(~value + 1);
+  }
 }
 
-void NineAxisIMU::PrintData(UART_HandleTypeDef* huart, NineAxisIMUData measurement_data)
+int8_t NineAxisIMU::ConvertToSigned(uint8_t value)
 {
-  uint8_t buffer[128];
-  sprintf((char*)buffer, "Acceleration: (%i, %i, %i)\r\n",
-		  measurement_data.acc_data.x,
-		  measurement_data.acc_data.y,
-		  measurement_data.acc_data.z);
-  HAL_UART_Transmit(huart, buffer, strlen((char*)buffer), HAL_MAX_DELAY);
-  sprintf((char*)buffer, "Magnetic field: (%i, %i, %i)\r\n",
-  		  measurement_data.mag_data.x,
-  		  measurement_data.mag_data.y,
-  		  measurement_data.mag_data.z);
-  HAL_UART_Transmit(huart, buffer, strlen((char*)buffer), HAL_MAX_DELAY);
-  sprintf((char*)buffer, "Gyroscope: (%i, %i, %i)\r\n",
-		  measurement_data.gyr_data.x,
-		  measurement_data.gyr_data.y,
-		  measurement_data.gyr_data.z);
-  HAL_UART_Transmit(huart, buffer, strlen((char*)buffer), HAL_MAX_DELAY);
-  sprintf((char*)buffer, "Euler: (%i, %i, %i)\r\n",
-  		  measurement_data.eul_data.heading,
-  		  measurement_data.eul_data.roll,
-  		  measurement_data.eul_data.pitch);
-  HAL_UART_Transmit(huart, buffer, strlen((char*)buffer), HAL_MAX_DELAY);
-  sprintf((char*)buffer, "Quarternion: (%i, %i, %i, %i)\r\n",
-		  measurement_data.qua_data.w,
-		  measurement_data.qua_data.x,
-		  measurement_data.qua_data.y,
-		  measurement_data.qua_data.z);
-  HAL_UART_Transmit(huart, buffer, strlen((char*)buffer), HAL_MAX_DELAY);
-  sprintf((char*)buffer, "Linear acceleration: (%i, %i, %i)\r\n",
-		  measurement_data.lia_data.x,
-		  measurement_data.lia_data.y,
-		  measurement_data.lia_data.z);
-  HAL_UART_Transmit(huart, buffer, strlen((char*)buffer), HAL_MAX_DELAY);
-  sprintf((char*)buffer, "Gravity: (%i, %i, %i)\r\n",
-  		  measurement_data.grv_data.x,
-  		  measurement_data.grv_data.y,
-  		  measurement_data.grv_data.z);
-  HAL_UART_Transmit(huart, buffer, strlen((char*)buffer), HAL_MAX_DELAY);
-  sprintf((char*)buffer, "Temperature: %i\r\n", measurement_data.temp);
-  HAL_UART_Transmit(huart, buffer, strlen((char*)buffer), HAL_MAX_DELAY);
+  int8_t sign_mask = 0x80;
+
+  if (value & sign_mask)
+  {
+    return value;
+  }
+  else
+  {
+	return -(~value + 1);
+  }
 }
 
 } /* namespace sensor_drivers */
