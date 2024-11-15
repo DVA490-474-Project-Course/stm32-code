@@ -84,7 +84,7 @@ Status SixAxisIMU::Init(I2C_HandleTypeDef* hi2c)
   return Status::kOk;
 }
 
-Vector3d<float> SixAxisIMU::GetLinearAcceleration()
+Vector3d<float> SixAxisIMU::GetAcceleration()
 {
   ISDS_state_t dataReady;
   Vector3d<float> acceleration;
