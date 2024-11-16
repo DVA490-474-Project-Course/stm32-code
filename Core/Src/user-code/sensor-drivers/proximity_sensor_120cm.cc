@@ -9,15 +9,9 @@ namespace stm32_code
 namespace sensor_drivers
 {
 
-ProximitySensor120cm::ProximitySensor120cm()
-{
+ProximitySensor120cm::ProximitySensor120cm() {}
 
-}
-
-ProximitySensor120cm::~ProximitySensor120cm()
-{
-
-}
+ProximitySensor120cm::~ProximitySensor120cm() {}
 
 Status ProximitySensor120cm::Init(I2C_HandleTypeDef* hi2c)
 {

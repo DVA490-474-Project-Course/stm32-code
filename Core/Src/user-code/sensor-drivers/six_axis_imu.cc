@@ -12,8 +12,6 @@
 #include "six_axis_imu.h"
 
 /* C++ standard library headers */
-#include <string.h>
-#include <stdio.h>
 
 /* Project .h files */
 #include "../stm32h7xx_hal.h"
@@ -25,15 +23,9 @@ namespace stm32_code
 namespace sensor_drivers
 {
 
-SixAxisIMU::SixAxisIMU()
-{
+SixAxisIMU::SixAxisIMU() {}
 
-}
-
-SixAxisIMU::~SixAxisIMU()
-{
-
-}
+SixAxisIMU::~SixAxisIMU() {}
 
 Status SixAxisIMU::Init(I2C_HandleTypeDef* hi2c)
 {

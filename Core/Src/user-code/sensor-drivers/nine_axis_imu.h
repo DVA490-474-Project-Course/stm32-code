@@ -45,7 +45,7 @@ private:
   /* Operating mode register */
   static const uint8_t opr_mode = 0x3d;
 
-  /* "Nine Degrees Of Freedom" Operation mode; enables all sensors and sensor fusion */
+  /* "Nine Degrees Of Freedom" operation mode, enables all sensors and sensor fusion */
   static const uint8_t ndof = 0b1100;
 
   /* IMU address */
