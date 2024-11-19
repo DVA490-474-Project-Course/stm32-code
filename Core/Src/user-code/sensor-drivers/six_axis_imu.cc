@@ -12,8 +12,6 @@
 #include "six_axis_imu.h"
 
 /* C++ standard library headers */
-#include <string.h>
-#include <stdio.h>
 
 /* Project .h files */
 #include "../stm32h7xx_hal.h"
@@ -25,15 +23,9 @@ namespace stm32_code
 namespace sensor_drivers
 {
 
-SixAxisIMU::SixAxisIMU()
-{
+SixAxisIMU::SixAxisIMU() {}
 
-}
-
-SixAxisIMU::~SixAxisIMU()
-{
-
-}
+SixAxisIMU::~SixAxisIMU() {}
 
 Status SixAxisIMU::Init(I2C_HandleTypeDef* hi2c)
 {
@@ -84,7 +76,7 @@ Status SixAxisIMU::Init(I2C_HandleTypeDef* hi2c)
   return Status::kOk;
 }
 
-Vector3d<float> SixAxisIMU::GetLinearAcceleration()
+Vector3d<float> SixAxisIMU::GetAcceleration()
 {
   ISDS_state_t dataReady;
   Vector3d<float> acceleration;
