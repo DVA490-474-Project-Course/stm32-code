@@ -35,7 +35,7 @@
 namespace stm32_code
 {
 /* sensor_drivers */
-namespace sensor_drivers
+namespace sensor_interface
 {
 /* Initializes the APDS9960 sensor by enabling power and proximity detection. */
 Status InitializeAPDS9960(I2C_HandleTypeDef* hi2c)
@@ -54,5 +54,5 @@ Status ReadProximityData(I2C_HandleTypeDef* hi2c, uint8_t* proximity_data)
   HAL_Delay(10);
 }
 
-} /* namespace sensor_drivers */
+} /* namespace sensor_interface */
 } /* namespace stm32_code */

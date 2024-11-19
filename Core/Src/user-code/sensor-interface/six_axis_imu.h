@@ -18,7 +18,7 @@
 
 namespace stm32_code
 {
-namespace sensor_drivers
+namespace sensor_interface
 {
 
 class SixAxisIMU
@@ -36,7 +36,7 @@ private:
   uint8_t address = 0x6b;
 };
 
-} /* namespace sensor_drivers */
+} /* namespace sensor_interface */
 } /* namespace stm32_code */
 
 #endif /* SENSORDRIVERS_SIXAXISIMU_H */

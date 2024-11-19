@@ -8,13 +8,16 @@
  *==============================================================================
  */
 
+/* Related .h file */
+#include"read_write_functions.h"
+
 /* Projects .h files. */
-#include "../stm32h7xx_hal.h"
 #include "../common_types.h"
+#include "../stm32h7xx_hal.h"
 
 namespace stm32_code
 {
-namespace sensor_drivers
+namespace sensor_interface
 {
 
 /* Read a byte of data from an external component via I2C */
@@ -79,5 +82,5 @@ Status WriteByte(I2C_HandleTypeDef* hi2c, uint8_t i2c_address, uint8_t register_
   }
 }
 
-} /* namespace sensor_drivers */
+} /* namespace sensor_interface */
 } /* namespace stm32_code */

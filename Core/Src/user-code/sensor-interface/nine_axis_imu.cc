@@ -2,22 +2,23 @@
  *==============================================================================
  * Author: Emil Åberg
  * Creation date: 2024-11-11
- * Last modified: 2024-11-15 by Emil Åberg
+ * Last modified: 2024-11-19 by Emil Åberg
  * Description: Driver for the nine axis BNO055 IMU.
  * License: See LICENSE file for license details.
  *==============================================================================
  */
 
-/* Related .h files */
+/* Related .h file */
 #include "../sensor-interface/nine_axis_imu.h"
 
-#include "../stm32h7xx_hal.h"
-
+/* Project .h files */
+#include "../common_types.h"
 #include "../sensor-interface/read_write_functions.h"
+#include "../stm32h7xx_hal.h"
 
 namespace stm32_code
 {
-namespace sensor_drivers
+namespace sensor_interface
 {
 
 NineAxisIMU::NineAxisIMU() {}
@@ -160,7 +161,7 @@ int8_t NineAxisIMU::ConvertToSigned(uint8_t value)
   }
 }
 
-} /* namespace sensor_drivers */
+} /* namespace sensor_interface */
 } /* namespace stm32_code */
 
 

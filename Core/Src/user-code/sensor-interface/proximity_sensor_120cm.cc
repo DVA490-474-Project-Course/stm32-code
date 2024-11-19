@@ -7,7 +7,7 @@
 
 namespace stm32_code
 {
-namespace sensor_drivers
+namespace sensor_interface
 {
 
 ProximitySensor120cm::ProximitySensor120cm() {}
@@ -66,5 +66,5 @@ Scalar<uint16_t> ProximitySensor120cm::GetDistance()
   return distance;
 }
 
-} /* namespace sensor_drivers */
+} /* namespace sensor_interface */
 } /* namespace stm32_code */

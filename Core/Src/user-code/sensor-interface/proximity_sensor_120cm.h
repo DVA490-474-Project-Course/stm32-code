@@ -15,7 +15,7 @@
 
 namespace stm32_code
 {
-namespace sensor_drivers
+namespace sensor_interface
 {
 
 class ProximitySensor120cm
@@ -31,7 +31,7 @@ private:
   I2C_HandleTypeDef* hi2c;
 };
 
-} /* namespace sensor_drivers */
+} /* namespace sensor_interface */
 } /* namespace stm32_code */
 
 

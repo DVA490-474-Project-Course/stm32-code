@@ -17,7 +17,7 @@
 
 namespace stm32_code
 {
-namespace sensor_drivers
+namespace sensor_interface
 {
 
 SixAxisIMU::SixAxisIMU() {}
@@ -151,7 +151,7 @@ Scalar<float> SixAxisIMU::GetTemperature()
 }
 
 
-} /* namespace sensor_drivers */
+} /* namespace sensor_interface */
 } /* namespace stm32_code */
 
 

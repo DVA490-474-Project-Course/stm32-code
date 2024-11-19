@@ -12,12 +12,12 @@
 #define STM32CODE_SENSORINTERFACE_READWRITE_FUNCTIONS_H
 
 /* Projects .h files. */
-#include "../stm32h7xx_hal.h"
 #include "../common_types.h"
+#include "../stm32h7xx_hal.h"
 
 namespace stm32_code
 {
-namespace sensor_drivers
+namespace sensor_interface
 {
 
 /*!
@@ -88,7 +88,7 @@ Status ReadBytes(I2C_HandleTypeDef* hi2c, uint8_t i2c_address, uint8_t register_
  */
 Status WriteByte(I2C_HandleTypeDef* hi2c, uint8_t i2c_address, uint8_t register_address, uint8_t value);
 
-} /* namespace sensor_drivers */
+} /* namespace sensor_interface */
 } /* namespace stm32_code */
 
 #endif /* STM32CODE_SENSORINTERFACE_READWRITE_FUNCTIONS_H */

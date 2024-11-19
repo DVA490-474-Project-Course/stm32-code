@@ -7,7 +7,7 @@
 
 namespace stm32_code
 {
-namespace sensor_drivers
+namespace sensor_interface
 {
 
 ProximitySensor10cm::ProximitySensor10cm() {}
@@ -71,5 +71,5 @@ Scalar<float> ProximitySensor10cm::GetIlluminance()
   return luminosity;
 }
 
-} /* namespace sensor_drivers */
+} /* namespace sensor_interface */
 } /* namespace stm32_code */

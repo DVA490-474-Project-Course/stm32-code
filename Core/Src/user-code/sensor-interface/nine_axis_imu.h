@@ -2,7 +2,7 @@
  *==============================================================================
  * Author: Emil Åberg
  * Creation date: 2024-11-11
- * Last modified: 2024-11-15 by Emil Åberg
+ * Last modified: 2024-11-19 by Emil Åberg
  * Description: Driver for the nine axis BNO055 IMU.
  * License: See LICENSE file for license details.
  *==============================================================================
@@ -12,12 +12,12 @@
 #define STM32CODE_SENSORINTERFACE_NINEAXISIMU_H
 
 /* Project .h files */
-#include "../stm32h7xx_hal.h"
 #include "../common_types.h"
+#include "../stm32h7xx_hal.h"
 
 namespace stm32_code
 {
-namespace sensor_drivers
+namespace sensor_interface
 {
 
 class NineAxisIMU
@@ -70,7 +70,7 @@ private:
   static constexpr float grv_lsb_per_unit = 100.0F;
 };
 
-} /* namespace sensor_drivers */
+} /* namespace sensor_interface */
 } /* namespace stm32_code */
 
 #endif /* STM32CODE_SENSORINTERFACE_NINEAXISIMU_H */

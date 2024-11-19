@@ -8,7 +8,7 @@
 
 namespace stm32_code
 {
-namespace sensor_drivers
+namespace sensor_interface
 {
 
 class ProximitySensor10cm
@@ -25,7 +25,7 @@ private:
   uint8_t i2c_address = (0x29 << 1);
 };
 
-} /* namespace sensor_drivers */
+} /* namespace sensor_interface */
 } /* namespace stm32_code */
 
 
