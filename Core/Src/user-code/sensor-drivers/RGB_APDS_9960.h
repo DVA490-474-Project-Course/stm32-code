@@ -1,8 +1,18 @@
 /*
- * RGB_APDS_9960.h
+ *==============================================================================
+ * Author: Mudar Ibrahim
+ * Creation date: 2024-11-12
+ * Last modified: 2024-11-19 by Mudar Ibrahim
+ * Description: This code defines a driver for the APDS9960 sensor,
+ * which is an advanced proximity and RGB sensor used for various applications,
+ * including proximity detection and ambient light sensing.
+ * The driver is designed for use on an STM32 microcontroller with the HAL library
+ * for I2C communication.
+ * The code implements functions to initialize the APDS9960 sensor
+ * by enabling its power and proximity detection capabilities and to read proximity data from the sensor.
  *
- *  Created on: Nov 12, 2024
- *      Author: Mudar Ibrahim
+ * License: See LICENSE file for license details.
+ *==============================================================================
  */
 
 
@@ -23,20 +33,28 @@ namespace sensor_drivers
 /*!
  * @brief Initializes the APDS9960 sensor by enabling power and proximity detection.
  *
- * Long explanation about what this function does, how it interacts with the hardware,
- * and any specific notes about usage.
+ * This function configures the APDS9960 sensor by writing to the ENABLE register
+ * to turn on the power and enable proximity sensing functionality. This operation
+ * requires communication over the I2C bus.
  *
- * @param[in] hi2c Handle to the I2C peripheral to communicate with the sensor.
- * @return Status Indicates whether the operation was successful or encountered an error.
+ * @param[in] hi2c Handle to the I2C peripheral used for communication with the APDS9960 sensor.
  *
- * @note This function should be called after the I2C peripheral has been initialized.
+ * @return Status Indicates whether the initialization was successful or encountered an error:
+ * - Status::kOk if the operation completed successfully.
+ * - Status::kNotOk if there was an error during communication or setup.
  *
- * @see Other related functions or classes, if applicable.
+ * @note The I2C peripheral must be initialized before calling this function.
+ * @note This function uses the APDS9960 I2C address defined as `APDS9960_ADDR` and writes
+ *       the value `0x05` to enable both power (PON) and proximity detection (PEN).
  *
- * @pre Ensure that the I2C bus is correctly configured and that the APDS9960 sensor is
- * connected and powered.
+ * @see ReadProximityData for reading data from the proximity sensor.
  *
- * @warning Be mindful of the correct I2C address and potential issues with bus contention.
+ * @pre Ensure that:
+ * - The I2C bus is properly configured.
+ * - The APDS9960 sensor is correctly connected and powered.
+ *
+ * @warning Incorrect I2C address or bus issues may cause communication failures.
+ * Verify that the APDS9960 sensor is properly connected and powered before calling this function.
  */
 Status InitializeAPDS9960(I2C_HandleTypeDef* hi2c);
 /*!
