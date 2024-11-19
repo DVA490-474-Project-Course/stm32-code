@@ -13,9 +13,9 @@
 #include "main_cpp.h"
 
 /* Project .h files */
-#include "sensor-drivers/six_axis_imu.h"
-#include "sensor-drivers/nine_axis_imu.h"
-#include "sensor-drivers/proximity_sensor_120cm.h"
+#include "sensor-interface/six_axis_imu.h"
+#include "sensor-interface/nine_axis_imu.h"
+#include "sensor-interface/proximity_sensor_120cm.h"
 #include "../stm32h7xx_hal.h"
 
 /* Declare all necessary peripheral handles as extern */
@@ -33,7 +33,7 @@ extern "C"
 void MainCpp()
 {
   /* Example program to read sensor data via i2c and print it from the PC */
-  stm32_code::sensor_drivers::NineAxisIMU imu;
+  stm32_code::sensor_interface::NineAxisIMU imu;
   stm32_code::Quarternion<float> data;
   uint8_t buffer[128];
 
