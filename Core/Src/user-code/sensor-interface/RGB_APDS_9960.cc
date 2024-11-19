@@ -16,15 +16,14 @@
  */
 
 /*RGB_APDS_9960.h */
-#include "RGB_APDS_9960.h"
-/*read_write_functions.h*/
-#include "read_write_functions.h"
-/*stdio.h '*/
+#include "../sensor-interface/RGB_APDS_9960.h"
+
 #include <stdio.h>
 /*stm32h7xx_hal.h*/
 #include "stm32h7xx_hal.h"
 /*common_types.h*/
 #include "../common_types.h"
+#include "../sensor-interface/read_write_functions.h"
 /*I2C address of the APDS9960*/
 #define APDS9960_ADDR (0x39 << 1)
 /*ENABLE register address*/

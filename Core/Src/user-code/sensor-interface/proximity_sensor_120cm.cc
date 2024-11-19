@@ -1,5 +1,6 @@
 
-#include "proximity_sensor_120cm.h"
+#include "../sensor-interface/proximity_sensor_120cm.h"
+
 #include "../stm32h7xx_hal.h"
 #include "../../../Drivers/VL53L4CD_ULD_Driver/VL53L4CD_api.h"
 #include "../common_types.h"

@@ -8,8 +8,8 @@
  *==============================================================================
  */
 
-#ifndef STM32CODE_SENSORDRIVERS_NINEAXISIMU_H
-#define STM32CODE_SENSORDRIVERS_NINEAXISIMU_H
+#ifndef STM32CODE_SENSORINTERFACE_NINEAXISIMU_H
+#define STM32CODE_SENSORINTERFACE_NINEAXISIMU_H
 
 /* Project .h files */
 #include "../stm32h7xx_hal.h"
@@ -36,7 +36,7 @@ public:
   Quarternion<float> GetQuarternionOrientation();
 
 private:
-  Vector3d<float> Get3dVector(const uint8_t register_address, float factor);
+  Vector3d<float> Get3dVector(const uint8_t register_address, float lsb_per_unit);
   uint16_t Join(uint8_t lsb, uint8_t msb);
   int16_t ConvertToSigned(uint16_t value);
   int8_t ConvertToSigned(uint8_t value);
@@ -52,17 +52,25 @@ private:
   static const uint8_t i2c_address = 0x28 << 1;
 
   /* Data registers */
-  static const uint8_t acc_data_x_lsb = 0x08;
-  static const uint8_t mag_data_x_lsb = 0x0e;
-  static const uint8_t gyr_data_x_lsb = 0x14;
-  static const uint8_t eul_heading_lsb = 0x1a;
-  static const uint8_t qua_data_w_lsb = 0x20;
-  static const uint8_t lia_data_x_lsb = 0x28;
-  static const uint8_t grv_data_x_lsb = 0x2e;
-  static const uint8_t temp = 0x34;
+  static const uint8_t acc_data = 0x08;
+  static const uint8_t mag_data = 0x0e;
+  static const uint8_t gyr_data = 0x14;
+  static const uint8_t eul_data = 0x1a;
+  static const uint8_t qua_data = 0x20;
+  static const uint8_t lia_data = 0x28;
+  static const uint8_t grv_data = 0x2e;
+  static const uint8_t temp_data = 0x34;
+
+  static constexpr float acc_lsb_per_unit = 100.0F;
+  static constexpr float mag_lsb_per_unit = 16.0F;
+  static constexpr float gyr_lsb_per_unit = 16.0F;
+  static constexpr float eul_lsb_per_unit = 16.0F;
+  static constexpr float qua_lsb_per_unit = (2^24);
+  static constexpr float lia_lsb_per_unit = 100.0F;
+  static constexpr float grv_lsb_per_unit = 100.0F;
 };
 
 } /* namespace sensor_drivers */
 } /* namespace stm32_code */
 
-#endif /* STM32CODE_SENSORDRIVERS_NINEAXISIMU_H */
+#endif /* STM32CODE_SENSORINTERFACE_NINEAXISIMU_H */

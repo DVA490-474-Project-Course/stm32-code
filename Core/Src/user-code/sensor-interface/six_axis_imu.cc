@@ -9,11 +9,8 @@
  */
 
 /* Related .h files */
-#include "six_axis_imu.h"
+#include "../sensor-interface/six_axis_imu.h"
 
-/* C++ standard library headers */
-
-/* Project .h files */
 #include "../stm32h7xx_hal.h"
 #include "../../../Drivers/WSEN_ISDS_2536030320001/WSEN_ISDS_2536030320001.h"
 #include "../common_types.h"
