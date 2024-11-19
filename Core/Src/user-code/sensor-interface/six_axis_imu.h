@@ -28,7 +28,7 @@ public:
   virtual ~SixAxisIMU();
   Status Init(I2C_HandleTypeDef* hi2c);
   Vector3d<float> GetAcceleration();
-  Vector3d<float> GetAngularAcceleration();
+  Vector3d<float> GetAngularSpeed();
   Scalar<float> GetTemperature();
 
 private:

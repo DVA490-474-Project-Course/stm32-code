@@ -99,7 +99,7 @@ Vector3d<float> SixAxisIMU::GetAcceleration()
   return acceleration;
 }
 
-Vector3d<float> SixAxisIMU::GetAngularAcceleration()
+Vector3d<float> SixAxisIMU::GetAngularSpeed()
 {
   ISDS_state_t dataReady;
   Vector3d<float> acceleration;

@@ -21,9 +21,8 @@ namespace stm32_code
 namespace sensor_interface
 {
 
+/* Default constructor */
 NineAxisIMU::NineAxisIMU() {}
-
-NineAxisIMU::~NineAxisIMU() {}
 
 /* Initialise the nine axis IMU */
 Status NineAxisIMU::Init(I2C_HandleTypeDef* hi2c)
@@ -61,7 +60,7 @@ Vector3d<float> NineAxisIMU::GetAcceleration()
 }
 
 /* Returns the measured rotational acceleration in m/s² */
-Vector3d<float> NineAxisIMU::GetRotationalAcceleration()
+Vector3d<float> NineAxisIMU::GetRotationalSpeed()
 {
   return Get3dVector(gyr_data, gyr_lsb_per_unit);
 }
