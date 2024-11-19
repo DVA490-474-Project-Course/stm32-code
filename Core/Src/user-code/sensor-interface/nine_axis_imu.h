@@ -310,9 +310,27 @@ private:
    * @brief Least significant bits per degrees/s.
    */
   static constexpr float gyr_lsb_per_unit = 16.0F;
+
+  /*!
+   * @brief Least significant bits per degree.
+   */
   static constexpr float eul_lsb_per_unit = 16.0F;
+
+  /*!
+   * @brief Least significant bits per quarternion unit.
+   */
   static constexpr float qua_lsb_per_unit = (2^24);
+
+  /*!
+   * @brief Least significant bits per m/s² for linear
+   * acceleration.
+   */
   static constexpr float lia_lsb_per_unit = 100.0F;
+
+  /*!
+   * @brief Least significant bits per m/s² for gravity
+   * vector.
+   */
   static constexpr float grv_lsb_per_unit = 100.0F;
 };
 

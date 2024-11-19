@@ -59,7 +59,7 @@ Vector3d<float> NineAxisIMU::GetAcceleration()
   return Get3dVector(acc_data, acc_lsb_per_unit);
 }
 
-/* Returns the measured rotational acceleration in m/s² */
+/* Returns the measured rotational speed in degrees/s */
 Vector3d<float> NineAxisIMU::GetRotationalSpeed()
 {
   return Get3dVector(gyr_data, gyr_lsb_per_unit);
@@ -130,7 +130,7 @@ uint16_t NineAxisIMU::Join(uint8_t lsb, uint8_t msb)
   return lsb + (msb << 8);
 }
 
-/* Convert a 2 byte value in 2's complement form to signed int */
+/* Convert a 16 bit value in 2's complement form to signed int */
 int16_t NineAxisIMU::ConvertToSigned(uint16_t value)
 {
   int16_t sign_mask = 0x8000;
@@ -145,7 +145,7 @@ int16_t NineAxisIMU::ConvertToSigned(uint16_t value)
   }
 }
 
-/* Convert a 1 byte value in 2's complement form to signed int */
+/* Convert a 8 bit value in 2's complement form to signed int */
 int8_t NineAxisIMU::ConvertToSigned(uint8_t value)
 {
   int8_t sign_mask = 0x80;
