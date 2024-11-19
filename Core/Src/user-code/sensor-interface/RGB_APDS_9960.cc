@@ -34,7 +34,7 @@
 /*stm32_code*/
 namespace stm32_code
 {
-/* sensor_drivers */
+/* sensor_interface */
 namespace sensor_interface
 {
 /* Initializes the APDS9960 sensor by enabling power and proximity detection. */
