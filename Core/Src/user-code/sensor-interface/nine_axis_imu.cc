@@ -1,8 +1,8 @@
-/* nine_axis_imu.c
+/* nine_axis_imu.cc
  *==============================================================================
  * Author: Emil Åberg
  * Creation date: 2024-11-11
- * Last modified: 2024-11-19 by Emil Åberg
+ * Last modified: 2024-11-20 by Emil Åberg
  * Description: Driver for the nine axis BNO055 IMU.
  * License: See LICENSE file for license details.
  *==============================================================================

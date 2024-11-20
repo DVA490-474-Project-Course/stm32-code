@@ -2,7 +2,7 @@
  *==============================================================================
  * Author: Emil Åberg
  * Creation date: 2024-11-11
- * Last modified: 2024-11-19 by Emil Åberg
+ * Last modified: 2024-11-20 by Emil Åberg
  * Description: Driver for the nine axis BNO055 IMU.
  * License: See LICENSE file for license details.
  *==============================================================================
@@ -21,9 +21,9 @@ namespace sensor_interface
 {
 
 /*!
- * @brief Class for the driver of the nine axis imu.
+ * @brief Class representing driver control of one BNO055 nine axis imu.
  *
- * Class containing an api interface for the BNO055 nine axis imu.
+ * Class representing driver control of one BNO055 nine axis imu.
  */
 class NineAxisIMU
 {
