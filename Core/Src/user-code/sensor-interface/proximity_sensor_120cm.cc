@@ -26,7 +26,7 @@ namespace sensor_interface
 /* Default constructor */
 ProximitySensor120cm::ProximitySensor120cm() {}
 
-/* Configure the sensor to begin measurements */
+/* Configure the sensor to begin taking measurements */
 Status ProximitySensor120cm::Init(I2C_HandleTypeDef* hi2c)
 {
   VL53L4CD_Error status;

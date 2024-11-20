@@ -179,9 +179,8 @@ private:
   /*!
    * @brief Join two 8 bit values into one 16 bit value.
    *
-   * Take a 16 bit value where least 8 least significant and 8 most significant
-   * bits are separated into separate variables and join them into one 16 bit
-   * variable.
+   * Take a 16 bit value where 8 least and 8 most significant bits are
+   * separated and join them into one 16 bit variable.
    *
    * @param[in] 8 least significant bits.
    * @param[in] 8 most significant bits.

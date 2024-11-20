@@ -41,8 +41,7 @@ public:
   /*!
    * @brief Initializes the sensor.
    *
-   * Configure the sensor to begin all measurements and enable internal sensor
-   * fusion.
+   * Configure the sensor to begin taking measuremets.
    *
    * @param[in] hi2c Pointer to the handle of the I2C peripheral.
    * 
@@ -64,7 +63,7 @@ public:
 
 private:
   /*!
-   * @brief I2C address of the IMU.
+   * @brief I2C address of the distance sensor.
    */
   Dev_t address = 0x52;
 

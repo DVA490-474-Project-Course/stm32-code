@@ -122,8 +122,8 @@ Vector3d<float> NineAxisIMU::Get3dVector(const uint8_t register_address, float l
   return vector;
 }
 
-/* Take a 16 bit value where least 8 least significant and 8 most significant
- * are separated into separate variables and join them into one 16 bit variable.
+/* Take a 16 bit value where 8 least and 8 most significant bits are
+ * separated and join them into one 16 bit variable.
  */
 uint16_t NineAxisIMU::Join(uint8_t lsb, uint8_t msb)
 {

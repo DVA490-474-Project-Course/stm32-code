@@ -1,10 +1,11 @@
-/* proximity_sensor_62cm.cc
+/* proximity_sensor_62cm.h
  *==============================================================================
  * Author: Emil Åberg
  * Creation date: 2024-11-11
  * Last modified: 2024-11-20 by Emil Åberg
- * Description: Driver for the vl6180 62cm proximity sensor. This driver
- * functions as a wrapper for ST's
+ * Description: Driver for the VL6180X 62cm proximity sensor. This driver
+ * functions as a wrapper for Adafruit's VL6180X Driver which can be found
+ * here: https://github.com/adafruit/Adafruit_VL6180X
  * License: See LICENSE file for license details.
  *==============================================================================
  */
@@ -22,8 +23,11 @@ namespace stm32_code
 namespace sensor_interface
 {
 
+/* Default constructor */
 ProximitySensor62cm::ProximitySensor62cm() {}
 
+
+/* Configure the sensor to begin taking measurements */
 Status ProximitySensor62cm::Init(I2C_HandleTypeDef* hi2c)
 {
   bool status;
@@ -41,6 +45,7 @@ Status ProximitySensor62cm::Init(I2C_HandleTypeDef* hi2c)
   }
 }
 
+/* Returns the measured distance in mm */
 Scalar<uint8_t> ProximitySensor62cm::GetDistance()
 {
   Scalar<uint8_t> distance;
@@ -61,6 +66,7 @@ Scalar<uint8_t> ProximitySensor62cm::GetDistance()
   return distance;
 }
 
+/* Returns the measured illuminence in lux */
 Scalar<float> ProximitySensor62cm::GetIlluminance()
 {
   Scalar<float> luminosity;

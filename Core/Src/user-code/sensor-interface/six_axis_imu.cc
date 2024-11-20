@@ -1,9 +1,12 @@
-/* nine_axis_imu.c
+/* nine_axis_imu.cc
  *==============================================================================
  * Author: Emil Åberg
  * Creation date: 2024-11-11
- * Last modified: 2024-11-11 by Emil Åberg
- * Description: Driver for the six axis WSEN-ISDS IMU.
+ * Last modified: 2024-11-20 by Emil Åberg
+ * Description: Driver for the six axis WSEN_ISDS IMU. This driver
+ * functions as a wrapper for Wurth Elektronik's WSEN_ISDS driver which can be
+ * found here:
+ * https://github.com/WurthElektronik/Sensors-SDK_STM32/tree/main/SensorsSDK/WSEN_ISDS_2536030320001
  * License: See LICENSE file for license details.
  *==============================================================================
  */
@@ -20,10 +23,10 @@ namespace stm32_code
 namespace sensor_interface
 {
 
+/* Default constructor */
 SixAxisIMU::SixAxisIMU() {}
 
-SixAxisIMU::~SixAxisIMU() {}
-
+/* Configure the sensor to begin taking measuremets */
 Status SixAxisIMU::Init(I2C_HandleTypeDef* hi2c)
 {
   uint8_t deviceIdValue = 0;
@@ -73,6 +76,7 @@ Status SixAxisIMU::Init(I2C_HandleTypeDef* hi2c)
   return Status::kOk;
 }
 
+/* Get the measured acceleration */
 Vector3d<float> SixAxisIMU::GetAcceleration()
 {
   ISDS_state_t dataReady;
@@ -99,6 +103,7 @@ Vector3d<float> SixAxisIMU::GetAcceleration()
   return acceleration;
 }
 
+/* Get the measured angular speed */
 Vector3d<float> SixAxisIMU::GetAngularSpeed()
 {
   ISDS_state_t dataReady;
@@ -125,6 +130,7 @@ Vector3d<float> SixAxisIMU::GetAngularSpeed()
   return acceleration;
 }
 
+/* Get the measured temperature */
 Scalar<float> SixAxisIMU::GetTemperature()
 {
   ISDS_state_t dataReady;
