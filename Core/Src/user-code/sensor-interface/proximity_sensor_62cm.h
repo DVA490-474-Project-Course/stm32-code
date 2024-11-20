@@ -2,6 +2,7 @@
 #ifndef STM32CODE_SENSORINTERFACE_PROXIMITYSENSOR10CM_H
 #define STM32CODE_SENSORINTERFACE_PROXIMITYSENSOR10CM_H
 
+/* Project .h files */
 #include "../stm32h7xx_hal.h"
 #include "../common_types.h"
 #include "../../../Drivers/Adafruit_VL6180X/Adafruit_VL6180X.h"
@@ -11,11 +12,16 @@ namespace stm32_code
 namespace sensor_interface
 {
 
-class ProximitySensor10cm
+/*!
+ * @brief Class representing driver control of one BNO055 nine axis imu.
+ *
+ * Class representing driver control of one BNO055 nine axis imu.
+ */
+class ProximitySensor62cm
 {
 public:
-  ProximitySensor10cm();
-  ~ProximitySensor10cm();
+  ProximitySensor62cm();
+  ~ProximitySensor62cm();
   Status Init(I2C_HandleTypeDef* hi2c);
   Scalar<uint8_t> GetDistance();
   Scalar<float> GetIlluminance();

@@ -1,20 +1,30 @@
+/* proximity_sensor_62cm.cc
+ *==============================================================================
+ * Author: Emil Åberg
+ * Creation date: 2024-11-11
+ * Last modified: 2024-11-20 by Emil Åberg
+ * Description: Driver for the vl6180 62cm proximity sensor. This driver
+ * functions as a wrapper for ST's
+ * License: See LICENSE file for license details.
+ *==============================================================================
+ */
 
-#include "../sensor-interface/proximity_sensor_10cm.h"
+/* Related .h file */
+#include "../sensor-interface/proximity_sensor_62cm.h"
 
-#include "../stm32h7xx_hal.h"
-#include "../../../Drivers/VL53L4CD_ULD_Driver/VL53L4CD_api.h"
+/* Project .h files */
 #include "../common_types.h"
+#include "../stm32h7xx_hal.h"
+#include "../../../Drivers/Adafruit_VL6180X/Adafruit_VL6180X.h"
 
 namespace stm32_code
 {
 namespace sensor_interface
 {
 
-ProximitySensor10cm::ProximitySensor10cm() {}
+ProximitySensor62cm::ProximitySensor62cm() {}
 
-ProximitySensor10cm::~ProximitySensor10cm() {}
-
-Status ProximitySensor10cm::Init(I2C_HandleTypeDef* hi2c)
+Status ProximitySensor62cm::Init(I2C_HandleTypeDef* hi2c)
 {
   bool status;
 
@@ -31,7 +41,7 @@ Status ProximitySensor10cm::Init(I2C_HandleTypeDef* hi2c)
   }
 }
 
-Scalar<uint8_t> ProximitySensor10cm::GetDistance()
+Scalar<uint8_t> ProximitySensor62cm::GetDistance()
 {
   Scalar<uint8_t> distance;
   uint8_t status;
@@ -51,7 +61,7 @@ Scalar<uint8_t> ProximitySensor10cm::GetDistance()
   return distance;
 }
 
-Scalar<float> ProximitySensor10cm::GetIlluminance()
+Scalar<float> ProximitySensor62cm::GetIlluminance()
 {
   Scalar<float> luminosity;
   uint8_t status;
