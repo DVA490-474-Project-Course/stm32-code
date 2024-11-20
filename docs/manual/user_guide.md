@@ -1,6 +1,8 @@
-About
------------------------
-This repository contains the executable code intended to run on the STM32H7 Nucleo-144 board.
+User Guide
+=======================
+
+@page user_guide User Guide
+
 
 Getting started
 -----------------------
@@ -33,14 +35,3 @@ Usage
 In order to upload the program, connect the PC to the USB port on the side of
 the board where the debug processor is located and press the play button on the
 toolbar at the top of the IDE.
-
-License
------------------------
-Distributed under the MIT License. See [License](/LICENSE) for more information.
-
-Contributors and contact
------------------------
-- Aaiza Aziz Khan: akn23018@student.mdu.se
-- Mudar Ibrahim: mim20004@student.mdu.se
-- Shruthi Puthiya Kunnon: spn23001@student.mdu.se
-- Emil Åberg: eag24002@student.mdu.se

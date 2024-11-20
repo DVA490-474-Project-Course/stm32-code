@@ -1,36 +1,31 @@
 /* common_types.h
  *==============================================================================
- * Author: Carl Larsson
- * Creation date: 2024-09-19
- * Last modified: 2024-10-15 by Emil Åberg
+ * Author: Emil Åberg
+ * Creation date: 2024-11-11
+ * Last modified: 2024-11-20 by Emil Åberg
  * Description: Common types used by the individual robot behaviour program.
  * License: See LICENSE file for license details.
  *==============================================================================
  */
 
-
 #ifndef STM32CODE_COMMONTYPES_H
 #define STM32CODE_COMMONTYPES_H
-
-
-/* Related .h files */
-
-/* C++ standard library headers */
-
-/* Other .h files */
-
-/* Project .h files */
-
 
 namespace stm32_code
 {
 
+/*!
+ * @brief Enum representing status of an operation or value.
+ */
 enum class Status
 {
   kOk = 0,
   kNotOk = -1
 };
 
+/*!
+ * @brief Struct representing a 3D vector with status indicator.
+ */
 template<typename T> struct Vector3d
 {
   T x;
@@ -39,6 +34,9 @@ template<typename T> struct Vector3d
   Status status;
 };
 
+/*!
+ * @brief Struct representing a quarternion value with status indicator.
+ */
 template<typename T> struct Quarternion
 {
   T w;
@@ -48,6 +46,9 @@ template<typename T> struct Quarternion
   Status status;
 };
 
+/*!
+ * @brief Struct representing a rotation with status indicator.
+ */
 template<typename T> struct Rotation
 {
   T heading;
@@ -56,6 +57,9 @@ template<typename T> struct Rotation
   Status status;
 };
 
+/*!
+ * @brief Struct representing a scalar value with status indicator.
+ */
 template<typename T> struct Scalar
 {
   T value;
