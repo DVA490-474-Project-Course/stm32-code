@@ -15,7 +15,6 @@
 #include <stdio.h>
 #include "../stm32h7xx_hal.h"
 
-
 #ifdef __cplusplus
 extern "C"
 {
