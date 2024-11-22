@@ -12,3 +12,4 @@ Core/Src/main.c
 Core/Src/stm32h7xx_hal_msp.c
 Core/Src/stm32h7xx_it.c
 Core/Src/system_stm32h7xx.c
+STM32H723ZGTX_FLASH.ld
