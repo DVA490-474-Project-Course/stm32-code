@@ -19,7 +19,14 @@ namespace stm32_code
  */
 enum class Status
 {
+  /*!
+   * @brief No error has been detected.
+   */
   kOk = 0,
+  /*!
+   * @brief An error has been detected. Accompanying operation or value
+   * is unreliable.
+   */
   kNotOk = -1
 };
 

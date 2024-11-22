@@ -2,7 +2,7 @@
  *==============================================================================
  * Author: Emil Åberg
  * Creation date: 2024-11-11
- * Last modified: 2024-11-11 by Emil Åberg
+ * Last modified: 2024-11-22 by Emil Åberg
  * Description: Function that is called within main.c and serves as the main
  * entry point of the  user defined c++ code.
  * License: See LICENSE file for license details.
@@ -29,7 +29,7 @@ extern UART_HandleTypeDef huart5;
 extern "C"
 {
 
-/* This function serves as the main entry point for the user defined c++ code */
+/* Main entry point for the user defined C++ code */
 void MainCpp()
 {
   /* Example program to read sensor data via i2c and print it from the PC */
