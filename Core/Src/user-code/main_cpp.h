@@ -8,8 +8,8 @@
  * License: See LICENSE file for license details.
  *==============================================================================
  */
-#ifndef MAINCPP_H_
-#define MAINCPP_H_
+#ifndef STM32CODE_MAINCPP_H
+#define STM32CODE_MAINCPP_H
 
 #ifdef __cplusplus
 extern "C"
@@ -29,4 +29,4 @@ void MainCpp();
 }
 #endif
 
-#endif /* MAINCPP_H_ */
+#endif /* STM32CODE_MAINCPP_H */
