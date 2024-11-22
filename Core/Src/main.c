@@ -137,13 +137,12 @@ int main(void)
   MX_UART5_Init();
   MX_I2C5_Init();
   /* USER CODE BEGIN 2 */
-  /* Main entry point for the user defined c++ code. */
-  MainCpp();
 
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
+  MainCpp();
   while (1)
   {
     /* USER CODE END WHILE */

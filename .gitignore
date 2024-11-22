@@ -3,3 +3,12 @@
 **/.metadata/**
 **/.settings/**
 stm32-code Debug.launch
+
+# Ignore generated code files
+Drivers/CMSIS/*
+Drivers/STM32H7xx_HAL_Driver/*
+Core/Inc/*
+Core/Src/main.c
+Core/Src/stm32h7xx_hal_msp.c
+Core/Src/stm32h7xx_it.c
+Core/Src/system_stm32h7xx.c
