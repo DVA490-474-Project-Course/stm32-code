@@ -19,7 +19,7 @@ git clone https://github.com/DVA490-474-Project-Course/stm32-code.git
 ```
 2. Start STM32CubeIDE
 
-3. Log in to your ST account in the IDE if you aren't already.
+3. Log in to your ST account in the IDE if you aren't already logged on.
 
 4. Click 'File>Open Projects from file System...'
 
@@ -27,12 +27,14 @@ git clone https://github.com/DVA490-474-Project-Course/stm32-code.git
 
 6. Make sure the project is selected in the checklist and click 'Finish'.
 
+7. Generate code by clicking 'Project>Generate Code'.
+
 Usage
 -----------------------
 
-In order to upload the program, connect the PC to the USB port on the side of
-the board where the debug processor is located and press the play button on the
-toolbar at the top of the IDE.
+In order to upload the program, connect the PC to the USB port CN1  (the one located on
+the side of the board which contains the smaller processor, which is the debugger) and
+click Run>Run.
 
 License
 -----------------------
