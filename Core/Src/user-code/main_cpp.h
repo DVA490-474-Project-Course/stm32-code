@@ -11,10 +11,6 @@
 #ifndef MAINCPP_H_
 #define MAINCPP_H_
 
-#include <stdint.h>
-#include <stdio.h>
-#include "../stm32h7xx_hal.h"
-
 #ifdef __cplusplus
 extern "C"
 {

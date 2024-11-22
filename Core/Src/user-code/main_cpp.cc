@@ -12,6 +12,9 @@
 /* Related .h files */
 #include "main_cpp.h"
 
+/* C++ standard library headers */
+#include <stdio.h>
+
 /* Project .h files */
 #include "sensor-interface/six_axis_imu.h"
 #include "sensor-interface/nine_axis_imu.h"
