@@ -16,12 +16,11 @@
  */
 
 
-#ifndef APDS9960_DRIVER_H
-#define APDS9960_DRIVER_H
+#ifndef STM32CODE_SENSORINTERFACE_APDS9960_H
+#define STM32CODE_SENSORINTERFACE_APDS9960_H
 
-/* stm32h7xx_hal.h */
+/* Projects .h files. */
 #include "stm32h7xx_hal.h"
-/* common_types.h*/
 #include "../common_types.h"
 
 /* stm32_code*/
@@ -88,4 +87,4 @@ Status ReadProximityData(I2C_HandleTypeDef* hi2c, uint8_t* proximity_data);
 } /* namespace sensor_interface */
 } /* namespace stm32_code */
 
-#endif APDS9960_DRIVER_H /* PROJECTSTRUCTURE_MODULEA_A_H_ */
+#endif STM32CODE_SENSORINTERFACE_APDS9960_H /* STM32CODE_SENSORINTERFACE_APDS9960_H */
