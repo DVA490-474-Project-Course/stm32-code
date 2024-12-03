@@ -87,4 +87,4 @@ Status ReadProximityData(I2C_HandleTypeDef* hi2c, uint8_t* proximity_data);
 } /* namespace sensor_interface */
 } /* namespace stm32_code */
 
-#endif STM32CODE_SENSORINTERFACE_APDS9960_H /* STM32CODE_SENSORINTERFACE_APDS9960_H */
+#endif /* STM32CODE_SENSORINTERFACE_APDS9960_H */
