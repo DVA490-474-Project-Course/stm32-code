@@ -1,4 +1,15 @@
+/* publisher.cc
+ *==============================================================================
+ * Author: Emil Åberg
+ * Creation date: 2024-12-05
+ * Last modified: 2024-12-05 by Emil Åberg
+ * Description: Class representing a ROS node and publisher that can transmit
+ * data to Raspberry Pi connected to peripheral UART5.
+ * License: See LICENSE file for license details.
+ *==============================================================================
+ */
 
+/* C++ standard library headers */
 #include "string"
 
 /* Related .h file */
@@ -8,6 +19,7 @@
 #include "../common_types.h"
 #include "../stm32h7xx_hal.h"
 
+/* Other .h files */
 #include "rcl/rcl.h"
 #include "rcl/error_handling.h"
 #include "rclc/rclc.h"
@@ -37,6 +49,7 @@ namespace stm32_code
 namespace ros_interface
 {
 
+/* Creates a ROS node and publisher instance */
 Publisher::Publisher(const std::string name)
 {
   /* micro-ROS configuration */
@@ -47,13 +60,11 @@ Publisher::Publisher(const std::string name)
 	cubemx_transport_close,
 	cubemx_transport_write,
 	cubemx_transport_read);
-
-  freeRTOS_allocator = rcutils_get_zero_initialized_allocator();
-  freeRTOS_allocator.allocate = microros_allocate;
-  freeRTOS_allocator.deallocate = microros_deallocate;
-  freeRTOS_allocator.reallocate = microros_reallocate;
-  freeRTOS_allocator.zero_allocate =  microros_zero_allocate;
-
+  freertos_allocator = rcutils_get_zero_initialized_allocator();
+  freertos_allocator.allocate = microros_allocate;
+  freertos_allocator.deallocate = microros_deallocate;
+  freertos_allocator.reallocate = microros_reallocate;
+  freertos_allocator.zero_allocate =  microros_zero_allocate;
   allocator = rcl_get_default_allocator();
 
   /* create init_options */
@@ -70,13 +81,16 @@ Publisher::Publisher(const std::string name)
 	(name + "_publisher").c_str());
 }
 
+/* Publishes a new float value */
 Status Publisher::Publish(float value)
 {
   rcl_ret_t ret;
 
+  /* Publish value */
   msg.data = value;
   ret = rcl_publish(&publisher, &msg, NULL);
 
+  /* Return status indicator */
   if (ret != RCL_RET_OK)
   {
     return Status::kNotOk;
