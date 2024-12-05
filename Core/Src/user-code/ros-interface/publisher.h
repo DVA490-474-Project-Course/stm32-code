@@ -32,16 +32,15 @@ class Publisher
 {
 public:
   /*! 
-   * @brief Creates a ROS node and publisher.
+   * @brief Creates a ROS publisher node and topic.
    * 
-   * Creates a ROS node and publisher. The published value will be of message
+   * Creates a ROS node and topic. The topic will be of message
    * type Float32.
    *
-   * @param[in] name First part of the name of the node and publisher. The
-   * created node and publisher will be named '<name>_node' and
-   * '<name>_publisher' respectively.
+   * @param[in] name Name of the topic. The created node  will be named
+   * '<topic_name>_node'.
    */
-  Publisher(const std::string name);
+  Publisher(const std::string topic_name);
 
   /*! 
    * @brief Publish a value.

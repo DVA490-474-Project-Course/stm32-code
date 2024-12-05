@@ -53,7 +53,7 @@ namespace ros_interface
 {
 
 /* Creates a ROS node and publisher instance */
-Publisher::Publisher(const std::string name)
+Publisher::Publisher(const std::string topic_name)
 {
   /* micro-ROS configuration */
   rmw_uros_set_custom_transport(
@@ -74,14 +74,14 @@ Publisher::Publisher(const std::string name)
   rclc_support_init(&support, 0, NULL, &allocator);
 
   /* create node */
-  rclc_node_init_default(&node, (name + "_node").c_str(), "", &support);
+  rclc_node_init_default(&node, (topic_name + "_node").c_str(), "", &support);
 
   /* create publisher */
   rclc_publisher_init_default(
 	&publisher,
 	&node,
 	ROSIDL_GET_MSG_TYPE_SUPPORT(std_msgs, msg, Float32),
-	(name + "_publisher").c_str());
+	topic_name.c_str());
 }
 
 /* Publishes a new float value */
