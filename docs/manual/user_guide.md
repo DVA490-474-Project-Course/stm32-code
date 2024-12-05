@@ -29,9 +29,11 @@ sudo usermod -aG docker $USER
 Log in and out after completing this step in order for group membership to be evaluated.
 
 ### Installation
-1. Clone the repository:
+1. Clone the repository and initialize the microROS submodule:
 ```
 git clone https://github.com/DVA490-474-Project-Course/stm32-code.git
+cd stm32-code
+git submodule update --init --recursive
 ```
 2. Start STM32CubeIDE
 
