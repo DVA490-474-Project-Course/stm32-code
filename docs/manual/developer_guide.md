@@ -22,10 +22,6 @@ unit tests for every function and integration tests for every module, but
 nothing dictates how these tests should be written or structured. However, it
 must not violate the coding standards followed by the project. 
 
-### Testing Framework/Tool
-[Google Test](https://google.github.io/googletest/) is the framework used for 
-software testing and mocking.
-
 Documentation
 -----------------------
 All documentation is to be in British English and must follow scientific 

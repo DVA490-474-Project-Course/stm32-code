@@ -19,7 +19,9 @@
 #include "sensor-interface/six_axis_imu.h"
 #include "sensor-interface/nine_axis_imu.h"
 #include "sensor-interface/proximity_sensor_120cm.h"
+#include "ros-interface/publisher.h"
 #include "../stm32h7xx_hal.h"
+#include "cmsis_os.h"
 
 /* Declare all necessary peripheral handles as extern */
 extern I2C_HandleTypeDef hi2c1;
@@ -35,22 +37,12 @@ extern "C"
 /* Main entry point for the user defined C++ code */
 void MainCpp()
 {
-  /* Example program to read sensor data via i2c and print it from the PC */
-  stm32_code::sensor_interface::NineAxisIMU imu;
-  stm32_code::Quarternion<float> data;
-  uint8_t buffer[128];
+  stm32_code::ros_interface::Publisher publisher("test");
 
-  HAL_Delay(500);
-  imu.Init(&hi2c1);
-
-  while(1)
+  for(;;)
   {
-	data = imu.GetQuarternionOrientation();
-	if (data.status == stm32_code::Status::kOk)
-	{
-	  sprintf((char*)buffer, "%f %f %f %f\r\n", data.w, data.x, data.y, data.z);
-	  HAL_UART_Transmit(&huart3, buffer, strlen((char*)buffer), HAL_MAX_DELAY);
-	}
+	publisher.Publish(32.0F);
+	osDelay(10);
   }
 }
 
