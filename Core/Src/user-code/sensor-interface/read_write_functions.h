@@ -39,7 +39,8 @@ namespace sensor_interface
  * - For 7-bit I2C addresses, the i2c_address parameter must be bit shifted
  * one bit to the left.
  */
-Status ReadByte(I2C_HandleTypeDef* hi2c, uint8_t i2c_address, uint8_t register_address, uint8_t* value);
+Status ReadByte(I2C_HandleTypeDef* hi2c, uint8_t i2c_address,
+    uint8_t register_address, uint8_t* value);
 
 /*!
  * @brief Read a block of data from an external component via I2C.
@@ -66,7 +67,8 @@ Status ReadByte(I2C_HandleTypeDef* hi2c, uint8_t i2c_address, uint8_t register_a
  * - The component has auto-incrementing register pointer; the register
  * pointer is automatically incremented after each byte read.
  */
-Status ReadBytes(I2C_HandleTypeDef* hi2c, uint8_t i2c_address, uint8_t register_address, uint8_t buffer[], int buffer_size);
+Status ReadBytes(I2C_HandleTypeDef* hi2c, uint8_t i2c_address,
+    uint8_t register_address, uint8_t buffer[], int buffer_size);
 
 /*!
  * @brief Write a byte of data to an external component via I2C.
@@ -86,7 +88,8 @@ Status ReadBytes(I2C_HandleTypeDef* hi2c, uint8_t i2c_address, uint8_t register_
  * - For 7-bit I2C addresses, the i2c_address parameter must be bit shifted
  * one bit to the left.
  */
-Status WriteByte(I2C_HandleTypeDef* hi2c, uint8_t i2c_address, uint8_t register_address, uint8_t value);
+Status WriteByte(I2C_HandleTypeDef* hi2c, uint8_t i2c_address,
+    uint8_t register_address, uint8_t value);
 
 } /* namespace sensor_interface */
 } /* namespace stm32_code */

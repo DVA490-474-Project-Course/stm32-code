@@ -174,7 +174,8 @@ private:
    * of x_lsb, x_msb, y_lsb, y_msb, z_lsb, z_msb, starting at register_address.
    * lsb and msb stand for least and most significant bit respectively.
    */
-  Vector3d<float> Get3dVector(const uint8_t register_address, float lsb_per_unit);
+  Vector3d<float> Get3dVector(const uint8_t register_address,
+      float lsb_per_unit);
 
   /*!
    * @brief Join two 8 bit values into one 16 bit value.

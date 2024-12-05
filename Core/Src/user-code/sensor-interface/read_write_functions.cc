@@ -21,7 +21,8 @@ namespace sensor_interface
 {
 
 /* Read a byte of data from an external component via I2C */
-Status ReadByte(I2C_HandleTypeDef* hi2c, uint8_t i2c_address, uint8_t register_address, uint8_t* value)
+Status ReadByte(I2C_HandleTypeDef* hi2c, uint8_t i2c_address,
+    uint8_t register_address, uint8_t* value)
 {
   uint8_t data_write[1];
   uint8_t data_read[1];
@@ -43,7 +44,8 @@ Status ReadByte(I2C_HandleTypeDef* hi2c, uint8_t i2c_address, uint8_t register_a
 }
 
 /* Read a block of data from an external component via I2C */
-Status ReadBytes(I2C_HandleTypeDef* hi2c, uint8_t i2c_address, uint8_t register_address, uint8_t buffer[], int buffer_size)
+Status ReadBytes(I2C_HandleTypeDef* hi2c, uint8_t i2c_address,
+    uint8_t register_address, uint8_t buffer[], int buffer_size)
 {
   uint8_t data_write[1];
   uint8_t status = 0;
@@ -63,7 +65,8 @@ Status ReadBytes(I2C_HandleTypeDef* hi2c, uint8_t i2c_address, uint8_t register_
 }
 
 /* Write a byte of data to an external component via I2C */
-Status WriteByte(I2C_HandleTypeDef* hi2c, uint8_t i2c_address, uint8_t register_address, uint8_t value)
+Status WriteByte(I2C_HandleTypeDef* hi2c, uint8_t i2c_address,
+    uint8_t register_address, uint8_t value)
 {
   uint8_t data_write[2];
   uint8_t status = 0;

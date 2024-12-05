@@ -34,12 +34,12 @@ public:
   /*! 
    * @brief Creates a ROS node and publisher.
    * 
-   * Creates a ROS node and publisher. The published value will be of message type
-   * Float32.
+   * Creates a ROS node and publisher. The published value will be of message
+   * type Float32.
    *
-   * @param[in] name First part of the name of the node and publisher. The created
-   * node and publisher will be named '<name>_node' and '<name>_publisher'
-   * respectively.
+   * @param[in] name First part of the name of the node and publisher. The
+   * created node and publisher will be named '<name>_node' and
+   * '<name>_publisher' respectively.
    */
   Publisher(const std::string name);
 

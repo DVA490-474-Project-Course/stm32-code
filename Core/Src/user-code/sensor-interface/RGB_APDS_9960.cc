@@ -6,10 +6,11 @@
  * Description: This code defines a driver for the APDS9960 sensor,
  * which is an advanced proximity and RGB sensor used for various applications,
  * including proximity detection and ambient light sensing.
- * The driver is designed for use on an STM32 microcontroller with the HAL library
- * for I2C communication.
+ * The driver is designed for use on an STM32 microcontroller with the HAL
+ * library for I2C communication.
  * The code implements functions to initialize the APDS9960 sensor
- * by enabling its power and proximity detection capabilities and to read proximity data from the sensor.
+ * by enabling its power and proximity detection capabilities and to read
+ * proximity data from the sensor.
  *
  * License: See LICENSE file for license details.
  *==============================================================================
@@ -38,9 +39,11 @@ namespace sensor_interface
 /* Initializes the APDS9960 sensor by enabling power and proximity detection. */
 Status InitializeAPDS9960(I2C_HandleTypeDef* hi2c)
 {
-  uint8_t enable_value = 0x05;  /* Enable power (PON) and proximity detection (PEN)*/
+  /* Enable power (PON) and proximity detection (PEN)*/
+  uint8_t enable_value = 0x05;
 
-  /* Write the value to the ENABLE register to enable power and proximity detection*/
+  /* Write the value to the ENABLE register to enable power and proximity
+   * detection*/
   return WriteByte(hi2c, APDS9960_ADDR, ENABLE_REG, enable_value);
   HAL_Delay(10);
 }

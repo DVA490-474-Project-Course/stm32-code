@@ -24,7 +24,8 @@ namespace sensor_interface
 {
 
 /*!
- * @brief Class representing driver control of one VL53L4CD 120cm proximity sensor.
+ * @brief Class representing driver control of one VL53L4CD 120cm proximity
+ * sensor.
  *
  * Class representing driver control of one VL53L4CD 120cm proximity sensor.
  */
