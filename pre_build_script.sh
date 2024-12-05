@@ -1,13 +1,15 @@
 #!/usr/bin/env bash
 # Pre build script that connects generated C code with
-# user written C++ code. Project is configured to run
-# this script automatically before each build.
+# user written C++ code and copies neccessary files from
+# microROS submodule to Core/Src directory.
+# Project is configured to run this script automatically before
+# each build.
 
 FILEPATH=Core/Src/main.c
 INCLUDE='#include "user-code\/main_cpp.h"'
 MAINCALL='MainCpp();'
 
-# Copy nesseccary microROS files from microROS submodule to Src folder
+# Copy nesseccary files from microROS submodule to Core/Src directory
 cp micro_ros_stm32cubemx_utils/extra_sources/custom_memory_manager.c Core/Src/custom_memory_manager.c
 cp micro_ros_stm32cubemx_utils/extra_sources/microros_allocators.c Core/Src/microros_allocators.c
 cp micro_ros_stm32cubemx_utils/extra_sources/microros_time.c Core/Src/microros_time.c
