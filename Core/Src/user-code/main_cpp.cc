@@ -16,10 +16,6 @@
 #include <stdio.h>
 
 /* Project .h files */
-#include "sensor-interface/six_axis_imu.h"
-#include "sensor-interface/nine_axis_imu.h"
-#include "sensor-interface/proximity_sensor_120cm.h"
-#include "ros-interface/publisher.h"
 #include "../stm32h7xx_hal.h"
 #include "cmsis_os.h"
 
@@ -37,11 +33,9 @@ extern "C"
 /* Main entry point for the user defined C++ code */
 void MainCpp()
 {
-  stm32_code::ros_interface::Publisher publisher("test");
 
   for(;;)
   {
-	publisher.Publish(32.0F);
 	osDelay(10);
   }
 }
