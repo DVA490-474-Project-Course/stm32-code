@@ -12,7 +12,7 @@ This project depends on Git, STM32CubeIDE and Docker.
 
 For Git see: https://git-scm.com/downloads
 
-For STM32CubeIDE see: https://docs.nav2.org/getting_started/index.html#installation
+For STM32CubeIDE see: https://www.st.com/en/development-tools/stm32cubeide.html
 
 On Linux, Docker can be installed with the terminal command:
 ```
