@@ -32,7 +32,7 @@ extern UART_HandleTypeDef huart5;
 extern "C"
 {
 
-/* Declarations for functions used by microROS to send topic data via UART */
+/* Declarations for functions defined by microROS to send topic data via UART */
 bool cubemx_transport_open(struct uxrCustomTransport* transport);
 bool cubemx_transport_close(struct uxrCustomTransport* transport);
 size_t cubemx_transport_write(struct uxrCustomTransport* transport,
@@ -57,12 +57,12 @@ Publisher::Publisher(const std::string topic_name)
 {
   /* micro-ROS configuration */
   rmw_uros_set_custom_transport(
-	true,
-	(void *) &huart5,
-	cubemx_transport_open,
-	cubemx_transport_close,
-	cubemx_transport_write,
-	cubemx_transport_read);
+      true,
+      (void *) &huart5,
+      cubemx_transport_open,
+      cubemx_transport_close,
+      cubemx_transport_write,
+      cubemx_transport_read);
   freertos_allocator = rcutils_get_zero_initialized_allocator();
   freertos_allocator.allocate = microros_allocate;
   freertos_allocator.deallocate = microros_deallocate;
@@ -78,10 +78,10 @@ Publisher::Publisher(const std::string topic_name)
 
   /* create publisher */
   rclc_publisher_init_default(
-	&publisher,
-	&node,
-	ROSIDL_GET_MSG_TYPE_SUPPORT(std_msgs, msg, Float32),
-	topic_name.c_str());
+      &publisher,
+      &node,
+      ROSIDL_GET_MSG_TYPE_SUPPORT(std_msgs, msg, Float32),
+      topic_name.c_str());
 }
 
 /* Publishes a new float value */

@@ -28,6 +28,17 @@ namespace stm32_code
 namespace ros_interface
 {
 
+/*!
+ * @brief Class for publishing data to Raspberry Pi as a ROS topic.
+ *
+ * Class for publishing data to Raspberry Pi over UART5 as a ROS topic.
+ *
+ * @note Neither copyable nor moveable.
+ * @note As of writing this, no functionality for receiving the published topic
+ * on the Raspberry Pi side has been developed yet. Anyone wanting to receive the
+ * data sent with this class, will have to look up and implement the neccessary
+ * steps on the Raspberry Pi.
+ */
 class Publisher
 {
 public:
