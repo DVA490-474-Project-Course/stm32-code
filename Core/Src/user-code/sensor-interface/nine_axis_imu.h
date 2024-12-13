@@ -220,20 +220,20 @@ class NineAxisImu
   /*!
    * @brief Operating mode register.
    */
-  static constexpr uint8_t opr_mode_ = 0x3d;
+  static constexpr uint8_t kOprMode_ = 0x3d;
 
   /*!
    * @brief "Nine Degrees Of Freedom" operation mode.
    * 
-   * "Nine Degrees Of Freedom" operation mode. Writing this value to opr_mode_
+   * "Nine Degrees Of Freedom" operation mode. Writing this value to kOprMode_
    * register enables all sensors and internal sensor fusion
    */
-  static constexpr uint8_t ndof_ = 0b1100;
+  static constexpr uint8_t kNdof = 0b1100;
 
   /*!
    * @brief I2C address of the IMU.
    */
-  static constexpr uint8_t i2c_address_ = 0x28 << 1;
+  static constexpr uint8_t kI2cAddress_ = 0x28 << 1;
 
   /*!
    * @brief Starting register address of the acceleration data.
@@ -241,7 +241,7 @@ class NineAxisImu
    * Starting register address of the acceleration data. Acceleration data is
    * stored in this and the following 5 registers.
    */
-  static constexpr uint8_t acc_data_ = 0x08;
+  static constexpr uint8_t kAccData_ = 0x08;
 
   /*!
    * @brief Starting register address of the magnetometer data.
@@ -249,7 +249,7 @@ class NineAxisImu
    * Starting register address of the magnetometer data. Magnetometer data is
    * stored in this and the following 5 registers.
    */
-  static constexpr uint8_t mag_data_ = 0x0e;
+  static constexpr uint8_t kMagData_ = 0x0e;
 
   /*!
    * @brief Starting register address of the gyroscope data.
@@ -257,7 +257,7 @@ class NineAxisImu
    * Starting register address of the gyroscope data. Gyroscope data is
    * stored in this and the following 5 registers.
    */
-  static constexpr uint8_t gyr_data_ = 0x14;
+  static constexpr uint8_t kGyrData_ = 0x14;
 
   /*!
    * @brief Starting register address of the Euler orientation data.
@@ -265,7 +265,7 @@ class NineAxisImu
    * Starting register address of the Euler orientation data. Euler orientation
    * data is stored in this and the following 5 registers.
    */
-  static constexpr uint8_t eul_data_ = 0x1a;
+  static constexpr uint8_t kEulData_ = 0x1a;
 
   /*!
    * @brief Starting register address of the Quarternion orientation data.
@@ -273,7 +273,7 @@ class NineAxisImu
    * Starting register address of the Quarternion orientation data. Quarternion
    * orientation data is stored in this and the following 7 registers.
    */
-  static constexpr uint8_t qua_data_ = 0x20;
+  static constexpr uint8_t kQuaData_ = 0x20;
 
   /*!
    * @brief Starting register address of the linear acceleration data.
@@ -281,7 +281,7 @@ class NineAxisImu
    * Starting register address of the linear acceleration data. Linear
    * acceleration data is stored in this and the following 5 registers.
    */
-  static constexpr uint8_t lia_data_ = 0x28;
+  static constexpr uint8_t kLiaData_ = 0x28;
 
   /*!
    * @brief Starting register address of the gravity data.
@@ -289,49 +289,49 @@ class NineAxisImu
    * Starting register address of the gravity data. Gravity data is
    * stored in this and the following 5 registers.
    */
-  static constexpr uint8_t grv_data_ = 0x2e;
+  static constexpr uint8_t kGrvData_ = 0x2e;
 
   /*!
    * @brief Starting register address of the temperature data.
    */
-  static constexpr uint8_t temp_data_ = 0x34;
+  static constexpr uint8_t kTempData_ = 0x34;
 
   /*!
    * @brief Least significant bits per m/s².
    */
-  static constexpr float acc_lsb_per_unit_ = 100.0F;
+  static constexpr float kAccLsbPerUnit_ = 100.0F;
 
   /*!
    * @brief Least significant bits per micro Tesla.
    */
-  static constexpr float mag_lsb_per_unit_ = 16.0F;
+  static constexpr float kMagLsbPerUnit_ = 16.0F;
 
   /*!
    * @brief Least significant bits per degrees/s.
    */
-  static constexpr float gyr_lsb_per_unit_ = 16.0F;
+  static constexpr float kGyrLsbPerUnit_ = 16.0F;
 
   /*!
    * @brief Least significant bits per degree.
    */
-  static constexpr float eul_lsb_per_unit_ = 16.0F;
+  static constexpr float kEulLsbPerUnit_ = 16.0F;
 
   /*!
    * @brief Least significant bits per quarternion unit.
    */
-  static constexpr float qua_lsb_per_unit_ = (2^24);
+  static constexpr float kQuaLsbPerUnit_ = (2^24);
 
   /*!
    * @brief Least significant bits per m/s² for linear
    * acceleration.
    */
-  static constexpr float lia_lsb_per_unit_ = 100.0F;
+  static constexpr float kLiaLsbPerUnit_ = 100.0F;
 
   /*!
    * @brief Least significant bits per m/s² for gravity
    * vector.
    */
-  static constexpr float grv_lsb_per_unit_ = 100.0F;
+  static constexpr float kGrvLsbPerUnit_ = 100.0F;
 };
 
 } /* namespace sensor_interface */
