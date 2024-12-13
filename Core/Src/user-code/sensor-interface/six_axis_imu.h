@@ -11,8 +11,8 @@
  *==============================================================================
  */
 
-#ifndef SENSORDRIVERS_SIXAXISIMU_H
-#define SENSORDRIVERS_SIXAXISIMU_H
+#ifndef STM32CODE_SENSORDRIVERS_SIXAXISIMU_H
+#define STM32CODE_SENSORDRIVERS_SIXAXISIMU_H
 
 /* Project .h files */
 #include "stm32h7xx_hal.h"
@@ -28,10 +28,12 @@ namespace sensor_interface
  * @brief Class representing driver control of one WSEN_ISDS six axis imu.
  *
  * Class representing driver control of one WSEN_ISDS six axis imu.
+ *
+ * @note Not copyable, not moveable.
  */
 class SixAxisImu
 {
-public:
+ public:
   /*!
    * @brief Default constructor
    *
@@ -86,13 +88,20 @@ public:
    */
   Scalar<float> GetTemperature();
 
-private:
-  WE_sensorInterface_t isds;
-  uint8_t address = 0x6b;
+ private:
+  /*!
+   * @brief An instance of Wurth Electronic's WSEN_ISDS driver.
+   */
+  WE_sensorInterface_t we_driver_;
+
+  /*!
+   * @brief I2C address of the WSEN_ISDS sensor.
+   */
+  uint8_t i2c_address_ = 0x6b;
 };
 
 } /* namespace sensor_interface */
 } /* namespace stm32_code */
 
-#endif /* SENSORDRIVERS_SIXAXISIMU_H */
+#endif /* STM32CODE_SENSORDRIVERS_SIXAXISIMU_H */
 

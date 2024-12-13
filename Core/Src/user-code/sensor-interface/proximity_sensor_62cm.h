@@ -27,6 +27,8 @@ namespace sensor_interface
  * @brief Class representing driver control of one VL6180X proximity sensor.
  *
  * Class representing driver control of one VL6180X proximity sensor.
+ *
+ * @note Not copyable, not moveable.
  */
 class ProximitySensor62cm
 {

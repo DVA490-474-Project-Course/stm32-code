@@ -9,11 +9,11 @@
  */
 
 /* Related .h file */
-#include"read_write_functions.h"
+#include "../../user-code/sensor-interface/read_write_functions.h"
 
 /* Projects .h files. */
-#include "../common_types.h"
-#include "../stm32h7xx_hal.h"
+#include "stm32h7xx_hal.h"
+#include "../../user-code/common_types.h"
 
 namespace stm32_code
 {

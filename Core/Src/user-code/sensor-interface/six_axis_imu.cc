@@ -31,47 +31,47 @@ Status SixAxisImu::Init(I2C_HandleTypeDef* i2c_handle)
 {
   uint8_t deviceIdValue = 0;
 
-  ISDS_getDefaultInterface(&isds);
-  isds.interfaceType = WE_i2c;
-  isds.options.i2c.burstMode = 1;
-  isds.options.i2c.address = address;
-  isds.handle = i2c_handle;
+  ISDS_getDefaultInterface(&we_driver_);
+  we_driver_.interfaceType = WE_i2c;
+  we_driver_.options.i2c.burstMode = 1;
+  we_driver_.options.i2c.address = i2c_address_;
+  we_driver_.handle = i2c_handle;
 
   /* Wait for boot */
   HAL_Delay(50);
 
   /* Communication test */
-  if (WE_SUCCESS != ISDS_getDeviceID(&isds, &deviceIdValue) ||
+  if (WE_SUCCESS != ISDS_getDeviceID(&we_driver_, &deviceIdValue) ||
 		  (deviceIdValue != ISDS_DEVICE_ID_VALUE))
   {
 	  return Status::kNotOk;
   }
 
   /* Perform soft reset of the sensor */
-  ISDS_softReset(&isds, ISDS_enable);
+  ISDS_softReset(&we_driver_, ISDS_enable);
   ISDS_state_t swReset;
   do
   {
-    ISDS_getSoftResetState(&isds, &swReset);
+    ISDS_getSoftResetState(&we_driver_, &swReset);
   }
   while (swReset);
 
   /* Perform reboot (retrieve trimming parameters from nonvolatile memory) */
-  ISDS_reboot(&isds, ISDS_enable);
+  ISDS_reboot(&we_driver_, ISDS_enable);
   HAL_Delay(15);
 
   /* Enable block data update */
-  ISDS_enableBlockDataUpdate(&isds, ISDS_enable);
+  ISDS_enableBlockDataUpdate(&we_driver_, ISDS_enable);
 
   /* Sampling rate (104 Hz) */
-  ISDS_setAccOutputDataRate(&isds, ISDS_accOdr104Hz);
-  ISDS_setGyroOutputDataRate(&isds, ISDS_gyroOdr104Hz);
+  ISDS_setAccOutputDataRate(&we_driver_, ISDS_accOdr104Hz);
+  ISDS_setGyroOutputDataRate(&we_driver_, ISDS_gyroOdr104Hz);
 
   /* Accelerometer 2g range */
-  ISDS_setAccFullScale(&isds, ISDS_accFullScaleTwoG);
+  ISDS_setAccFullScale(&we_driver_, ISDS_accFullScaleTwoG);
 
   /* Gyroscope 2000 dps range */
-  ISDS_setGyroFullScale(&isds, ISDS_gyroFullScale2000dps);
+  ISDS_setGyroFullScale(&we_driver_, ISDS_gyroFullScale2000dps);
 
   return Status::kOk;
 }
@@ -85,12 +85,12 @@ Vector3d<float> SixAxisImu::GetAcceleration()
   /* Wait until the acceleration values are ready to read */
   do
   {
-    ISDS_isAccelerationDataReady(&isds, &dataReady);
+    ISDS_isAccelerationDataReady(&we_driver_, &dataReady);
   }
   while (dataReady == ISDS_disable);
 
   /* Read acceleration values */
-  if (ISDS_getAccelerations_float(&isds, &acceleration.x, &acceleration.y,
+  if (ISDS_getAccelerations_float(&we_driver_, &acceleration.x, &acceleration.y,
 		  &acceleration.z) != WE_SUCCESS)
   {
     acceleration.status = Status::kNotOk;
@@ -112,12 +112,12 @@ Vector3d<float> SixAxisImu::GetAngularSpeed()
   /* Wait until the acceleration values are ready to read */
   do
   {
-    ISDS_isGyroscopeDataReady(&isds, &dataReady);
+    ISDS_isGyroscopeDataReady(&we_driver_, &dataReady);
   }
   while (dataReady == ISDS_disable);
 
   /* Read acceleration values */
-  if (ISDS_getAngularRates_float(&isds, &acceleration.x, &acceleration.y,
+  if (ISDS_getAngularRates_float(&we_driver_, &acceleration.x, &acceleration.y,
 		  &acceleration.z) != WE_SUCCESS)
   {
     acceleration.status = Status::kNotOk;
@@ -139,12 +139,12 @@ Scalar<float> SixAxisImu::GetTemperature()
   /* Wait until the acceleration values are ready to read */
   do
   {
-    ISDS_isTemperatureDataReady(&isds, &dataReady);
+    ISDS_isTemperatureDataReady(&we_driver_, &dataReady);
   }
   while (dataReady == ISDS_disable);
 
   /* Read temperature value */
-  if (ISDS_getTemperature_float(&isds, &temperature.value) != WE_SUCCESS)
+  if (ISDS_getTemperature_float(&we_driver_, &temperature.value) != WE_SUCCESS)
   {
     temperature.status = Status::kNotOk;
   }

@@ -24,6 +24,8 @@ namespace sensor_interface
  * @brief Class representing driver control of one BNO055 nine axis imu.
  *
  * Class representing driver control of one BNO055 nine axis imu.
+ *
+ * @note Not copyable, not moveable.
  */
 class NineAxisImu
 {

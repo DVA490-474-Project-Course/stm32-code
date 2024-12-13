@@ -28,6 +28,8 @@ namespace sensor_interface
  * sensor.
  *
  * Class representing driver control of one VL53L4CD 120cm proximity sensor.
+ *
+ * @note Not copyable, not moveable.
  */
 class ProximitySensor120cm
 {

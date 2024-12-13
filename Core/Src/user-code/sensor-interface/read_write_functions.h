@@ -12,8 +12,8 @@
 #define STM32CODE_SENSORINTERFACE_READWRITEFUNCTIONS_H
 
 /* Projects .h files. */
-#include "../common_types.h"
-#include "../stm32h7xx_hal.h"
+#include "stm32h7xx_hal.h"
+#include "../../user-code/common_types.h"
 
 namespace stm32_code
 {
