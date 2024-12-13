@@ -9,12 +9,12 @@
  */
 
 /* Related .h file */
-#include "../sensor-interface/nine_axis_imu.h"
+#include "../../user-code/sensor-interface/nine_axis_imu.h"
 
 /* Project .h files */
-#include "../common_types.h"
-#include "../sensor-interface/read_write_functions.h"
-#include "../stm32h7xx_hal.h"
+#include "stm32h7xx_hal.h"
+#include "../../user-code/common_types.h"
+#include "../../user-code/sensor-interface/read_write_functions.h"
 
 namespace stm32_code
 {
@@ -22,10 +22,10 @@ namespace sensor_interface
 {
 
 /* Default constructor */
-NineAxisIMU::NineAxisIMU() {}
+NineAxisImu::NineAxisImu() {}
 
 /* Initialise the nine axis IMU */
-Status NineAxisIMU::Init(I2C_HandleTypeDef* hi2c)
+Status NineAxisImu::Init(I2C_HandleTypeDef* hi2c)
 {
   Status status;
 
@@ -36,7 +36,7 @@ Status NineAxisIMU::Init(I2C_HandleTypeDef* hi2c)
 }
 
 /* Returns the measured temperature in degrees celsius */
-Scalar<uint8_t> NineAxisIMU::GetTemperature()
+Scalar<uint8_t> NineAxisImu::GetTemperature()
 {
   Scalar<uint8_t> temperature;
   uint8_t value;
@@ -47,39 +47,39 @@ Scalar<uint8_t> NineAxisIMU::GetTemperature()
 }
 
 /* Returns the measured magnetic field in micro tesla */
-Vector3d<float> NineAxisIMU::GetMagneticField()
+Vector3d<float> NineAxisImu::GetMagneticField()
 {
   return Get3dVector(mag_data, mag_lsb_per_unit);
 }
 
 /* Returns the measured acceleration in m/s², acceleration due to gravity will
  * be included */
-Vector3d<float> NineAxisIMU::GetAcceleration()
+Vector3d<float> NineAxisImu::GetAcceleration()
 {
   return Get3dVector(acc_data, acc_lsb_per_unit);
 }
 
 /* Returns the measured rotational speed in degrees/s */
-Vector3d<float> NineAxisIMU::GetRotationalSpeed()
+Vector3d<float> NineAxisImu::GetRotationalSpeed()
 {
   return Get3dVector(gyr_data, gyr_lsb_per_unit);
 }
 
 /* Returns the measured acceleration in m/s², acceleration due to gravity is
  * compensated for and will not be included */
-Vector3d<float> NineAxisIMU::GetLinearAcceleration()
+Vector3d<float> NineAxisImu::GetLinearAcceleration()
 {
   return Get3dVector(lia_data, lia_lsb_per_unit);
 }
 
 /* Returns the measured gravity vector in m/s² */
-Vector3d<float> NineAxisIMU::GetGravity()
+Vector3d<float> NineAxisImu::GetGravity()
 {
   return Get3dVector(grv_data, grv_lsb_per_unit);
 }
 
 /* Returns the measured orientation in degrees */
-Rotation<float> NineAxisIMU::GetEulerOrientation()
+Rotation<float> NineAxisImu::GetEulerOrientation()
 {
   Rotation<float> rotation;
 
@@ -93,7 +93,7 @@ Rotation<float> NineAxisIMU::GetEulerOrientation()
 }
 
 /* Returns the measured orientation in quarternion units */
-Quarternion<float> NineAxisIMU::GetQuarternionOrientation()
+Quarternion<float> NineAxisImu::GetQuarternionOrientation()
 {
   Quarternion<float> quarternion;
 
@@ -110,7 +110,7 @@ Quarternion<float> NineAxisIMU::GetQuarternionOrientation()
 /* Returns a measurement of a 3d vector whose data addresses are ordered in sequence
  * of x_lsb, x_msb, y_lsb, y_msb, z_lsb, z_msb, starting at register_address.
  */
-Vector3d<float> NineAxisIMU::Get3dVector(const uint8_t register_address, float lsb_per_unit)
+Vector3d<float> NineAxisImu::Get3dVector(const uint8_t register_address, float lsb_per_unit)
 {
   Vector3d<float> vector;
 
@@ -125,13 +125,13 @@ Vector3d<float> NineAxisIMU::Get3dVector(const uint8_t register_address, float l
 /* Take a 16 bit value where 8 least and 8 most significant bits are
  * separated and join them into one 16 bit variable.
  */
-uint16_t NineAxisIMU::Join(uint8_t lsb, uint8_t msb)
+uint16_t NineAxisImu::Join(uint8_t lsb, uint8_t msb)
 {
   return lsb + (msb << 8);
 }
 
 /* Convert a 16 bit value in 2's complement form to signed int */
-int16_t NineAxisIMU::ConvertToSigned(uint16_t value)
+int16_t NineAxisImu::ConvertToSigned(uint16_t value)
 {
   int16_t sign_mask = 0x8000;
 
@@ -146,7 +146,7 @@ int16_t NineAxisIMU::ConvertToSigned(uint16_t value)
 }
 
 /* Convert a 8 bit value in 2's complement form to signed int */
-int8_t NineAxisIMU::ConvertToSigned(uint8_t value)
+int8_t NineAxisImu::ConvertToSigned(uint8_t value)
 {
   int8_t sign_mask = 0x80;
 

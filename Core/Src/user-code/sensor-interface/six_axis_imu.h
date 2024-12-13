@@ -15,8 +15,8 @@
 #define SENSORDRIVERS_SIXAXISIMU_H
 
 /* Project .h files */
-#include "../stm32h7xx_hal.h"
-#include "../common_types.h"
+#include "stm32h7xx_hal.h"
+#include "../../user-code/common_types.h"
 #include "../../../Drivers/WSEN_ISDS_2536030320001/WSEN_ISDS_2536030320001.h"
 
 namespace stm32_code
@@ -29,7 +29,7 @@ namespace sensor_interface
  *
  * Class representing driver control of one WSEN_ISDS six axis imu.
  */
-class SixAxisIMU
+class SixAxisImu
 {
 public:
   /*!
@@ -37,7 +37,7 @@ public:
    *
    * The default constructor.
    */
-  SixAxisIMU();
+  SixAxisImu();
 
   /*!
    * @brief Initializes the sensor.

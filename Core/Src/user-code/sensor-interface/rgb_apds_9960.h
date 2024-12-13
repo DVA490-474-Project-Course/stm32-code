@@ -1,8 +1,8 @@
-/*
+/* rgb_apds_9960.h
  *==============================================================================
  * Author: Mudar Ibrahim
  * Creation date: 2024-11-12
- * Last modified: 2024-11-19 by Mudar Ibrahim
+ * Last modified: 2024-12-13 by Emil Åberg
  * Description: This code defines a driver for the APDS9960 sensor,
  * which is an advanced proximity and RGB sensor used for various applications,
  * including proximity detection and ambient light sensing.
@@ -17,12 +17,19 @@
  */
 
 
-#ifndef STM32CODE_SENSORINTERFACE_APDS9960_H
-#define STM32CODE_SENSORINTERFACE_APDS9960_H
+#ifndef STM32CODE_SENSORINTERFACE_RGBAPDS9960_H
+#define STM32CODE_SENSORINTERFACE_RGBAPDS9960_H
 
 /* Projects .h files. */
 #include "stm32h7xx_hal.h"
-#include "../common_types.h"
+#include "../../user-code/common_types.h"
+
+/*I2C address of the APDS9960*/
+#define APDS9960_ADDR (0x39 << 1)
+/*ENABLE register address*/
+#define ENABLE_REG 0x80
+/*Proximity data register address*/
+#define PDATA_REG 0x9C
 
 /* stm32_code*/
 namespace stm32_code
@@ -61,7 +68,7 @@ namespace sensor_interface
  * Verify that the APDS9960 sensor is properly connected and powered before
  * calling this function.
  */
-Status InitializeAPDS9960(I2C_HandleTypeDef* hi2c);
+Status InitializeApds9960(I2C_HandleTypeDef* i2c_handle);
 /*!
  * @brief Reads proximity data from the APDS9960 sensor.
  *
@@ -85,7 +92,7 @@ Status InitializeAPDS9960(I2C_HandleTypeDef* hi2c);
  * @note This function reads from the PDATA register (address `0x9C`) of the
  * APDS9960 sensor.
  *
- * @see InitializeAPDS9960 for initializing the APDS9960 sensor.
+ * @see InitializeApds9960 for initializing the APDS9960 sensor.
  *
  * @pre Ensure that:
  * - The APDS9960 sensor has been initialized and enabled for proximity sensing.
@@ -94,9 +101,9 @@ Status InitializeAPDS9960(I2C_HandleTypeDef* hi2c);
  * @warning Incorrect I2C configuration or improper initialization of the
  * APDS9960 sensor may lead to communication errors or invalid proximity data.
  */
-Status ReadProximityData(I2C_HandleTypeDef* hi2c, uint8_t* proximity_data);
+Status ReadProximityData(I2C_HandleTypeDef* i2c_handle, uint8_t* proximity_data);
 
 } /* namespace sensor_interface */
 } /* namespace stm32_code */
 
-#endif /* STM32CODE_SENSORINTERFACE_APDS9960_H */
+#endif /* STM32CODE_SENSORINTERFACE_RGBAPDS9960_H */

@@ -2,8 +2,8 @@
  *==============================================================================
  * Author: Emil Åberg
  * Creation date: 2024-11-11
- * Last modified: 2024-11-20 by Emil Åberg
- * Description: Common types used by the individual robot behaviour program.
+ * Last modified: 2024-12-13 by Emil Åberg
+ * Description: Common types used in the stm32-code project.
  * License: See LICENSE file for license details.
  *==============================================================================
  */
@@ -23,6 +23,7 @@ enum class Status
    * @brief No error has been detected.
    */
   kOk = 0,
+
   /*!
    * @brief An error has been detected. Accompanying operation or value
    * is unreliable.

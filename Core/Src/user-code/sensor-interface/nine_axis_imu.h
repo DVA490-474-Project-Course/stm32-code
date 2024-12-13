@@ -12,8 +12,8 @@
 #define STM32CODE_SENSORINTERFACE_NINEAXISIMU_H
 
 /* Project .h files */
-#include "../common_types.h"
-#include "../stm32h7xx_hal.h"
+#include "stm32h7xx_hal.h"
+#include "../../user-code/common_types.h"
 
 namespace stm32_code
 {
@@ -25,7 +25,7 @@ namespace sensor_interface
  *
  * Class representing driver control of one BNO055 nine axis imu.
  */
-class NineAxisIMU
+class NineAxisImu
 {
 public:
   /*!
@@ -33,7 +33,7 @@ public:
    *
    * The default constructor.
    */
-  NineAxisIMU();
+  NineAxisImu();
 
   /*!
    * @brief Initializes the sensor.

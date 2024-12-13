@@ -12,11 +12,11 @@
  */
 
 /* Related .h files */
-#include "../sensor-interface/six_axis_imu.h"
+#include "../../user-code/sensor-interface/six_axis_imu.h"
 
-#include "../stm32h7xx_hal.h"
+#include "stm32h7xx_hal.h"
 #include "../../../Drivers/WSEN_ISDS_2536030320001/WSEN_ISDS_2536030320001.h"
-#include "../common_types.h"
+#include "../../user-code/common_types.h"
 
 namespace stm32_code
 {
@@ -24,10 +24,10 @@ namespace sensor_interface
 {
 
 /* Default constructor */
-SixAxisIMU::SixAxisIMU() {}
+SixAxisImu::SixAxisImu() {}
 
 /* Configure the sensor to begin taking measuremets */
-Status SixAxisIMU::Init(I2C_HandleTypeDef* hi2c)
+Status SixAxisImu::Init(I2C_HandleTypeDef* hi2c)
 {
   uint8_t deviceIdValue = 0;
 
@@ -77,7 +77,7 @@ Status SixAxisIMU::Init(I2C_HandleTypeDef* hi2c)
 }
 
 /* Get the measured acceleration */
-Vector3d<float> SixAxisIMU::GetAcceleration()
+Vector3d<float> SixAxisImu::GetAcceleration()
 {
   ISDS_state_t dataReady;
   Vector3d<float> acceleration;
@@ -104,7 +104,7 @@ Vector3d<float> SixAxisIMU::GetAcceleration()
 }
 
 /* Get the measured angular speed */
-Vector3d<float> SixAxisIMU::GetAngularSpeed()
+Vector3d<float> SixAxisImu::GetAngularSpeed()
 {
   ISDS_state_t dataReady;
   Vector3d<float> acceleration;
@@ -131,7 +131,7 @@ Vector3d<float> SixAxisIMU::GetAngularSpeed()
 }
 
 /* Get the measured temperature */
-Scalar<float> SixAxisIMU::GetTemperature()
+Scalar<float> SixAxisImu::GetTemperature()
 {
   ISDS_state_t dataReady;
   Scalar<float> temperature;
