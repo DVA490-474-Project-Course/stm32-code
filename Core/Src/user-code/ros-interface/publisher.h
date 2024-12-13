@@ -16,8 +16,8 @@
 #include "string"
 
 /* Project .h files */
-#include "../common_types.h"
-#include "../stm32h7xx_hal.h"
+#include "../../user-code/common_types.h"
+#include "stm32h7xx_hal.h"
 
 /* Other .h files */
 #include "rclc/rclc.h"
@@ -27,6 +27,9 @@ namespace stm32_code
 {
 namespace ros_interface
 {
+
+/* external declaration for UART5 which is connected to Raspberry Pi */
+extern UART_HandleTypeDef huart5;
 
 /*!
  * @brief Class for publishing data to Raspberry Pi as a ROS topic.
@@ -38,10 +41,12 @@ namespace ros_interface
  * on the Raspberry Pi side has been developed yet. Anyone wanting to receive the
  * data sent with this class, will have to look up and implement the neccessary
  * steps on the Raspberry Pi.
+ * 
+ * @note Not copyable, not moveable.
  */
 class Publisher
 {
-public:
+ public:
   /*! 
    * @brief Creates a ROS publisher node and topic.
    * 
@@ -65,41 +70,41 @@ public:
    */
   Status Publish(float value);
 
-private:
+ private:
   /*! 
    * @brief Object to handle freertos memory allocation. Datatype defined by
    * microROS.
    */
-  rcl_allocator_t freertos_allocator;
+  rcl_allocator_t freertos_allocator_;
 
   /*! 
    * @brief Object representing the microros publisher. Datatype defined by
    * microROS.
    */
-  rcl_publisher_t publisher;
+  rcl_publisher_t publisher_;
 
   /*! 
    * @brief Object representing the ROS message. Datatype defined by
    * microROS.
    */
-  std_msgs__msg__Float32 msg;
+  std_msgs__msg__Float32 msg_;
 
   /*! 
    * @brief Object representing the node options. Datatype defined by
    * microROS.
    */
-  rclc_support_t support;
+  rclc_support_t support_;
 
   /*! 
    * @brief Object to handle node memory allocation. Datatype defined by
    * microROS.
    */
-  rcl_allocator_t allocator;
+  rcl_allocator_t allocator_;
 
   /*! 
    * @brief Object representing the node. Datatype defined by microROS.
    */
-  rcl_node_t node;
+  rcl_node_t node_;
 };
 
 } /* namespace ros_interface */
