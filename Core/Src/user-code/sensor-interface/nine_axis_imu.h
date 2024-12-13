@@ -2,7 +2,7 @@
  *==============================================================================
  * Author: Emil Åberg
  * Creation date: 2024-11-11
- * Last modified: 2024-11-20 by Emil Åberg
+ * Last modified: 2024-12-13 by Emil Åberg
  * Description: Driver for the nine axis BNO055 IMU.
  * License: See LICENSE file for license details.
  *==============================================================================
@@ -27,7 +27,7 @@ namespace sensor_interface
  */
 class NineAxisImu
 {
-public:
+ public:
   /*!
    * @brief Default constructor
    *
@@ -160,7 +160,7 @@ public:
    */
   Quarternion<float> GetQuarternionOrientation();
 
-private:
+ private:
   /*!
    * @brief Returns a measurement of a 3D vector value.
    *
@@ -199,7 +199,7 @@ private:
    *
    * @return Value in signed int.
    */
-  int16_t ConvertToSigned(uint16_t value);
+  int16_t ConvertToSignedInt16(uint16_t value);
 
   /*!
    * @brief Convert a 8 bit value in 2's complement form to signed int.
@@ -210,7 +210,7 @@ private:
    *
    * @return Value in signed int.
    */
-  int8_t ConvertToSigned(uint8_t value);
+  int8_t ConvertToSignedInt8(uint8_t value);
 
   /*!
    * @brief Pointer to the handle of the I2C peripheral.
@@ -220,7 +220,7 @@ private:
   /*!
    * @brief Operating mode register.
    */
-  static const uint8_t opr_mode = 0x3d;
+  static constexpr uint8_t opr_mode = 0x3d;
 
   /*!
    * @brief "Nine Degrees Of Freedom" operation mode.
@@ -228,12 +228,12 @@ private:
    * "Nine Degrees Of Freedom" operation mode. Writing this value to opr_mode
    * register enables all sensors and internal sensor fusion
    */
-  static const uint8_t ndof = 0b1100;
+  static constexpr uint8_t ndof = 0b1100;
 
   /*!
    * @brief I2C address of the IMU.
    */
-  static const uint8_t i2c_address = 0x28 << 1;
+  static constexpr uint8_t i2c_address = 0x28 << 1;
 
   /*!
    * @brief Starting register address of the acceleration data.
@@ -241,7 +241,7 @@ private:
    * Starting register address of the acceleration data. Acceleration data is
    * stored in this and the following 5 registers.
    */
-  static const uint8_t acc_data = 0x08;
+  static constexpr uint8_t acc_data = 0x08;
 
   /*!
    * @brief Starting register address of the magnetometer data.
@@ -249,7 +249,7 @@ private:
    * Starting register address of the magnetometer data. Magnetometer data is
    * stored in this and the following 5 registers.
    */
-  static const uint8_t mag_data = 0x0e;
+  static constexpr uint8_t mag_data = 0x0e;
 
   /*!
    * @brief Starting register address of the gyroscope data.
@@ -257,7 +257,7 @@ private:
    * Starting register address of the gyroscope data. Gyroscope data is
    * stored in this and the following 5 registers.
    */
-  static const uint8_t gyr_data = 0x14;
+  static constexpr uint8_t gyr_data = 0x14;
 
   /*!
    * @brief Starting register address of the Euler orientation data.
@@ -265,7 +265,7 @@ private:
    * Starting register address of the Euler orientation data. Euler orientation
    * data is stored in this and the following 5 registers.
    */
-  static const uint8_t eul_data = 0x1a;
+  static constexpr uint8_t eul_data = 0x1a;
 
   /*!
    * @brief Starting register address of the Quarternion orientation data.
@@ -273,7 +273,7 @@ private:
    * Starting register address of the Quarternion orientation data. Quarternion
    * orientation data is stored in this and the following 7 registers.
    */
-  static const uint8_t qua_data = 0x20;
+  static constexpr uint8_t qua_data = 0x20;
 
   /*!
    * @brief Starting register address of the linear acceleration data.
@@ -281,7 +281,7 @@ private:
    * Starting register address of the linear acceleration data. Linear
    * acceleration data is stored in this and the following 5 registers.
    */
-  static const uint8_t lia_data = 0x28;
+  static constexpr uint8_t lia_data = 0x28;
 
   /*!
    * @brief Starting register address of the gravity data.
@@ -289,12 +289,12 @@ private:
    * Starting register address of the gravity data. Gravity data is
    * stored in this and the following 5 registers.
    */
-  static const uint8_t grv_data = 0x2e;
+  static constexpr uint8_t grv_data = 0x2e;
 
   /*!
    * @brief Starting register address of the temperature data.
    */
-  static const uint8_t temp_data = 0x34;
+  static constexpr uint8_t temp_data = 0x34;
 
   /*!
    * @brief Least significant bits per m/s².

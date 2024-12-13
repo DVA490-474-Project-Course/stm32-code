@@ -2,7 +2,7 @@
  *==============================================================================
  * Author: Emil Åberg
  * Creation date: 2024-11-11
- * Last modified: 2024-11-20 by Emil Åberg
+ * Last modified: 2024-12-13 by Emil Åberg
  * Description: Driver for the nine axis BNO055 IMU.
  * License: See LICENSE file for license details.
  *==============================================================================
@@ -42,7 +42,7 @@ Scalar<uint8_t> NineAxisImu::GetTemperature()
   uint8_t value;
 
   temperature.status = ReadByte(i2c_handle, i2c_address, temp_data, &value);
-  temperature.value = ConvertToSigned(value);
+  temperature.value = ConvertToSignedInt8(value);
   return temperature;
 }
 
@@ -85,9 +85,12 @@ Rotation<float> NineAxisImu::GetEulerOrientation()
 
   uint8_t buffer[6];
   rotation.status = ReadBytes(i2c_handle, i2c_address, eul_data, buffer, 6);
-  rotation.heading = ((float)ConvertToSigned(Join(buffer[0], buffer[1]))) / eul_lsb_per_unit;
-  rotation.roll = ((float)ConvertToSigned(Join(buffer[2], buffer[3]))) / eul_lsb_per_unit;
-  rotation.pitch = ((float)ConvertToSigned(Join(buffer[4], buffer[5]))) / eul_lsb_per_unit;
+  rotation.heading = ((float)ConvertToSignedInt16(Join(buffer[0], buffer[1]))) /
+      eul_lsb_per_unit;
+  rotation.roll = ((float)ConvertToSignedInt16(Join(buffer[2], buffer[3]))) /
+      eul_lsb_per_unit;
+  rotation.pitch = ((float)ConvertToSignedInt16(Join(buffer[4], buffer[5]))) /
+      eul_lsb_per_unit;
 
   return rotation;
 }
@@ -99,26 +102,35 @@ Quarternion<float> NineAxisImu::GetQuarternionOrientation()
 
   uint8_t buffer[8];
   quarternion.status = ReadBytes(i2c_handle, i2c_address, qua_data, buffer, 8);
-  quarternion.w = ((float)ConvertToSigned(Join(buffer[0], buffer[1]))) / qua_lsb_per_unit;
-  quarternion.x = ((float)ConvertToSigned(Join(buffer[2], buffer[3]))) / qua_lsb_per_unit;
-  quarternion.y = ((float)ConvertToSigned(Join(buffer[4], buffer[5]))) / qua_lsb_per_unit;
-  quarternion.z = ((float)ConvertToSigned(Join(buffer[6], buffer[7]))) / qua_lsb_per_unit;
+  quarternion.w = ((float)ConvertToSignedInt16(Join(buffer[0], buffer[1]))) /
+      qua_lsb_per_unit;
+  quarternion.x = ((float)ConvertToSignedInt16(Join(buffer[2], buffer[3]))) /
+      qua_lsb_per_unit;
+  quarternion.y = ((float)ConvertToSignedInt16(Join(buffer[4], buffer[5]))) /
+      qua_lsb_per_unit;
+  quarternion.z = ((float)ConvertToSignedInt16(Join(buffer[6], buffer[7]))) /
+      qua_lsb_per_unit;
 
   return quarternion;
 }
 
-/* Returns a measurement of a 3d vector whose data addresses are ordered in sequence
- * of x_lsb, x_msb, y_lsb, y_msb, z_lsb, z_msb, starting at register_address.
+/* Returns a measurement of a 3d vector whose data addresses are ordered in
+ * sequence of x_lsb, x_msb, y_lsb, y_msb, z_lsb, z_msb, starting at
+ * register_address.
  */
-Vector3d<float> NineAxisImu::Get3dVector(const uint8_t register_address, float lsb_per_unit)
+Vector3d<float> NineAxisImu::Get3dVector(const uint8_t register_address,
+    float lsb_per_unit)
 {
   Vector3d<float> vector;
 
   uint8_t buffer[6];
   vector.status = ReadBytes(i2c_handle, i2c_address, register_address, buffer, 6);
-  vector.x = ((float)ConvertToSigned(Join(buffer[0], buffer[1]))) / lsb_per_unit;
-  vector.y = ((float)ConvertToSigned(Join(buffer[2], buffer[3]))) / lsb_per_unit;
-  vector.z = ((float)ConvertToSigned(Join(buffer[4], buffer[5]))) / lsb_per_unit;
+  vector.x = ((float)ConvertToSignedInt16(Join(buffer[0], buffer[1]))) /
+      lsb_per_unit;
+  vector.y = ((float)ConvertToSignedInt16(Join(buffer[2], buffer[3]))) /
+      lsb_per_unit;
+  vector.z = ((float)ConvertToSignedInt16(Join(buffer[4], buffer[5]))) /
+      lsb_per_unit;
   return vector;
 }
 
@@ -131,7 +143,7 @@ uint16_t NineAxisImu::Join(uint8_t lsb, uint8_t msb)
 }
 
 /* Convert a 16 bit value in 2's complement form to signed int */
-int16_t NineAxisImu::ConvertToSigned(uint16_t value)
+int16_t NineAxisImu::ConvertToSignedInt16(uint16_t value)
 {
   int16_t sign_mask = 0x8000;
 
@@ -146,7 +158,7 @@ int16_t NineAxisImu::ConvertToSigned(uint16_t value)
 }
 
 /* Convert a 8 bit value in 2's complement form to signed int */
-int8_t NineAxisImu::ConvertToSigned(uint8_t value)
+int8_t NineAxisImu::ConvertToSignedInt8(uint8_t value)
 {
   int8_t sign_mask = 0x80;
 
