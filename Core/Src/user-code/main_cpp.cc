@@ -25,7 +25,7 @@ void MainCpp()
 
   for(;;)
   {
-	  osDelay(10);
+    osDelay(10);
   }
 }
 
