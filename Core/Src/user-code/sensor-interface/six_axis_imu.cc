@@ -29,7 +29,8 @@ SixAxisImu::SixAxisImu() {}
 /* Configure the sensor to begin taking measuremets */
 Status SixAxisImu::Init(I2C_HandleTypeDef* i2c_handle)
 {
-  uint8_t deviceIdValue = 0;
+  uint8_t device_id_value = 0;
+  ISDS_state_t sw_reset;
 
   ISDS_getDefaultInterface(&we_driver_);
   we_driver_.interfaceType = WE_i2c;
@@ -41,20 +42,19 @@ Status SixAxisImu::Init(I2C_HandleTypeDef* i2c_handle)
   HAL_Delay(50);
 
   /* Communication test */
-  if (WE_SUCCESS != ISDS_getDeviceID(&we_driver_, &deviceIdValue) ||
-		  (deviceIdValue != ISDS_DEVICE_ID_VALUE))
+  if (WE_SUCCESS != ISDS_getDeviceID(&we_driver_, &device_id_value) ||
+		  (device_id_value != ISDS_DEVICE_ID_VALUE))
   {
 	  return Status::kNotOk;
   }
 
   /* Perform soft reset of the sensor */
   ISDS_softReset(&we_driver_, ISDS_enable);
-  ISDS_state_t swReset;
   do
   {
-    ISDS_getSoftResetState(&we_driver_, &swReset);
+    ISDS_getSoftResetState(&we_driver_, &sw_reset);
   }
-  while (swReset);
+  while (sw_reset);
 
   /* Perform reboot (retrieve trimming parameters from nonvolatile memory) */
   ISDS_reboot(&we_driver_, ISDS_enable);
@@ -79,15 +79,15 @@ Status SixAxisImu::Init(I2C_HandleTypeDef* i2c_handle)
 /* Get the measured acceleration */
 Vector3d<float> SixAxisImu::GetAcceleration()
 {
-  ISDS_state_t dataReady;
+  ISDS_state_t data_ready;
   Vector3d<float> acceleration;
 
   /* Wait until the acceleration values are ready to read */
   do
   {
-    ISDS_isAccelerationDataReady(&we_driver_, &dataReady);
+    ISDS_isAccelerationDataReady(&we_driver_, &data_ready);
   }
-  while (dataReady == ISDS_disable);
+  while (data_ready == ISDS_disable);
 
   /* Read acceleration values */
   if (ISDS_getAccelerations_float(&we_driver_, &acceleration.x, &acceleration.y,
@@ -106,15 +106,15 @@ Vector3d<float> SixAxisImu::GetAcceleration()
 /* Get the measured angular speed */
 Vector3d<float> SixAxisImu::GetAngularSpeed()
 {
-  ISDS_state_t dataReady;
+  ISDS_state_t data_ready;
   Vector3d<float> acceleration;
 
   /* Wait until the acceleration values are ready to read */
   do
   {
-    ISDS_isGyroscopeDataReady(&we_driver_, &dataReady);
+    ISDS_isGyroscopeDataReady(&we_driver_, &data_ready);
   }
-  while (dataReady == ISDS_disable);
+  while (data_ready == ISDS_disable);
 
   /* Read acceleration values */
   if (ISDS_getAngularRates_float(&we_driver_, &acceleration.x, &acceleration.y,
@@ -133,15 +133,15 @@ Vector3d<float> SixAxisImu::GetAngularSpeed()
 /* Get the measured temperature */
 Scalar<float> SixAxisImu::GetTemperature()
 {
-  ISDS_state_t dataReady;
+  ISDS_state_t data_ready;
   Scalar<float> temperature;
 
   /* Wait until the acceleration values are ready to read */
   do
   {
-    ISDS_isTemperatureDataReady(&we_driver_, &dataReady);
+    ISDS_isTemperatureDataReady(&we_driver_, &data_ready);
   }
-  while (dataReady == ISDS_disable);
+  while (data_ready == ISDS_disable);
 
   /* Read temperature value */
   if (ISDS_getTemperature_float(&we_driver_, &temperature.value) != WE_SUCCESS)
