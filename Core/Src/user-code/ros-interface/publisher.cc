@@ -9,11 +9,11 @@
  *==============================================================================
  */
 
+/* Related .h file */
+#include "../../user-code/ros-interface/publisher.h"
+
 /* C++ standard library headers */
 #include "string"
-
-/* Related .h file */
-#include "../ros-interface/publisher.h"
 
 /* Project .h files */
 #include "../../user-code/common_types.h"

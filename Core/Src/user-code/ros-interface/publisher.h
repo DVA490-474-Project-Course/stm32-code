@@ -20,7 +20,10 @@
 #include "stm32h7xx_hal.h"
 
 /* Other .h files */
+#include "rcl/rcl.h"
+#include "rcl/error_handling.h"
 #include "rclc/rclc.h"
+#include "rmw_microros/rmw_microros.h"
 #include "std_msgs/msg/float32.h"
 
 namespace stm32_code
