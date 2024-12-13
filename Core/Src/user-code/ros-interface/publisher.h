@@ -34,8 +34,7 @@ namespace ros_interface
  * Class for publishing data to Raspberry Pi over UART5 as a ROS topic.
  *
  * @note Neither copyable nor moveable.
- *
- * @warning As of writing this, no functionality for receiving the published topic
+ * @note As of writing this, no functionality for receiving the published topic
  * on the Raspberry Pi side has been developed yet. Anyone wanting to receive the
  * data sent with this class, will have to look up and implement the neccessary
  * steps on the Raspberry Pi.
