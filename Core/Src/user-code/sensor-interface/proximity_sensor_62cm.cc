@@ -32,8 +32,8 @@ Status ProximitySensor62cm::Init(I2C_HandleTypeDef* i2c_handle)
 {
   bool status;
 
-  adafruit_driver = Adafruit_VL6180X(i2c_address);
-  status = adafruit_driver.begin(i2c_handle);
+  adafruit_driver_ = Adafruit_VL6180X(i2c_address_);
+  status = adafruit_driver_.begin(i2c_handle);
 
   if (status == true)
   {
@@ -51,8 +51,8 @@ Scalar<uint8_t> ProximitySensor62cm::GetDistance()
   Scalar<uint8_t> distance;
   uint8_t status;
 
-  status = adafruit_driver.readRangeStatus();
-  distance.value = adafruit_driver.readRange();
+  status = adafruit_driver_.readRangeStatus();
+  distance.value = adafruit_driver_.readRange();
 
   if (status == VL6180X_ERROR_NONE)
   {
@@ -72,8 +72,8 @@ Scalar<float> ProximitySensor62cm::GetIlluminance()
   Scalar<float> luminosity;
   uint8_t status;
 
-  status = adafruit_driver.readRangeStatus();
-  luminosity.value = adafruit_driver.readLux(VL6180X_ALS_GAIN_5);
+  status = adafruit_driver_.readRangeStatus();
+  luminosity.value = adafruit_driver_.readLux(VL6180X_ALS_GAIN_5);
 
   if (status == VL6180X_ERROR_NONE)
   {

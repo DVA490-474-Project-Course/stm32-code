@@ -77,12 +77,12 @@ class ProximitySensor62cm
   /*!
    * @brief An instance of Adafruit's VL6180X driver.
    */
-  Adafruit_VL6180X adafruit_driver;
+  Adafruit_VL6180X adafruit_driver_;
 
   /*!
    * @brief I2C address of the VL6180X sensor.
    */
-  uint8_t i2c_address = (0x29 << 1);
+  uint8_t i2c_address_ = (0x29 << 1);
 };
 
 } /* namespace sensor_interface */
