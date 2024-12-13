@@ -44,11 +44,11 @@ public:
    *
    * Configure the sensor to begin taking measuremets.
    *
-   * @param[in] hi2c Pointer to the handle of the I2C peripheral.
+   * @param[in] i2c_handle Pointer to the handle of the I2C peripheral.
    * 
    * @return Enum indicating wheter initialization was successful.
    */
-  Status Init(I2C_HandleTypeDef* hi2c);
+  Status Init(I2C_HandleTypeDef* i2c_handle);
 
   /*!
    * @brief Get the measured distance.
@@ -71,7 +71,7 @@ private:
   /*!
    * @brief Pointer to the handle of the I2C peripheral.
    */
-  I2C_HandleTypeDef* hi2c;
+  I2C_HandleTypeDef* i2c_handle;
 };
 
 } /* namespace sensor_interface */

@@ -41,7 +41,7 @@ public:
    * Configure the sensor to begin all measurements and enable internal sensor
    * fusion.
    *
-   * @param[in] hi2c Pointer to the handle of the I2C peripheral.
+   * @param[in] i2c_handle Pointer to the handle of the I2C peripheral.
    * 
    * @return Enum indicating wheter initialization was successful.
    *
@@ -51,7 +51,7 @@ public:
    * roughly 0.5s before this method is called to ensure successful
    * initialization.
    */
-  Status Init(I2C_HandleTypeDef* hi2c);
+  Status Init(I2C_HandleTypeDef* i2c_handle);
 
   /*!
    * @brief Get the measured temperature.
@@ -215,7 +215,7 @@ private:
   /*!
    * @brief Pointer to the handle of the I2C peripheral.
    */
-  I2C_HandleTypeDef* hi2c;
+  I2C_HandleTypeDef* i2c_handle;
 
   /*!
    * @brief Operating mode register.

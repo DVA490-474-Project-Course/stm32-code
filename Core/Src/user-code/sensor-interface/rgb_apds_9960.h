@@ -45,8 +45,8 @@ namespace sensor_interface
  * register to turn on the power and enable proximity sensing functionality.
  * This operation requires communication over the I2C bus.
  *
- * @param[in] hi2c Handle to the I2C peripheral used for communication with the
- * APDS9960 sensor.
+ * @param[in] i2c_handle Handle to the I2C peripheral used for communication
+ * with the APDS9960 sensor.
  *
  * @return Status Indicates whether the initialization was successful or
  * encountered an error:
@@ -77,8 +77,8 @@ Status InitializeApds9960(I2C_HandleTypeDef* i2c_handle);
  * the detected proximity levels, allowing further processing or decision-making
  * based on the proximity value.
  *
- * @param[in] hi2c Handle to the I2C peripheral used for communication with the
- * APDS9960 sensor.
+ * @param[in] i2c_handle Handle to the I2C peripheral used for communication
+ * with the APDS9960 sensor.
  * @param[out] proximity_data Pointer to a variable where the read proximity
  * value will be stored.
  *

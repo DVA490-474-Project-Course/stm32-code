@@ -28,12 +28,12 @@ ProximitySensor62cm::ProximitySensor62cm() {}
 
 
 /* Configure the sensor to begin taking measurements */
-Status ProximitySensor62cm::Init(I2C_HandleTypeDef* hi2c)
+Status ProximitySensor62cm::Init(I2C_HandleTypeDef* i2c_handle)
 {
   bool status;
 
   vl = Adafruit_VL6180X(i2c_address);
-  status = vl.begin(hi2c);
+  status = vl.begin(i2c_handle);
 
   if (status == true)
   {

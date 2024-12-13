@@ -25,12 +25,12 @@ namespace sensor_interface
 NineAxisImu::NineAxisImu() {}
 
 /* Initialise the nine axis IMU */
-Status NineAxisImu::Init(I2C_HandleTypeDef* hi2c)
+Status NineAxisImu::Init(I2C_HandleTypeDef* i2c_handle)
 {
   Status status;
 
-  this->hi2c = hi2c;
-  status = WriteByte(hi2c, i2c_address, opr_mode, ndof);
+  this->i2c_handle = i2c_handle;
+  status = WriteByte(i2c_handle, i2c_address, opr_mode, ndof);
   HAL_Delay(50);
   return status;
 }
@@ -41,7 +41,7 @@ Scalar<uint8_t> NineAxisImu::GetTemperature()
   Scalar<uint8_t> temperature;
   uint8_t value;
 
-  temperature.status = ReadByte(hi2c, i2c_address, temp_data, &value);
+  temperature.status = ReadByte(i2c_handle, i2c_address, temp_data, &value);
   temperature.value = ConvertToSigned(value);
   return temperature;
 }
@@ -84,7 +84,7 @@ Rotation<float> NineAxisImu::GetEulerOrientation()
   Rotation<float> rotation;
 
   uint8_t buffer[6];
-  rotation.status = ReadBytes(hi2c, i2c_address, eul_data, buffer, 6);
+  rotation.status = ReadBytes(i2c_handle, i2c_address, eul_data, buffer, 6);
   rotation.heading = ((float)ConvertToSigned(Join(buffer[0], buffer[1]))) / eul_lsb_per_unit;
   rotation.roll = ((float)ConvertToSigned(Join(buffer[2], buffer[3]))) / eul_lsb_per_unit;
   rotation.pitch = ((float)ConvertToSigned(Join(buffer[4], buffer[5]))) / eul_lsb_per_unit;
@@ -98,7 +98,7 @@ Quarternion<float> NineAxisImu::GetQuarternionOrientation()
   Quarternion<float> quarternion;
 
   uint8_t buffer[8];
-  quarternion.status = ReadBytes(hi2c, i2c_address, qua_data, buffer, 8);
+  quarternion.status = ReadBytes(i2c_handle, i2c_address, qua_data, buffer, 8);
   quarternion.w = ((float)ConvertToSigned(Join(buffer[0], buffer[1]))) / qua_lsb_per_unit;
   quarternion.x = ((float)ConvertToSigned(Join(buffer[2], buffer[3]))) / qua_lsb_per_unit;
   quarternion.y = ((float)ConvertToSigned(Join(buffer[4], buffer[5]))) / qua_lsb_per_unit;
@@ -115,7 +115,7 @@ Vector3d<float> NineAxisImu::Get3dVector(const uint8_t register_address, float l
   Vector3d<float> vector;
 
   uint8_t buffer[6];
-  vector.status = ReadBytes(hi2c, i2c_address, register_address, buffer, 6);
+  vector.status = ReadBytes(i2c_handle, i2c_address, register_address, buffer, 6);
   vector.x = ((float)ConvertToSigned(Join(buffer[0], buffer[1]))) / lsb_per_unit;
   vector.y = ((float)ConvertToSigned(Join(buffer[2], buffer[3]))) / lsb_per_unit;
   vector.z = ((float)ConvertToSigned(Join(buffer[4], buffer[5]))) / lsb_per_unit;

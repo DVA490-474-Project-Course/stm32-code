@@ -27,7 +27,7 @@ namespace sensor_interface
 SixAxisImu::SixAxisImu() {}
 
 /* Configure the sensor to begin taking measuremets */
-Status SixAxisImu::Init(I2C_HandleTypeDef* hi2c)
+Status SixAxisImu::Init(I2C_HandleTypeDef* i2c_handle)
 {
   uint8_t deviceIdValue = 0;
 
@@ -35,7 +35,7 @@ Status SixAxisImu::Init(I2C_HandleTypeDef* hi2c)
   isds.interfaceType = WE_i2c;
   isds.options.i2c.burstMode = 1;
   isds.options.i2c.address = address;
-  isds.handle = hi2c;
+  isds.handle = i2c_handle;
 
   /* Wait for boot */
   HAL_Delay(50);

@@ -26,7 +26,7 @@ namespace sensor_interface
  * Read a byte of data from a register on an external component via I2C and
  * write it to a specified variable.
  *
- * @param[in] hi2c Pointer to the handle of the I2C peripheral.
+ * @param[in] i2c_handle Pointer to the handle of the I2C peripheral.
  * @param[in] i2c_address I2C address of the component to read from.
  * @param[in] register_address Address of the register to read from.
  * @param[out] value Pointer to the variable to write the data to.
@@ -39,7 +39,7 @@ namespace sensor_interface
  * - For 7-bit I2C addresses, the i2c_address parameter must be bit shifted
  * one bit to the left.
  */
-Status ReadByte(I2C_HandleTypeDef* hi2c, uint8_t i2c_address,
+Status ReadByte(I2C_HandleTypeDef* i2c_handle, uint8_t i2c_address,
     uint8_t register_address, uint8_t* value);
 
 /*!
@@ -48,7 +48,7 @@ Status ReadByte(I2C_HandleTypeDef* hi2c, uint8_t i2c_address,
  * Read a block of data from an external component via I2C and write it
  * to a byte array.
  *
- * @param[in] hi2c Pointer to the handle of the I2C peripheral.
+ * @param[in] i2c_handle Pointer to the handle of the I2C peripheral.
  * @param[in] i2c_address I2C address of the component to read from.
  * @param[in] register_address Address of the first register to read from.
  * @param[out] buffer Byte array to write the output data to.
@@ -67,7 +67,7 @@ Status ReadByte(I2C_HandleTypeDef* hi2c, uint8_t i2c_address,
  * - The component has auto-incrementing register pointer; the register
  * pointer is automatically incremented after each byte read.
  */
-Status ReadBytes(I2C_HandleTypeDef* hi2c, uint8_t i2c_address,
+Status ReadBytes(I2C_HandleTypeDef* i2c_handle, uint8_t i2c_address,
     uint8_t register_address, uint8_t buffer[], int buffer_size);
 
 /*!
@@ -75,7 +75,7 @@ Status ReadBytes(I2C_HandleTypeDef* hi2c, uint8_t i2c_address,
  *
  * Write a byte of data to a register on an external component via I2C.
  *
- * @param[in] hi2c Pointer to the handle of the I2C peripheral.
+ * @param[in] i2c_handle Pointer to the handle of the I2C peripheral.
  * @param[in] i2c_address I2C address of the component to write to.
  * @param[in] register_address Address of the register to write to.
  * @param[in] value Data to write.
@@ -88,7 +88,7 @@ Status ReadBytes(I2C_HandleTypeDef* hi2c, uint8_t i2c_address,
  * - For 7-bit I2C addresses, the i2c_address parameter must be bit shifted
  * one bit to the left.
  */
-Status WriteByte(I2C_HandleTypeDef* hi2c, uint8_t i2c_address,
+Status WriteByte(I2C_HandleTypeDef* i2c_handle, uint8_t i2c_address,
     uint8_t register_address, uint8_t value);
 
 } /* namespace sensor_interface */
