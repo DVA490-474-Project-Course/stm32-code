@@ -11,11 +11,11 @@
  */
 
 /* Related .h file */
-#include "../sensor-interface/proximity_sensor_62cm.h"
+#include "../../user-code/sensor-interface/proximity_sensor_62cm.h"
 
 /* Project .h files */
-#include "../common_types.h"
-#include "../stm32h7xx_hal.h"
+#include "stm32h7xx_hal.h"
+#include "../../user-code/common_types.h"
 #include "../../../Drivers/Adafruit_VL6180X/Adafruit_VL6180X.h"
 
 namespace stm32_code
@@ -32,8 +32,8 @@ Status ProximitySensor62cm::Init(I2C_HandleTypeDef* i2c_handle)
 {
   bool status;
 
-  vl = Adafruit_VL6180X(i2c_address);
-  status = vl.begin(i2c_handle);
+  adafruit_driver = Adafruit_VL6180X(i2c_address);
+  status = adafruit_driver.begin(i2c_handle);
 
   if (status == true)
   {
@@ -41,7 +41,7 @@ Status ProximitySensor62cm::Init(I2C_HandleTypeDef* i2c_handle)
   }
   else
   {
-	return Status::kNotOk;
+    return Status::kNotOk;
   }
 }
 
@@ -51,12 +51,12 @@ Scalar<uint8_t> ProximitySensor62cm::GetDistance()
   Scalar<uint8_t> distance;
   uint8_t status;
 
-  status = vl.readRangeStatus();
-  distance.value = vl.readRange();
+  status = adafruit_driver.readRangeStatus();
+  distance.value = adafruit_driver.readRange();
 
   if (status == VL6180X_ERROR_NONE)
   {
-	distance.status = Status::kOk;
+    distance.status = Status::kOk;
   }
   else
   {
@@ -72,16 +72,16 @@ Scalar<float> ProximitySensor62cm::GetIlluminance()
   Scalar<float> luminosity;
   uint8_t status;
 
-  status = vl.readRangeStatus();
-  luminosity.value = vl.readLux(VL6180X_ALS_GAIN_5);
+  status = adafruit_driver.readRangeStatus();
+  luminosity.value = adafruit_driver.readLux(VL6180X_ALS_GAIN_5);
 
   if (status == VL6180X_ERROR_NONE)
   {
-	luminosity.status = Status::kOk;
+    luminosity.status = Status::kOk;
   }
   else
   {
-	luminosity.status = Status::kNotOk;
+    luminosity.status = Status::kNotOk;
   }
 
   return luminosity;
