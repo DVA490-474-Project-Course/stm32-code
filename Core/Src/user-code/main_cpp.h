@@ -11,6 +11,18 @@
 #ifndef STM32CODE_MAINCPP_H
 #define STM32CODE_MAINCPP_H
 
+/* Project .h files */
+#include "stm32h7xx_hal.h"
+#include "cmsis_os.h"
+
+/* Declare all necessary peripheral handles as extern */
+extern I2C_HandleTypeDef hi2c1;
+extern I2C_HandleTypeDef hi2c2;
+extern I2C_HandleTypeDef hi2c4;
+extern I2C_HandleTypeDef hi2c5;
+extern UART_HandleTypeDef huart3;
+extern UART_HandleTypeDef huart5;
+
 #ifdef __cplusplus
 extern "C"
 {

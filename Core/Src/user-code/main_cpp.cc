@@ -10,22 +10,11 @@
  */
 
 /* Related .h files */
-#include "main_cpp.h"
-
-/* C++ standard library headers */
-#include <stdio.h>
+#include "../../Src/user-code/main_cpp.h"
 
 /* Project .h files */
-#include "../stm32h7xx_hal.h"
+#include "stm32h7xx_hal.h"
 #include "cmsis_os.h"
-
-/* Declare all necessary peripheral handles as extern */
-extern I2C_HandleTypeDef hi2c1;
-extern I2C_HandleTypeDef hi2c2;
-extern I2C_HandleTypeDef hi2c4;
-extern I2C_HandleTypeDef hi2c5;
-extern UART_HandleTypeDef huart3;
-extern UART_HandleTypeDef huart5;
 
 extern "C"
 {
