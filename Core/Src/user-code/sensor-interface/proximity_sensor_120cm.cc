@@ -11,12 +11,12 @@
  */
 
 /* Related .h file */
-#include "../sensor-interface/proximity_sensor_120cm.h"
+#include "../../user-code/sensor-interface/proximity_sensor_120cm.h"
 
 /* Project .h files */
-#include "../stm32h7xx_hal.h"
+#include "stm32h7xx_hal.h"
 #include "../../../Drivers/VL53L4CD_ULD_Driver/VL53L4CD_api.h"
-#include "../common_types.h"
+#include "../../user-code/common_types.h"
 
 namespace stm32_code
 {

@@ -14,8 +14,8 @@
 #define STM32CODE_SENSORINTERFACE_PROXIMITYSENSOR120CM_H
 
 /* Project .h files */
-#include "../stm32h7xx_hal.h"
-#include "../common_types.h"
+#include "stm32h7xx_hal.h"
+#include "../../user-code/common_types.h"
 #include "../../../Drivers/VL53L4CD_ULD_Driver/VL53L4CD_api.h"
 
 namespace stm32_code
@@ -31,7 +31,7 @@ namespace sensor_interface
  */
 class ProximitySensor120cm
 {
-public:
+ public:
   /*!
    * @brief Default constructor
    *
@@ -62,11 +62,11 @@ public:
    */
   Scalar<uint16_t> GetDistance();
 
-private:
+ private:
   /*!
    * @brief I2C address of the distance sensor.
    */
-  Dev_t address = 0x52;
+  static constexpr Dev_t i2c_address = 0x52;
 
   /*!
    * @brief Pointer to the handle of the I2C peripheral.
