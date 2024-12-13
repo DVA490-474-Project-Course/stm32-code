@@ -8,8 +8,8 @@
  *==============================================================================
  */
 
-#ifndef STM32CODE_SENSORINTERFACE_READWRITE_FUNCTIONS_H
-#define STM32CODE_SENSORINTERFACE_READWRITE_FUNCTIONS_H
+#ifndef STM32CODE_SENSORINTERFACE_READWRITEFUNCTIONS_H
+#define STM32CODE_SENSORINTERFACE_READWRITEFUNCTIONS_H
 
 /* Projects .h files. */
 #include "../common_types.h"
@@ -94,4 +94,4 @@ Status WriteByte(I2C_HandleTypeDef* i2c_handle, uint8_t i2c_address,
 } /* namespace sensor_interface */
 } /* namespace stm32_code */
 
-#endif /* STM32CODE_SENSORINTERFACE_READWRITE_FUNCTIONS_H */
+#endif /* STM32CODE_SENSORINTERFACE_READWRITEFUNCTIONS_H */
