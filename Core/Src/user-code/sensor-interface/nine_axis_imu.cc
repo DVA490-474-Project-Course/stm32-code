@@ -29,8 +29,8 @@ Status NineAxisImu::Init(I2C_HandleTypeDef* i2c_handle)
 {
   Status status;
 
-  this->i2c_handle = i2c_handle;
-  status = WriteByte(i2c_handle, i2c_address, opr_mode, ndof);
+  i2c_handle_ = i2c_handle;
+  status = WriteByte(i2c_handle, i2c_address_, opr_mode_, ndof_);
   HAL_Delay(50);
   return status;
 }
@@ -41,7 +41,7 @@ Scalar<uint8_t> NineAxisImu::GetTemperature()
   Scalar<uint8_t> temperature;
   uint8_t value;
 
-  temperature.status = ReadByte(i2c_handle, i2c_address, temp_data, &value);
+  temperature.status = ReadByte(i2c_handle_, i2c_address_, temp_data_, &value);
   temperature.value = ConvertToSignedInt8(value);
   return temperature;
 }
@@ -49,33 +49,33 @@ Scalar<uint8_t> NineAxisImu::GetTemperature()
 /* Returns the measured magnetic field in micro tesla */
 Vector3d<float> NineAxisImu::GetMagneticField()
 {
-  return Get3dVector(mag_data, mag_lsb_per_unit);
+  return Get3dVector(mag_data_, mag_lsb_per_unit_);
 }
 
 /* Returns the measured acceleration in m/s², acceleration due to gravity will
  * be included */
 Vector3d<float> NineAxisImu::GetAcceleration()
 {
-  return Get3dVector(acc_data, acc_lsb_per_unit);
+  return Get3dVector(acc_data_, acc_lsb_per_unit_);
 }
 
 /* Returns the measured rotational speed in degrees/s */
 Vector3d<float> NineAxisImu::GetRotationalSpeed()
 {
-  return Get3dVector(gyr_data, gyr_lsb_per_unit);
+  return Get3dVector(gyr_data_, gyr_lsb_per_unit_);
 }
 
 /* Returns the measured acceleration in m/s², acceleration due to gravity is
  * compensated for and will not be included */
 Vector3d<float> NineAxisImu::GetLinearAcceleration()
 {
-  return Get3dVector(lia_data, lia_lsb_per_unit);
+  return Get3dVector(lia_data_, lia_lsb_per_unit_);
 }
 
 /* Returns the measured gravity vector in m/s² */
 Vector3d<float> NineAxisImu::GetGravity()
 {
-  return Get3dVector(grv_data, grv_lsb_per_unit);
+  return Get3dVector(grv_data_, grv_lsb_per_unit_);
 }
 
 /* Returns the measured orientation in degrees */
@@ -84,13 +84,13 @@ Rotation<float> NineAxisImu::GetEulerOrientation()
   Rotation<float> rotation;
 
   uint8_t buffer[6];
-  rotation.status = ReadBytes(i2c_handle, i2c_address, eul_data, buffer, 6);
+  rotation.status = ReadBytes(i2c_handle_, i2c_address_, eul_data_, buffer, 6);
   rotation.heading = ((float)ConvertToSignedInt16(Join(buffer[0], buffer[1]))) /
-      eul_lsb_per_unit;
+      eul_lsb_per_unit_;
   rotation.roll = ((float)ConvertToSignedInt16(Join(buffer[2], buffer[3]))) /
-      eul_lsb_per_unit;
+      eul_lsb_per_unit_;
   rotation.pitch = ((float)ConvertToSignedInt16(Join(buffer[4], buffer[5]))) /
-      eul_lsb_per_unit;
+      eul_lsb_per_unit_;
 
   return rotation;
 }
@@ -101,15 +101,15 @@ Quarternion<float> NineAxisImu::GetQuarternionOrientation()
   Quarternion<float> quarternion;
 
   uint8_t buffer[8];
-  quarternion.status = ReadBytes(i2c_handle, i2c_address, qua_data, buffer, 8);
+  quarternion.status = ReadBytes(i2c_handle_, i2c_address_, qua_data_, buffer, 8);
   quarternion.w = ((float)ConvertToSignedInt16(Join(buffer[0], buffer[1]))) /
-      qua_lsb_per_unit;
+      qua_lsb_per_unit_;
   quarternion.x = ((float)ConvertToSignedInt16(Join(buffer[2], buffer[3]))) /
-      qua_lsb_per_unit;
+      qua_lsb_per_unit_;
   quarternion.y = ((float)ConvertToSignedInt16(Join(buffer[4], buffer[5]))) /
-      qua_lsb_per_unit;
+      qua_lsb_per_unit_;
   quarternion.z = ((float)ConvertToSignedInt16(Join(buffer[6], buffer[7]))) /
-      qua_lsb_per_unit;
+      qua_lsb_per_unit_;
 
   return quarternion;
 }
@@ -124,7 +124,7 @@ Vector3d<float> NineAxisImu::Get3dVector(const uint8_t register_address,
   Vector3d<float> vector;
 
   uint8_t buffer[6];
-  vector.status = ReadBytes(i2c_handle, i2c_address, register_address, buffer, 6);
+  vector.status = ReadBytes(i2c_handle_, i2c_address_, register_address, buffer, 6);
   vector.x = ((float)ConvertToSignedInt16(Join(buffer[0], buffer[1]))) /
       lsb_per_unit;
   vector.y = ((float)ConvertToSignedInt16(Join(buffer[2], buffer[3]))) /
