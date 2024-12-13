@@ -28,7 +28,7 @@ namespace stm32_code
 namespace ros_interface
 {
 
-/* external declaration for UART5 which is connected to Raspberry Pi */
+/* external declaration for UART5 handle, which is connected to Raspberry Pi */
 extern UART_HandleTypeDef huart5;
 
 /*!
