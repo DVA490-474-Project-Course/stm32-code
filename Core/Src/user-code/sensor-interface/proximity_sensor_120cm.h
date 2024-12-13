@@ -66,12 +66,12 @@ class ProximitySensor120cm
   /*!
    * @brief I2C address of the distance sensor.
    */
-  static constexpr Dev_t i2c_address = 0x52;
+  static constexpr Dev_t i2c_address_ = 0x52;
 
   /*!
    * @brief Pointer to the handle of the I2C peripheral.
    */
-  I2C_HandleTypeDef* i2c_handle;
+  I2C_HandleTypeDef* i2c_handle_;
 };
 
 } /* namespace sensor_interface */

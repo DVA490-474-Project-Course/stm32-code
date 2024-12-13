@@ -30,12 +30,12 @@ ProximitySensor120cm::ProximitySensor120cm() {}
 Status ProximitySensor120cm::Init(I2C_HandleTypeDef* i2c_handle)
 {
   VL53L4CD_Error status;
-  this->i2c_handle = i2c_handle;
-  status = VL53L4CD_SensorInit(i2c_handle, i2c_address);
+  i2c_handle_ = i2c_handle;
+  status = VL53L4CD_SensorInit(i2c_handle, i2c_address_);
 
   if (status == 0)
   {
-    status = VL53L4CD_StartRanging(i2c_handle, i2c_address);
+    status = VL53L4CD_StartRanging(i2c_handle, i2c_address_);
   }
 
   if (status == 0)
@@ -55,12 +55,12 @@ Scalar<uint16_t> ProximitySensor120cm::GetDistance()
   VL53L4CD_ResultsData_t result;
   Scalar<uint16_t> distance;
 
-  VL53L4CD_CheckForDataReady(i2c_handle, i2c_address, &data_ready);
+  VL53L4CD_CheckForDataReady(i2c_handle_, i2c_address_, &data_ready);
 
   if (data_ready == 1)
   {
-    VL53L4CD_GetResult(i2c_handle, i2c_address, &result);
-    VL53L4CD_ClearInterrupt(i2c_handle, i2c_address);
+    VL53L4CD_GetResult(i2c_handle_, i2c_address_, &result);
+    VL53L4CD_ClearInterrupt(i2c_handle_, i2c_address_);
     distance.value = result.distance_mm;
 
     if (result.range_status == 0)
