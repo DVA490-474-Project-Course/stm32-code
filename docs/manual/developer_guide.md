@@ -17,9 +17,7 @@ located in the Drivers directory.
 
 Testing Standard
 -----------------------
-The project follows no specific testing standards or guidelines. There must be 
-unit tests for every function and integration tests for every module, but 
-nothing dictates how these tests should be written or structured. However, it
+The project follows no specific testing standards or guidelines. However, it
 must not violate the coding standards followed by the project. 
 
 Documentation

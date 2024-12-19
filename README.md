@@ -2,17 +2,21 @@ About
 -----------------------
 This repository contains the executable code intended to run on the STM32H7 Nucleo-144 board.
 
+### Built with
+The stm32-code project is built with the following:
+
+- [STM32CubeIDE](https://www.st.com/en/development-tools/stm32cubeide.html)
+- [MicroRos](https://micro.ros.org/)
+- [Docker](https://www.docker.com/)
+
 Getting started
 -----------------------
 
 ### Prerequisites
-This project depends on Git, STM32CubeIDE and Docker.
 
-For Git see: https://git-scm.com/downloads
+For STM32CubeIDE installation see: https://www.st.com/en/development-tools/stm32cubeide.html
 
-For STM32CubeIDE see: https://www.st.com/en/development-tools/stm32cubeide.html
-
-On Linux, Docker can be installed with the terminal command:
+On Ubuntu and other Debian derivatives, Docker can be installed with:
 ```
 sudo apt install docker
 ```

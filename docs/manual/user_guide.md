@@ -8,13 +8,10 @@ Getting started
 -----------------------
 
 ### Prerequisites
-This project depends on Git, STM32CubeIDE and Docker.
 
-For Git see: https://git-scm.com/downloads
+For STM32CubeIDE installation see: https://www.st.com/en/development-tools/stm32cubeide.html
 
-For STM32CubeIDE see: https://www.st.com/en/development-tools/stm32cubeide.html
-
-On Linux, Docker can be installed with the terminal command:
+On Ubuntu and other Debian derivatives, Docker can be installed with:
 ```
 sudo apt install docker
 ```
@@ -45,7 +42,7 @@ git submodule update --init --recursive
 
 6. Make sure the project is selected in the checklist and click 'Finish'.
 
-7. Generate code by clicking 'Project>Generate Code'.
+7. Generate code by clicking 'Project>Generate Code'. The project is now ready to build.
 
 Usage
 -----------------------
