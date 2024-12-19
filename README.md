@@ -43,7 +43,7 @@ git submodule update --init --recursive
 
 6. Make sure the project is selected in the checklist and click 'Finish'.
 
-7. Generate code by clicking 'Project>Generate Code'.
+7. Generate code by clicking 'Project>Generate Code'. The project is now ready to build.
 
 Usage
 -----------------------
@@ -55,9 +55,36 @@ click Run>Run.
 Building for the first time may take a few minutes since microROS is downloading its
 dependencies to the project.
 
+Roadmap
+-----------------------
+
+- [x] Develop Sensor Interface
+- [ ] Develop Kicker Interface
+- [ ] Develop API to communicate with STM32 on wheel motors
+- [ ] Develop API to communicate with STM32 on dribbler
+- [x] Implement MicroROS Publishers
+- [ ] Implement MicroROS Subscribers
+
+Design diagrams
+-----------------------
+
+Design diagrams/files can be found in the [docs](/docs) directory. Additionally
+they are available on:
+- [Hardware Interface](https://www.mermaidchart.com/raw/11c442f5-192c-4ac3-b61e-867a3e2ca6ea?theme=dark&version=v0.1&format=svg)
+
 License
 -----------------------
-Distributed under the MIT License. See [License](/LICENSE) for more information.
+
+This repository contains source files from third parties which are distributed
+under the license conditions of the respective distrubutors. Source files
+developed by the authors of this repository are located in the Core/Src/user-code
+directory and is distrubted under the MIT Liscence.
+
+See [MIT Licence](/Core/Src/user-code/LICENSE) for the MIT license.
+See [STM32IDE License](/license.pdf) for licence conditions pertaining files accossiated with STM32IDE.
+See [VL6180X Driver License](/Drivers/Adafruit_VL6180X/license.txt) for licence conditions pertaining Adafruit's VL6180X driver.
+See [VL53L4CD Driver License](/Drivers/VL53L4CD_ULD_Driver/license.pdf) for licence conditions pertaining ST's VL53L4CD driver.
+See [WSEN_ISDS Driver License](/Drivers/WSEN_ISDS_2536030320001/license_terms_wsen_sdk.pdf) for licence conditions pertaining Würth Elektronik's WSEN_ISDS driver.
 
 Contributors and contact
 -----------------------
