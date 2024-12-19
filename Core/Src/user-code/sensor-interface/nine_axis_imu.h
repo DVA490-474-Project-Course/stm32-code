@@ -14,6 +14,7 @@
 /* Project .h files */
 #include "stm32h7xx_hal.h"
 #include "../../user-code/common_types.h"
+#include "../../user-code/sensor-interface/read_write_functions.h"
 
 namespace stm32_code
 {

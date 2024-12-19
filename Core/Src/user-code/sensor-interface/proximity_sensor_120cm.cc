@@ -15,8 +15,8 @@
 
 /* Project .h files */
 #include "stm32h7xx_hal.h"
-#include "../../../Drivers/VL53L4CD_ULD_Driver/VL53L4CD_api.h"
 #include "../../user-code/common_types.h"
+#include "../../../Drivers/VL53L4CD_ULD_Driver/VL53L4CD_api.h"
 
 namespace stm32_code
 {

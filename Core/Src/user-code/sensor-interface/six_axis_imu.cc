@@ -14,9 +14,10 @@
 /* Related .h files */
 #include "../../user-code/sensor-interface/six_axis_imu.h"
 
+/* Project .h files */
 #include "stm32h7xx_hal.h"
-#include "../../../Drivers/WSEN_ISDS_2536030320001/WSEN_ISDS_2536030320001.h"
 #include "../../user-code/common_types.h"
+#include "../../../Drivers/WSEN_ISDS_2536030320001/WSEN_ISDS_2536030320001.h"
 
 namespace stm32_code
 {

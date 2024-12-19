@@ -8,6 +8,7 @@
  * License: See LICENSE file for license details.
  *==============================================================================
  */
+
 #ifndef STM32CODE_MAINCPP_H
 #define STM32CODE_MAINCPP_H
 
